@@ -21,7 +21,7 @@ class SearchController
                 $q->where('title', 'like', "%{$query}%")
                   ->orWhere('excerpt', 'like', "%{$query}%");
             })
-            ->select('id', 'title', 'slug', 'excerpt', 'featured_image', 'published_at')
+            ->select('id', 'title', 'slug', 'excerpt', 'featured_image', 'publication_date')
             ->latest('publication_date')
             ->limit(8)
             ->get();

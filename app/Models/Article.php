@@ -38,6 +38,7 @@ class Article extends Model
         'editor_id',
         'publisher_id',
         'fact_checker_id',
+        'type',
     ];
 
     protected function casts(): array
