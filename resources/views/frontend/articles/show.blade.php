@@ -117,27 +117,7 @@
             {{-- Comments --}}
             @if($article->allow_comments)
             <div class="mt-10 border-t border-gray-200 dark:border-gray-700 pt-8">
-                <h3 class="text-xl font-bold text-vnn-dark dark:text-white mb-6 font-heading">Comments</h3>
-                <form class="mb-8">
-                    <textarea rows="4" placeholder="Share your thoughts..." class="w-full border border-gray-300 dark:border-gray-600 rounded p-4 text-sm bg-white dark:bg-vnn-dark dark:text-white focus:outline-none focus:border-vnn-red font-body"></textarea>
-                    <button type="submit" class="mt-2 bg-vnn-red text-white text-sm font-bold px-6 py-2.5 rounded hover:bg-vnn-red-dark transition font-heading">Post Comment</button>
-                </form>
-                @if($article->comments->where('status', 'approved')->count())
-                <div class="space-y-4">
-                    @foreach($article->comments->where('status', 'approved') as $comment)
-                    <div class="flex gap-3 p-4 bg-vnn-gray dark:bg-vnn-dark-light rounded">
-                        <div class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full shrink-0"></div>
-                        <div>
-                            <span class="font-semibold text-sm text-gray-700 dark:text-gray-200">{{ $comment->user->name ?? $comment->guest_name ?? 'Anonymous' }}</span>
-                            <span class="text-xs text-gray-400 ml-2">{{ $comment->created_at->diffForHumans() }}</span>
-                            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1 font-body">{{ $comment->body }}</p>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-                @else
-                <p class="text-gray-400 dark:text-gray-500 text-sm font-body">No comments yet. Be the first to comment!</p>
-                @endif
+                @livewire('article-comments', ['article' => $article], key('comments-'.$article->id))
             </div>
             @endif
         </div>
