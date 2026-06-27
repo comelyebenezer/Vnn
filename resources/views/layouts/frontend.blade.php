@@ -86,6 +86,10 @@
                     </svg>
                 </button>
                 <a href="{{ url('/') }}" class="flex items-center gap-3 shrink-0">
+                    @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
+                    @if($siteLogo)
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto">
+                    @else
                     <div class="w-10 h-10 bg-vnn-red rounded flex items-center justify-center shadow">
                         <span class="text-white font-extrabold text-xl">V</span>
                     </div>
@@ -93,6 +97,7 @@
                         <div class="text-vnn-red dark:text-white font-extrabold text-2xl tracking-tight leading-none font-heading uppercase">VERVE NEWS</div>
                         <div class="text-gray-500 dark:text-gray-400 font-medium text-[10px] tracking-[0.15em] uppercase">Network</div>
                     </div>
+                    @endif
                 </a>
             </div>
 
@@ -260,13 +265,18 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div>
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-vnn-red rounded flex items-center justify-center">
-                            <span class="text-white font-extrabold text-xl">V</span>
-                        </div>
-                        <div>
-                            <div class="text-white font-extrabold text-xl leading-none uppercase">Verve News</div>
-                            <div class="text-red-300 font-medium text-xs tracking-[0.15em] uppercase">Network</div>
-                        </div>
+                    @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
+                    @if($siteLogo)
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto brightness-0 invert">
+                    @else
+                    <div class="w-10 h-10 bg-vnn-red rounded flex items-center justify-center">
+                        <span class="text-white font-extrabold text-xl">V</span>
+                    </div>
+                    <div>
+                        <div class="text-white font-extrabold text-xl leading-none uppercase">Verve News</div>
+                        <div class="text-red-300 font-medium text-xs tracking-[0.15em] uppercase">Network</div>
+                    </div>
+                    @endif
                     </div>
                     <p class="text-gray-300 text-sm leading-relaxed font-body">Verve News Network brings you the latest headlines, opinions, political news, business reports and international news from Nigeria and around the world.</p>
                 </div>

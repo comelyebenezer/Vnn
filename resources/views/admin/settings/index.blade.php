@@ -21,6 +21,34 @@
                 <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">General</h3>
                     <div class="space-y-4">
+                        {{-- Logo Upload --}}
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Site Logo</label>
+                            <div class="flex items-center gap-4">
+                                @if($existingLogo)
+                                <div class="relative w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 shrink-0">
+                                    <img src="{{ asset('storage/' . $existingLogo) }}" class="w-full h-full object-contain p-1">
+                                </div>
+                                @else
+                                <div class="w-20 h-20 bg-vnn-red rounded-lg flex items-center justify-center shrink-0">
+                                    <span class="text-white font-extrabold text-3xl">V</span>
+                                </div>
+                                @endif
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <label class="cursor-pointer bg-gray-100 dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 px-3 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition border border-gray-300 dark:border-gray-600">
+                                            Choose File
+                                            <input wire:model="logo" type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="hidden">
+                                        </label>
+                                        @if($existingLogo)
+                                        <button type="button" wire:click="removeLogo" class="text-red-500 hover:text-red-700 text-sm px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition">Remove</button>
+                                        @endif
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-1">PNG, JPG, SVG or WebP. Max 2MB.</p>
+                                    @error('logo') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Site Name</label>
                             <input wire:model="general.site_name" type="text" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red">

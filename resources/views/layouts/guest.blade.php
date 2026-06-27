@@ -16,6 +16,10 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-br from-vnn-blue to-vnn-blue-dark">
             <div class="mb-6 text-center">
                 <a href="/" wire:navigate class="flex flex-col items-center">
+                    @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
+                    @if($siteLogo)
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-14 w-auto brightness-0 invert mb-2">
+                    @else
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-lg">
                             <span class="text-vnn-blue font-extrabold text-xl">V</span>
@@ -25,6 +29,7 @@
                             <div class="text-vnn-red font-bold text-sm tracking-widest">NETWORK</div>
                         </div>
                     </div>
+                    @endif
                     <p class="text-gray-300 text-xs mt-1 italic">Truth. Speed. Impact.</p>
                 </a>
             </div>

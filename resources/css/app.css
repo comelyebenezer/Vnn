@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 [x-cloak] { display: none !important; }
+@media (min-width: 1024px) {
+    [x-cloak\:lg] { display: block !important; }
+}
 
 @layer base {
     :root {
