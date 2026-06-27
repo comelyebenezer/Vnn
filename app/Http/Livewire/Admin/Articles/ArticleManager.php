@@ -1,0 +1,162 @@
+<?php
+
+namespace App\Http\Livewire\Admin\Articles;
+
+use App\Models\Article;
+use App\Models\Category;
+use App\Models\Tag;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+
+class ArticleManager extends Component
+{
+    use WithFileUploads;
+
+    public $articleId;
+    public $title;
+    public $slug;
+    public $category_id;
+    public $subcategory_id;
+    public $excerpt;
+    public $body;
+    public $featured_image;
+    public $existing_image;
+    public $image_caption;
+    public $status = 'draft';
+    public $is_featured = false;
+    public $is_breaking = false;
+    public $is_trending = false;
+    public $is_editor_pick = false;
+    public $allow_comments = true;
+    public $tags = [];
+    public $scheduled_date;
+    public $reading_time;
+
+    public $editMode = false;
+
+    protected function rules()
+    {
+        return [
+            'title' => 'required|min:5|max:255',
+            'slug' => 'required|unique:articles,slug,' . $this->articleId,
+            'category_id' => 'nullable|exists:categories,id',
+            'subcategory_id' => 'nullable|exists:subcategories,id',
+            'excerpt' => 'nullable|max:500',
+            'body' => 'required',
+            'featured_image' => 'nullable|image|max:2048',
+            'image_caption' => 'nullable|max:255',
+            'status' => 'required|in:draft,pending_review,fact_checking,approved,scheduled,published,rejected',
+            'is_featured' => 'boolean',
+            'is_breaking' => 'boolean',
+            'is_trending' => 'boolean',
+            'is_editor_pick' => 'boolean',
+            'allow_comments' => 'boolean',
+            'scheduled_date' => 'nullable|date|after:now',
+        ];
+    }
+
+    public function mount($article = null)
+    {
+        if ($article) {
+            $this->editMode = true;
+            $this->articleId = $article->id;
+            $this->title = $article->title;
+            $this->slug = $article->slug;
+            $this->category_id = $article->category_id;
+            $this->subcategory_id = $article->subcategory_id;
+            $this->excerpt = $article->excerpt;
+            $this->body = $article->body;
+            $this->existing_image = $article->featured_image;
+            $this->image_caption = $article->image_caption;
+            $this->status = $article->status;
+            $this->is_featured = $article->is_featured;
+            $this->is_breaking = $article->is_breaking;
+            $this->is_trending = $article->is_trending;
+            $this->is_editor_pick = $article->is_editor_pick;
+            $this->allow_comments = $article->allow_comments;
+            $this->scheduled_date = $article->scheduled_date?->format('Y-m-d\TH:i');
+            $this->reading_time = $article->reading_time;
+            $this->tags = $article->tags->pluck('id')->toArray();
+        }
+    }
+
+    public function updatedTitle($value)
+    {
+        if (!$this->editMode) {
+            $this->slug = Str::slug($value);
+        }
+    }
+
+    public function save()
+    {
+        $this->validate();
+
+        $imagePath = $this->existing_image;
+
+        if ($this->featured_image) {
+            $imagePath = $this->featured_image->store('articles', 'public');
+        }
+
+        $data = [
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'category_id' => $this->category_id,
+            'subcategory_id' => $this->subcategory_id,
+            'excerpt' => $this->excerpt,
+            'body' => $this->body,
+            'featured_image' => $imagePath,
+            'image_caption' => $this->image_caption,
+            'status' => $this->status,
+            'is_featured' => $this->is_featured,
+            'is_breaking' => $this->is_breaking,
+            'is_trending' => $this->is_trending,
+            'is_editor_pick' => $this->is_editor_pick,
+            'allow_comments' => $this->allow_comments,
+            'reading_time' => $this->calculateReadingTime($this->body),
+            'scheduled_date' => $this->scheduled_date,
+        ];
+
+        if ($this->editMode) {
+            $article = Article::findOrFail($this->articleId);
+            $article->update($data);
+            $article->tags()->sync($this->tags);
+            session()->flash('message', 'Article updated successfully.');
+        } else {
+            $data['user_id'] = Auth::id();
+            $article = Article::create($data);
+            if (!empty($this->tags)) {
+                $article->tags()->attach($this->tags);
+            }
+            $this->reset();
+            session()->flash('message', 'Article created successfully.');
+        }
+
+        return redirect()->route('admin.articles.index');
+    }
+
+    public function updatedStatus($value)
+    {
+        if (in_array($value, ['pending_review', 'fact_checking', 'approved', 'published', 'rejected'])) {
+            $this->dispatch('workflow-updated', status: $value);
+        }
+    }
+
+    public function calculateReadingTime($content): int
+    {
+        $words = str_word_count(strip_tags($content ?? ''));
+        return max(1, ceil($words / 200));
+    }
+
+    public function render()
+    {
+        return view('admin.articles.form', [
+            'categories' => Category::where('status', 'active')->orderBy('name')->get(),
+            'allTags' => Tag::orderBy('name')->get(),
+            'subcategories' => $this->category_id
+                ? \App\Models\Subcategory::where('category_id', $this->category_id)->where('status', 'active')->get()
+                : collect(),
+        ])->layout('layouts.app');
+    }
+}
