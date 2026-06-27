@@ -45,7 +45,7 @@
                         @endif
                     </div>
                     <div>
-                        <a href="#" class="font-semibold text-gray-700 dark:text-gray-200 hover:text-vnn-red">{{ $article->author->name }}</a>
+                        <a href="{{ route('frontend.author', $article->author->id) }}" class="font-semibold text-gray-700 dark:text-gray-200 hover:text-vnn-red">{{ $article->author->name }}</a>
                         <span class="text-xs text-gray-400 block">{{ $article->author->designation ?? 'Journalist' }}</span>
                     </div>
                 </div>

@@ -13,6 +13,7 @@ Route::prefix('')->name('frontend.')->group(function () {
     Route::get('/article/{slug}', [\App\Http\Controllers\Frontend\ArticleController::class, 'show'])->name('article');
     Route::get('/category/{slug}', [\App\Http\Controllers\Frontend\ArticleController::class, 'category'])->name('category');
     Route::get('/tag/{slug}', [\App\Http\Controllers\Frontend\ArticleController::class, 'tag'])->name('tag');
+    Route::get('/author/{id}', \App\Http\Controllers\Frontend\AuthorController::class)->name('author');
 });
 
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
