@@ -5,7 +5,7 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 py-8">
     <div class="flex items-center gap-3 mb-8 border-b-2 border-vnn-red pb-4">
-        <h1 class="text-2xl font-extrabold text-vnn-dark dark:text-white font-heading uppercase">Videos</h1>
+        <h1 class="text-xl md:text-2xl font-extrabold text-vnn-dark dark:text-white font-heading uppercase">Videos</h1>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($videos as $video)

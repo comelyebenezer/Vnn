@@ -14,7 +14,7 @@
             <span class="text-gray-400 dark:text-gray-500">{{ $category->name }}</span>
         </div>
         <div class="flex items-center gap-4 border-b-2 border-vnn-red pb-2">
-            <h1 class="text-3xl font-extrabold text-vnn-dark dark:text-white font-heading">{{ $category->name }}</h1>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-vnn-dark dark:text-white font-heading">{{ $category->name }}</h1>
             <div class="flex-1"></div>
         </div>
         @if($category->description)

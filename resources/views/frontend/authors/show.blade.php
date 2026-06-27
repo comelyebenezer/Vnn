@@ -5,17 +5,17 @@
 @section('content')
 <div class="max-w-7xl mx-auto px-4 py-8">
     {{-- Author Header --}}
-    <div class="bg-white dark:bg-vnn-dark-light rounded-lg p-8 shadow-sm mb-8">
-        <div class="flex items-center gap-6">
-            <div class="w-20 h-20 bg-vnn-red rounded-full flex items-center justify-center shrink-0">
+    <div class="bg-white dark:bg-vnn-dark-light rounded-lg p-6 md:p-8 shadow-sm mb-8">
+        <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+            <div class="w-16 h-16 md:w-20 md:h-20 bg-vnn-red rounded-full flex items-center justify-center shrink-0">
                 @if($author->avatar)
                 <img src="{{ asset('storage/' . $author->avatar) }}" alt="{{ $author->name }}" class="w-full h-full rounded-full object-cover">
                 @else
-                <span class="text-white font-extrabold text-3xl">{{ strtoupper(substr($author->name, 0, 1)) }}</span>
+                <span class="text-white font-extrabold text-2xl md:text-3xl">{{ strtoupper(substr($author->name, 0, 1)) }}</span>
                 @endif
             </div>
-            <div>
-                <h1 class="text-2xl font-extrabold text-vnn-dark dark:text-white font-heading">{{ $author->name }}</h1>
+            <div class="text-center md:text-left">
+                <h1 class="text-xl md:text-2xl font-extrabold text-vnn-dark dark:text-white font-heading">{{ $author->name }}</h1>
                 @if($author->designation)
                 <p class="text-vnn-red font-semibold text-sm">{{ $author->designation }}</p>
                 @endif

@@ -324,27 +324,27 @@
                 </div>
                 <div class="space-y-3">
                     @forelse($podcasts as $podcast)
-                    <a href="{{ route('frontend.article', $podcast->slug) }}" class="flex items-center gap-4 p-3 bg-white dark:bg-vnn-dark-light rounded shadow-sm hover:bg-vnn-gray dark:hover:bg-vnn-dark transition group hover:-translate-y-0.5 duration-200">
-                        <div class="w-14 h-14 bg-vnn-blue rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
+                    <a href="{{ route('frontend.article', $podcast->slug) }}" class="flex items-center gap-3 md:gap-4 p-3 bg-white dark:bg-vnn-dark-light rounded shadow-sm hover:bg-vnn-gray dark:hover:bg-vnn-dark transition group hover:-translate-y-0.5 duration-200">
+                        <div class="w-10 h-10 md:w-14 md:h-14 bg-vnn-blue rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
                         </div>
-                        <div class="flex-1">
-                            <h3 class="text-sm font-bold group-hover:text-vnn-red transition font-heading">{{ $podcast->title }}</h3>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-sm font-bold group-hover:text-vnn-red transition font-heading truncate">{{ $podcast->title }}</h3>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ $podcast->publication_date?->diffForHumans() ?? $podcast->created_at->diffForHumans() }}</span>
                         </div>
-                        <span class="text-xs text-vnn-blue font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
+                        <span class="hidden sm:inline text-xs text-vnn-blue font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
                     </a>
                     @empty
                     @for ($i = 0; $i < 3; $i++)
-                    <a href="#" class="flex items-center gap-4 p-3 bg-white dark:bg-vnn-dark-light rounded shadow-sm hover:bg-vnn-gray dark:hover:bg-vnn-dark transition group hover:-translate-y-0.5 duration-200">
-                        <div class="w-14 h-14 bg-vnn-blue rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
+                    <a href="#" class="flex items-center gap-3 md:gap-4 p-3 bg-white dark:bg-vnn-dark-light rounded shadow-sm hover:bg-vnn-gray dark:hover:bg-vnn-dark transition group hover:-translate-y-0.5 duration-200">
+                        <div class="w-10 h-10 md:w-14 md:h-14 bg-vnn-blue rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
                         </div>
-                        <div class="flex-1">
-                            <h3 class="text-sm font-bold group-hover:text-vnn-red transition font-heading">VNN Daily Podcast: Episode {{ $i + 100 }} — Today's Top Stories and Expert Interviews</h3>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-sm font-bold group-hover:text-vnn-red transition font-heading truncate">VNN Daily Podcast: Episode {{ $i + 100 }} — Today's Top Stories and Expert Interviews</h3>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">45 min • Season {{ $i + 1 }}, Ep {{ $i + 100 }}</span>
                         </div>
-                        <span class="text-xs text-vnn-blue font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
+                        <span class="hidden sm:inline text-xs text-vnn-blue font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
                     </a>
                     @endfor
                     @endforelse

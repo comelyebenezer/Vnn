@@ -100,7 +100,7 @@
             @endif
 
             {{-- Share Buttons --}}
-            <div class="mt-8 flex items-center gap-3 p-4 bg-vnn-gray dark:bg-vnn-dark-light rounded">
+            <div class="mt-8 flex flex-wrap items-center gap-3 p-4 bg-vnn-gray dark:bg-vnn-dark-light rounded">
                 <span class="text-sm font-semibold text-gray-600 dark:text-gray-300">Share:</span>
                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs hover:bg-blue-700 transition">f</a>
                 <a href="https://twitter.com/intent/tweet?text={{ urlencode($article->title) }}&url={{ urlencode(url()->current()) }}" target="_blank" class="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-xs hover:bg-gray-800 transition">X</a>

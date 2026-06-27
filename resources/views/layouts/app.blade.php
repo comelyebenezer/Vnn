@@ -20,7 +20,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body class="font-heading antialiased bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 overflow-x-hidden">
+<body class="font-heading antialiased bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 overflow-x-hidden lg:flex">
 
     {{-- Sidebar Overlay --}}
     <div x-show="sidebarOpen && window.innerWidth < 1024" x-cloak @click="sidebarOpen = false" class="fixed inset-0 bg-black/50 z-40 lg:hidden"></div>
@@ -107,7 +107,7 @@
     </aside>
 
     {{-- Main Content Area --}}
-    <div class="flex-1 flex flex-col min-h-screen lg:ml-64">
+    <div class="flex-1 flex flex-col min-h-screen">
         {{-- Top Bar --}}
         <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm sticky top-0 z-30">
             <div class="px-4 lg:px-6 h-16 flex items-center justify-between">

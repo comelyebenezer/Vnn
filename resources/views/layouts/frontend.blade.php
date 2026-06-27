@@ -55,22 +55,22 @@
     <div class="bg-vnn-dark text-white text-[11px] py-2 border-b border-vnn-red/30">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <span class="text-gray-400">{{ now()->format('l, F j, Y') }}</span>
-                <span class="text-gray-600">|</span>
+                <span class="hidden sm:inline text-gray-400">{{ now()->format('l, F j, Y') }}</span>
+                <span class="hidden sm:inline text-gray-600">|</span>
                 <span class="text-gray-400">{{ now()->format('H:i T') }}</span>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1 sm:gap-2">
                 <a href="#" class="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-vnn-red transition rounded-full hover:bg-white/10"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg></a>
-                <a href="#" class="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-vnn-red transition rounded-full hover:bg-white/10"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
-                <a href="#" class="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-vnn-red transition rounded-full hover:bg-white/10"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
-                <a href="#" class="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-vnn-red transition rounded-full hover:bg-white/10"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12v0c0 5.523 4.477 10 10 10s10-4.477 10-10-4.477-10-10-10zm3.5 14.5H14v-2.5c0-.828-.672-1.5-1.5-1.5s-1.5.672-1.5 1.5v2.5H8.5v-8h2.5v1.5c.5-.5 1.2-1 2.5-1 1.933 0 3.5 1.567 3.5 3.5v4zM7.5 8.5c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5S9 6.172 9 7s-.672 1.5-1.5 1.5z"/></svg></a>
-                <a href="#" class="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-vnn-red transition rounded-full hover:bg-white/10"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248c-.237.3-.527.558-.855.753-.03.296-.044.599-.082.897-.46 3.624-1.94 6.143-5.26 7.957-2.246 1.229-4.613 1.38-7.086.384.987.079 1.945-.174 2.79-.672 1.434-.827 2.447-1.93 3.005-3.493.311-.882.088-1.653-.608-2.22-.573-.468-1.185-.684-1.897-.506-.808.202-1.303.716-1.502 1.513-.201.809-.047 1.557.425 2.236.12.173.132.2-.057.072-1.937-2.066-1.87-4.784.201-6.904 1.04-1.064 2.337-1.639 3.914-1.715.899-.043 1.686.202 2.271.899.491.586.539 1.29.376 2.005-.159.7-.585 1.221-1.235 1.55-.342.173-.397.04-.087-.141.385-.225.596-.569.643-1.008.013-.255-.026-.332-.285-.383-.586-.117-1.151-.097-1.54.364-.382.453-.52.988-.492 1.567.042.89.437 1.505 1.213 1.867.429.2.891.305 1.36.338.886.062 1.639-.24 2.143-.995.317-.475.45-1.016.381-1.59-.049-.407-.196-.778-.435-1.092-1.17-1.53-3.478-1.71-4.964-.427-1.45 1.252-1.772 3.188-.61 4.893.425.623.981 1.09 1.672 1.383 1.09.462 2.221.25 3.112-.597.53-.503.877-1.118 1.048-1.844.144-.615.017-1.211-.35-1.736-.28-.4-.344-.439-.054-.195.526.443.79 1.012.747 1.703-.061.988-.465 1.837-1.153 2.531-1.04 1.05-2.341 1.534-3.842 1.471-1.235-.052-2.335-.44-3.237-1.256-1.23-1.114-1.843-2.506-1.808-4.148.036-1.664.643-3.093 1.831-4.258 1.306-1.28 2.903-1.848 4.714-1.72 1.469.104 2.734.672 3.763 1.72.157.16.308.325.382.533.059.165.017.227-.17.113z"/></svg></a>
+                <a href="#" class="hidden sm:flex w-7 h-7 items-center justify-center text-gray-400 hover:text-vnn-red transition rounded-full hover:bg-white/10"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>
+                <a href="#" class="hidden md:flex w-7 h-7 items-center justify-center text-gray-400 hover:text-vnn-red transition rounded-full hover:bg-white/10"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                <a href="#" class="hidden lg:flex w-7 h-7 items-center justify-center text-gray-400 hover:text-vnn-red transition rounded-full hover:bg-white/10"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12v0c0 5.523 4.477 10 10 10s10-4.477 10-10-4.477-10-10-10zm3.5 14.5H14v-2.5c0-.828-.672-1.5-1.5-1.5s-1.5.672-1.5 1.5v2.5H8.5v-8h2.5v1.5c.5-.5 1.2-1 2.5-1 1.933 0 3.5 1.567 3.5 3.5v4zM7.5 8.5c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5S9 6.172 9 7s-.672 1.5-1.5 1.5z"/></svg></a>
+                <a href="#" class="hidden lg:flex w-7 h-7 items-center justify-center text-gray-400 hover:text-vnn-red transition rounded-full hover:bg-white/10"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248c-.237.3-.527.558-.855.753-.03.296-.044.599-.082.897-.46 3.624-1.94 6.143-5.26 7.957-2.246 1.229-4.613 1.38-7.086.384.987.079 1.945-.174 2.79-.672 1.434-.827 2.447-1.93 3.005-3.493.311-.882.088-1.653-.608-2.22-.573-.468-1.185-.684-1.897-.506-.808.202-1.303.716-1.502 1.513-.201.809-.047 1.557.425 2.236.12.173.132.2-.057.072-1.937-2.066-1.87-4.784.201-6.904 1.04-1.064 2.337-1.639 3.914-1.715.899-.043 1.686.202 2.271.899.491.586.539 1.29.376 2.005-.159.7-.585 1.221-1.235 1.55-.342.173-.397.04-.087-.141.385-.225.596-.569.643-1.008.013-.255-.026-.332-.285-.383-.586-.117-1.151-.097-1.54.364-.382.453-.52.988-.492 1.567.042.89.437 1.505 1.213 1.867.429.2.891.305 1.36.338.886.062 1.639-.24 2.143-.995.317-.475.45-1.016.381-1.59-.049-.407-.196-.778-.435-1.092-1.17-1.53-3.478-1.71-4.964-.427-1.45 1.252-1.772 3.188-.61 4.893.425.623.981 1.09 1.672 1.383 1.09.462 2.221.25 3.112-.597.53-.503.877-1.118 1.048-1.844.144-.615.017-1.211-.35-1.736-.28-.4-.344-.439-.054-.195.526.443.79 1.012.747 1.703-.061.988-.465 1.837-1.153 2.531-1.04 1.05-2.341 1.534-3.842 1.471-1.235-.052-2.335-.44-3.237-1.256-1.23-1.114-1.843-2.506-1.808-4.148.036-1.664.643-3.093 1.831-4.258 1.306-1.28 2.903-1.848 4.714-1.72 1.469.104 2.734.672 3.763 1.72.157.16.308.325.382.533.059.165.017.227-.17.113z"/></svg></a>
                 <span class="text-gray-600 mx-1">|</span>
                 <button @click="toggleDark()" class="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-vnn-red transition focus:outline-none" aria-label="Toggle dark mode">
                     <svg x-show="!darkMode" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
                     <svg x-show="darkMode" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                 </button>
-                <a href="#" class="text-gray-400 hover:text-vnn-red transition ml-1 text-[10px] uppercase font-semibold">e-Paper</a>
+                <a href="#" class="hidden md:inline text-gray-400 hover:text-vnn-red transition ml-1 text-[10px] uppercase font-semibold">e-Paper</a>
             </div>
         </div>
     </div>
@@ -89,13 +89,13 @@
                     @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
                     @if($siteLogo)
                     <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto">
-                    <span class="font-extrabold text-2xl tracking-tight font-heading uppercase whitespace-nowrap"><span class="text-vnn-red dark:text-white">VERVE NEWS </span><span style="color:#042c60">NETWORK</span></span>
+                    <span class="font-extrabold text-lg sm:text-xl md:text-2xl tracking-tight font-heading uppercase whitespace-nowrap"><span class="text-vnn-red dark:text-white">VERVE NEWS </span><span style="color:#042c60">NETWORK</span></span>
                     @else
                     <div class="w-10 h-10 bg-vnn-red rounded flex items-center justify-center shadow">
                         <span class="text-white font-extrabold text-xl">V</span>
                     </div>
                     <div>
-                        <div class="text-vnn-red dark:text-white font-extrabold text-2xl tracking-tight leading-none font-heading uppercase">VERVE NEWS</div>
+                        <div class="text-vnn-red dark:text-white font-extrabold text-lg sm:text-xl md:text-2xl tracking-tight leading-none font-heading uppercase">VERVE NEWS</div>
                         <div class="text-gray-500 dark:text-gray-400 font-medium text-[10px] tracking-[0.15em] uppercase">Network</div>
                     </div>
                     @endif
@@ -189,16 +189,6 @@
         </div>
     </nav>
 
-    {{-- Secondary Nav (categories) --}}
-    @if(isset($navCategories) && $navCategories->count())
-    <nav class="bg-vnn-dark-light border-b border-vnn-blue/30 hidden lg:block">
-        <div class="max-w-7xl mx-auto px-4 flex items-center overflow-x-auto">
-            @foreach($navCategories as $cat)
-                <a href="{{ route('frontend.category', $cat->slug) }}" class="px-3 py-2 text-[11px] font-medium text-gray-400 hover:text-white transition whitespace-nowrap uppercase tracking-wider">{{ $cat->name }}</a>
-            @endforeach
-        </div>
-    </nav>
-    @endif
 
     {{-- Mobile Navigation --}}
     <div x-show="mobileOpen" x-cloak @click.away="mobileOpen = false" class="fixed inset-0 z-50 lg:hidden">
