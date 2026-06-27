@@ -431,11 +431,7 @@
             <div class="bg-vnn-dark rounded-lg p-6 text-white">
                 <h3 class="font-extrabold text-lg font-heading">Stay Informed</h3>
                 <p class="text-sm text-gray-300 mt-1 font-body">Get the latest news delivered to your inbox every morning.</p>
-                <form class="mt-4" action="#" method="POST">
-                    @csrf
-                    <input type="email" name="email" placeholder="Enter your email" class="w-full px-4 py-2.5 rounded text-sm text-gray-900 mb-2 focus:outline-none focus:ring-2 focus:ring-vnn-red font-body" required>
-                    <button type="submit" class="w-full bg-vnn-red text-white font-bold py-2.5 rounded text-sm hover:bg-vnn-red-dark transition active:scale-[0.98] font-heading">Subscribe Now</button>
-                </form>
+                @livewire('newsletter-subscribe', ['layout' => 'vertical'], key('sidebar-subscribe'))
                 <p class="text-xs text-gray-400 mt-2">No spam. Unsubscribe anytime.</p>
             </div>
 

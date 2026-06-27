@@ -310,10 +310,7 @@
                     </div>
                     <h4 class="font-bold text-sm uppercase tracking-wider mb-3 text-vnn-red">Newsletter</h4>
                     <p class="text-xs text-gray-300 mb-2 font-body">Get the latest news delivered to your inbox</p>
-                    <form class="flex gap-1">
-                        <input type="email" placeholder="Your email" class="flex-1 px-3 py-2 text-xs text-gray-900 rounded border-0 focus:outline-none focus:ring-1 focus:ring-vnn-red font-body">
-                        <button class="bg-vnn-red text-white px-3 py-2 text-xs font-bold rounded hover:bg-vnn-red-dark transition">Subscribe</button>
-                    </form>
+                    @livewire('newsletter-subscribe', key('footer-subscribe'))
                 </div>
             </div>
             <div class="border-t border-vnn-red/30 mt-8 pt-6 text-center text-xs text-gray-400">
