@@ -18,16 +18,16 @@
                 <a href="/" wire:navigate class="flex flex-col items-center">
                     @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
                     @if($siteLogo)
-                    <div class="flex items-center gap-3">
-                        <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-14 w-auto brightness-0 invert">
-                        <span class="font-extrabold text-2xl tracking-tight font-heading uppercase"><span class="text-white">VERVE NEWS </span><span class="bg-gradient-to-r from-[#3b82f6] via-[#60a5fa] to-[#93c5fd] bg-clip-text text-transparent">NETWORK</span></span>
-                    </div>
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-14 w-auto brightness-0 invert mb-2">
                     @else
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-lg">
                             <span class="text-vnn-blue font-extrabold text-xl">V</span>
                         </div>
-                        <span class="font-extrabold text-2xl tracking-tight font-heading uppercase"><span class="text-white">VERVE NEWS </span><span class="bg-gradient-to-r from-[#3b82f6] via-[#60a5fa] to-[#93c5fd] bg-clip-text text-transparent">NETWORK</span></span>
+                        <div class="text-left">
+                            <div class="text-white font-extrabold text-2xl tracking-tight">VERVE NEWS</div>
+                            <div class="text-vnn-red font-bold text-sm tracking-widest">NETWORK</div>
+                        </div>
                     </div>
                     @endif
                     <p class="text-gray-300 text-xs mt-1 italic">Truth. Speed. Impact.</p>

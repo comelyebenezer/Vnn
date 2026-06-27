@@ -88,13 +88,15 @@
                 <a href="{{ url('/') }}" class="flex items-center gap-3 shrink-0">
                     @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
                     @if($siteLogo)
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-12 w-auto">
-                    <span class="font-extrabold text-2xl tracking-tight font-heading uppercase"><span class="text-vnn-red dark:text-white">VERVE NEWS </span><span class="bg-gradient-to-r from-[#021e45] via-[#1a56db] to-[#3b82f6] dark:from-[#60a5fa] dark:via-[#93c5fd] dark:to-[#bfdbfe] bg-clip-text text-transparent">NETWORK</span></span>
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto">
                     @else
                     <div class="w-10 h-10 bg-vnn-red rounded flex items-center justify-center shadow">
                         <span class="text-white font-extrabold text-xl">V</span>
                     </div>
-                    <span class="font-extrabold text-2xl tracking-tight font-heading uppercase"><span class="text-vnn-red dark:text-white">VERVE NEWS </span><span class="bg-gradient-to-r from-[#021e45] via-[#1a56db] to-[#3b82f6] dark:from-[#60a5fa] dark:via-[#93c5fd] dark:to-[#bfdbfe] bg-clip-text text-transparent">NETWORK</span></span>
+                    <div>
+                        <div class="text-vnn-red dark:text-white font-extrabold text-2xl tracking-tight leading-none font-heading uppercase">VERVE NEWS</div>
+                        <div class="text-gray-500 dark:text-gray-400 font-medium text-[10px] tracking-[0.15em] uppercase">Network</div>
+                    </div>
                     @endif
                 </a>
             </div>
@@ -176,12 +178,12 @@
             <div class="relative group ml-auto">
                 <a href="#" class="px-3 py-3 text-sm font-medium text-gray-200 hover:bg-white/10 hover:text-white transition uppercase tracking-wide flex items-center gap-1">More <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
                 <div class="absolute right-0 top-full bg-white dark:bg-vnn-dark-light shadow-lg border border-gray-200 dark:border-gray-700 rounded-b min-w-48 hidden group-hover:block z-50">
-                    <a href="{{ route('frontend.podcast') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Podcast</a>
-                    <a href="{{ route('frontend.video') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Video</a>
+                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Podcast</a>
+                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Video</a>
                     <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Gallery</a>
                     <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Health</a>
                     <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Education</a>
-                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Africa</a>
+                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Podcast</a>
                 </div>
             </div>
         </div>
@@ -265,15 +267,15 @@
                     <div class="flex items-center gap-3 mb-4">
                     @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
                     @if($siteLogo)
-                    <div class="flex items-center gap-3">
-                        <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-12 w-auto brightness-0 invert">
-                        <span class="font-extrabold text-xl tracking-tight font-heading uppercase"><span class="text-white">VERVE NEWS </span><span class="bg-gradient-to-r from-[#3b82f6] via-[#60a5fa] to-[#93c5fd] bg-clip-text text-transparent">NETWORK</span></span>
-                    </div>
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto brightness-0 invert">
                     @else
                     <div class="w-10 h-10 bg-vnn-red rounded flex items-center justify-center">
                         <span class="text-white font-extrabold text-xl">V</span>
                     </div>
-                    <span class="font-extrabold text-xl tracking-tight font-heading uppercase"><span class="text-white">VERVE NEWS </span><span class="bg-gradient-to-r from-[#3b82f6] via-[#60a5fa] to-[#93c5fd] bg-clip-text text-transparent">NETWORK</span></span>
+                    <div>
+                        <div class="text-white font-extrabold text-xl leading-none uppercase">Verve News</div>
+                        <div class="text-red-300 font-medium text-xs tracking-[0.15em] uppercase">Network</div>
+                    </div>
                     @endif
                     </div>
                     <p class="text-gray-300 text-sm leading-relaxed font-body">Verve News Network brings you the latest headlines, opinions, political news, business reports and international news from Nigeria and around the world.</p>
@@ -292,10 +294,10 @@
                     <ul class="space-y-2 text-sm text-gray-300">
                         <li><a href="#" class="hover:text-white transition">Opinion</a></li>
                         <li><a href="#" class="hover:text-white transition">Editorial</a></li>
-                        <li><a href="{{ route('frontend.video') }}" class="hover:text-white transition">Video</a></li>
-                        <li><a href="{{ route('frontend.podcast') }}" class="hover:text-white transition">Podcast</a></li>
+                        <li><a href="#" class="hover:text-white transition">Video</a></li>
+                        <li><a href="#" class="hover:text-white transition">Podcast</a></li>
                         <li><a href="#" class="hover:text-white transition">Gallery</a></li>
-                        <li><a href="#subscribe" class="hover:text-white transition">Newsletter</a></li>
+                        <li><a href="#" class="hover:text-white transition">Newsletter</a></li>
                         <li><a href="{{ route('rss') }}" class="hover:text-white transition">RSS Feed</a></li>
                     </ul>
                 </div>
@@ -310,7 +312,10 @@
                     </div>
                     <h4 class="font-bold text-sm uppercase tracking-wider mb-3 text-vnn-red">Newsletter</h4>
                     <p class="text-xs text-gray-300 mb-2 font-body">Get the latest news delivered to your inbox</p>
-                    @livewire('newsletter-subscribe', key('footer-subscribe'))
+                    <form class="flex gap-1">
+                        <input type="email" placeholder="Your email" class="flex-1 px-3 py-2 text-xs text-gray-900 rounded border-0 focus:outline-none focus:ring-1 focus:ring-vnn-red font-body">
+                        <button class="bg-vnn-red text-white px-3 py-2 text-xs font-bold rounded hover:bg-vnn-red-dark transition">Subscribe</button>
+                    </form>
                 </div>
             </div>
             <div class="border-t border-vnn-red/30 mt-8 pt-6 text-center text-xs text-gray-400">
