@@ -269,7 +269,7 @@
                 <div class="flex items-center gap-3 mb-5 border-b-2 border-vnn-red pb-2">
                     <h2 class="text-lg font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Video</h2>
                     <div class="flex-1"></div>
-                    <a href="{{ route('frontend.category', 'video') }}" class="text-xs text-vnn-red font-semibold hover:underline">See All →</a>
+                    <a href="{{ route('frontend.video') }}" class="text-xs text-vnn-red font-semibold hover:underline">See All →</a>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     @forelse($videos as $video)
@@ -320,7 +320,7 @@
                 <div class="flex items-center gap-3 mb-5 border-b-2 border-vnn-red pb-2">
                     <h2 class="text-lg font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Podcasts</h2>
                     <div class="flex-1"></div>
-                    <a href="{{ route('frontend.category', 'podcast') }}" class="text-xs text-vnn-red font-semibold hover:underline">See All →</a>
+                    <a href="{{ route('frontend.podcast') }}" class="text-xs text-vnn-red font-semibold hover:underline">See All →</a>
                 </div>
                 <div class="space-y-3">
                     @forelse($podcasts as $podcast)

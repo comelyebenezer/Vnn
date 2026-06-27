@@ -176,13 +176,12 @@
             <div class="relative group ml-auto">
                 <a href="#" class="px-3 py-3 text-sm font-medium text-gray-200 hover:bg-white/10 hover:text-white transition uppercase tracking-wide flex items-center gap-1">More <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
                 <div class="absolute right-0 top-full bg-white dark:bg-vnn-dark-light shadow-lg border border-gray-200 dark:border-gray-700 rounded-b min-w-48 hidden group-hover:block z-50">
-                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Podcast</a>
-                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Video</a>
+                    <a href="{{ route('frontend.podcast') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Podcast</a>
+                    <a href="{{ route('frontend.video') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Video</a>
                     <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Gallery</a>
                     <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Health</a>
                     <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Education</a>
-                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Podcast</a>
-                </div>
+                    <a href="{{ route('frontend.podcast') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Podcast</a>
             </div>
         </div>
     </nav>
@@ -292,10 +291,10 @@
                     <ul class="space-y-2 text-sm text-gray-300">
                         <li><a href="#" class="hover:text-white transition">Opinion</a></li>
                         <li><a href="#" class="hover:text-white transition">Editorial</a></li>
-                        <li><a href="#" class="hover:text-white transition">Video</a></li>
-                        <li><a href="#" class="hover:text-white transition">Podcast</a></li>
+                        <li><a href="{{ route('frontend.video') }}" class="hover:text-white transition">Video</a></li>
+                        <li><a href="{{ route('frontend.podcast') }}" class="hover:text-white transition">Podcast</a></li>
                         <li><a href="#" class="hover:text-white transition">Gallery</a></li>
-                        <li><a href="#" class="hover:text-white transition">Newsletter</a></li>
+                        <li><a href="#subscribe" class="hover:text-white transition">Newsletter</a></li>
                         <li><a href="{{ route('rss') }}" class="hover:text-white transition">RSS Feed</a></li>
                     </ul>
                 </div>
