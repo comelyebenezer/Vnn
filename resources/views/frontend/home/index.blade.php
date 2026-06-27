@@ -208,11 +208,11 @@
                     <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
                         <h2 class="text-lg font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Opinion</h2>
                         <div class="flex-1"></div>
-                        <a href="{{ route('frontend.category', 'opinion') }}" class="text-xs text-vnn-red font-semibold hover:underline">See All →</a>
+                        <a href="{{ route('frontend.category', 'opinion') }}" class="text-xs text-vnn-blue font-semibold hover:underline">See All →</a>
                     </div>
                     <div class="space-y-4">
                         @forelse($opinions as $opinion)
-                        <div class="bg-white dark:bg-vnn-dark-light p-4 rounded shadow-sm border-l-4 border-vnn-red">
+                        <div class="bg-white dark:bg-vnn-dark-light p-4 rounded shadow-sm border-l-4 border-vnn-blue">
                             <h3 class="text-sm font-bold leading-snug font-heading"><a href="{{ route('frontend.article', $opinion->slug) }}" class="hover:text-vnn-red transition">{{ $opinion->title }}</a></h3>
                             <div class="flex items-center gap-2 mt-2 text-xs text-gray-400">
                                 @if($opinion->author)
@@ -224,7 +224,7 @@
                         </div>
                         @empty
                         @for ($i = 0; $i < 3; $i++)
-                        <div class="bg-white dark:bg-vnn-dark-light p-4 rounded shadow-sm border-l-4 border-vnn-red">
+                        <div class="bg-white dark:bg-vnn-dark-light p-4 rounded shadow-sm border-l-4 border-vnn-blue">
                             <h3 class="text-sm font-bold leading-snug font-heading"><a href="#" class="hover:text-vnn-red transition">Thought-Provoking Opinion Piece on Nigeria's Political Landscape and Democratic Future</a></h3>
                             <div class="flex items-center gap-2 mt-2 text-xs text-gray-400">
                                 <span>By Dr. Amina Bello</span>
@@ -266,7 +266,7 @@
 
             {{-- Video Section --}}
             <div>
-                <div class="flex items-center gap-3 mb-5 border-b-2 border-vnn-red pb-2">
+                <div class="flex items-center gap-3 mb-5 border-b-2 border-vnn-blue pb-2">
                     <h2 class="text-lg font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Video</h2>
                     <div class="flex-1"></div>
                     <a href="{{ route('frontend.video') }}" class="text-xs text-vnn-red font-semibold hover:underline">See All →</a>
@@ -278,16 +278,16 @@
                         <div class="aspect-video rounded overflow-hidden relative mb-3">
                             <img src="{{ asset('storage/' . $video->featured_image) }}" alt="{{ $video->title }}" class="w-full h-full object-cover">
                             <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="w-12 h-12 bg-vnn-red/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                                <div class="w-12 h-12 bg-vnn-blue/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
                                     <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
                                 </div>
                             </div>
                         </div>
                         @else
-                        <div class="aspect-video bg-gradient-to-br from-vnn-red to-vnn-red-dark rounded overflow-hidden relative flex items-center justify-center mb-3">
+                        <div class="aspect-video bg-gradient-to-br from-vnn-blue to-vnn-blue-dark rounded overflow-hidden relative flex items-center justify-center mb-3">
                             <span class="text-white/15 font-extrabold text-3xl">V</span>
                             <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="w-12 h-12 bg-vnn-red/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                                <div class="w-12 h-12 bg-vnn-blue/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
                                     <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
                                 </div>
                             </div>
@@ -317,34 +317,34 @@
 
             {{-- Podcast Section --}}
             <div>
-                <div class="flex items-center gap-3 mb-5 border-b-2 border-vnn-red pb-2">
+                <div class="flex items-center gap-3 mb-5 border-b-2 border-vnn-blue pb-2">
                     <h2 class="text-lg font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Podcasts</h2>
                     <div class="flex-1"></div>
-                    <a href="{{ route('frontend.podcast') }}" class="text-xs text-vnn-red font-semibold hover:underline">See All →</a>
+                    <a href="{{ route('frontend.podcast') }}" class="text-xs text-vnn-blue font-semibold hover:underline">See All →</a>
                 </div>
                 <div class="space-y-3">
                     @forelse($podcasts as $podcast)
                     <a href="{{ route('frontend.article', $podcast->slug) }}" class="flex items-center gap-4 p-3 bg-white dark:bg-vnn-dark-light rounded shadow-sm hover:bg-vnn-gray dark:hover:bg-vnn-dark transition group hover:-translate-y-0.5 duration-200">
-                        <div class="w-14 h-14 bg-vnn-red rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                        <div class="w-14 h-14 bg-vnn-blue rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                             <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
                         </div>
                         <div class="flex-1">
                             <h3 class="text-sm font-bold group-hover:text-vnn-red transition font-heading">{{ $podcast->title }}</h3>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ $podcast->publication_date?->diffForHumans() ?? $podcast->created_at->diffForHumans() }}</span>
                         </div>
-                        <span class="text-xs text-vnn-red font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
+                        <span class="text-xs text-vnn-blue font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
                     </a>
                     @empty
                     @for ($i = 0; $i < 3; $i++)
                     <a href="#" class="flex items-center gap-4 p-3 bg-white dark:bg-vnn-dark-light rounded shadow-sm hover:bg-vnn-gray dark:hover:bg-vnn-dark transition group hover:-translate-y-0.5 duration-200">
-                        <div class="w-14 h-14 bg-vnn-red rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                        <div class="w-14 h-14 bg-vnn-blue rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                             <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
                         </div>
                         <div class="flex-1">
                             <h3 class="text-sm font-bold group-hover:text-vnn-red transition font-heading">VNN Daily Podcast: Episode {{ $i + 100 }} — Today's Top Stories and Expert Interviews</h3>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">45 min • Season {{ $i + 1 }}, Ep {{ $i + 100 }}</span>
                         </div>
-                        <span class="text-xs text-vnn-red font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
+                        <span class="text-xs text-vnn-blue font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
                     </a>
                     @endfor
                     @endforelse
@@ -428,7 +428,7 @@
             </div>
 
             {{-- Newsletter --}}
-            <div class="bg-vnn-dark rounded-lg p-6 text-white">
+            <div class="bg-gradient-to-br from-vnn-blue to-vnn-blue-dark rounded-lg p-6 text-white">
                 <h3 class="font-extrabold text-lg font-heading">Stay Informed</h3>
                 <p class="text-sm text-gray-300 mt-1 font-body">Get the latest news delivered to your inbox every morning.</p>
                 @livewire('newsletter-subscribe', ['layout' => 'vertical'], key('sidebar-subscribe'))
@@ -437,7 +437,7 @@
 
             {{-- Gallery --}}
             <div>
-                <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
+                <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-blue pb-2">
                     <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Gallery</h3>
                     <div class="flex-1"></div>
                 </div>

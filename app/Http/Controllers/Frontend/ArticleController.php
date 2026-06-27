@@ -33,11 +33,10 @@ class ArticleController extends Controller
 
     public function category($slug)
     {
-        $category = Category::where('slug', $slug)->where('status', 'active')->firstOrFail();
-        $articles = Article::where('category_id', $category->id)
-            ->where('status', 'published')
-            ->orderBy('publication_date', 'desc')
-            ->paginate(20);
+        $category = Category::where('slug', $slug)->where('status', 'active')->first();
+        $articles = $category
+            ? Article::where('category_id', $category->id)->where('status', 'published')->orderBy('publication_date', 'desc')->paginate(20)
+            : collect([]);
 
         return view('frontend.categories.show', compact('category', 'articles'));
     }

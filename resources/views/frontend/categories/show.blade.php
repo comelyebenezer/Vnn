@@ -1,10 +1,11 @@
 @extends('layouts.frontend')
 
-@section('title', $category->name)
-@section('meta_description', $category->description)
+@section('title', $category?->name ?? 'Category')
+@section('meta_description', $category?->description ?? '')
 
 @section('content')
 <section class="max-w-7xl mx-auto px-4 py-8">
+    @if($category)
     {{-- Header --}}
     <div class="mb-8">
         <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mb-2 font-body">
@@ -20,6 +21,7 @@
         <p class="text-gray-500 dark:text-gray-400 mt-2 font-body">{{ $category->description }}</p>
         @endif
     </div>
+    @endif
 
     {{-- Articles Grid --}}
     @if($articles->count())

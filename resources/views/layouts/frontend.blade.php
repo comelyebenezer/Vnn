@@ -89,6 +89,7 @@
                     @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
                     @if($siteLogo)
                     <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto">
+                    <span class="font-extrabold text-2xl tracking-tight font-heading uppercase whitespace-nowrap"><span class="text-vnn-red dark:text-white">VERVE NEWS </span><span style="color:#042c60">NETWORK</span></span>
                     @else
                     <div class="w-10 h-10 bg-vnn-red rounded flex items-center justify-center shadow">
                         <span class="text-white font-extrabold text-xl">V</span>
@@ -178,12 +179,11 @@
             <div class="relative group ml-auto">
                 <a href="#" class="px-3 py-3 text-sm font-medium text-gray-200 hover:bg-white/10 hover:text-white transition uppercase tracking-wide flex items-center gap-1">More <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
                 <div class="absolute right-0 top-full bg-white dark:bg-vnn-dark-light shadow-lg border border-gray-200 dark:border-gray-700 rounded-b min-w-48 hidden group-hover:block z-50">
-                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Podcast</a>
-                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Video</a>
+                    <a href="{{ route('frontend.podcast') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-blue hover:text-white transition">Podcast</a>
+                    <a href="{{ route('frontend.video') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-blue hover:text-white transition">Video</a>
                     <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Gallery</a>
-                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Health</a>
-                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Education</a>
-                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Podcast</a>
+                    <a href="{{ route('frontend.category', 'health') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Health</a>
+                    <a href="{{ route('frontend.category', 'education') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-red hover:text-white transition">Education</a>
                 </div>
             </div>
         </div>
@@ -191,7 +191,7 @@
 
     {{-- Secondary Nav (categories) --}}
     @if(isset($navCategories) && $navCategories->count())
-    <nav class="bg-vnn-dark-light border-b border-vnn-red/20 hidden lg:block">
+    <nav class="bg-vnn-dark-light border-b border-vnn-blue/30 hidden lg:block">
         <div class="max-w-7xl mx-auto px-4 flex items-center overflow-x-auto">
             @foreach($navCategories as $cat)
                 <a href="{{ route('frontend.category', $cat->slug) }}" class="px-3 py-2 text-[11px] font-medium text-gray-400 hover:text-white transition whitespace-nowrap uppercase tracking-wider">{{ $cat->name }}</a>
@@ -223,9 +223,12 @@
             </div>
             <div class="px-4 pb-4 pt-2 border-t border-gray-100 dark:border-gray-700 mt-2">
                 <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-2">More</p>
-                @foreach(['Podcast', 'Video', 'Gallery', 'Health', 'Education', 'Newsletter'] as $more)
-                    <a href="#" class="block px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-vnn-gray dark:hover:bg-vnn-dark-light rounded">{{ $more }}</a>
-                @endforeach
+                <a href="{{ route('frontend.podcast') }}" class="block px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-vnn-blue hover:text-white rounded">Podcast</a>
+                <a href="{{ route('frontend.video') }}" class="block px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-vnn-blue hover:text-white rounded">Video</a>
+                <a href="#" class="block px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-vnn-red hover:text-white rounded">Gallery</a>
+                <a href="{{ route('frontend.category', 'health') }}" class="block px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-vnn-red hover:text-white rounded">Health</a>
+                <a href="{{ route('frontend.category', 'education') }}" class="block px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-vnn-red hover:text-white rounded">Education</a>
+                <a href="#subscribe" class="block px-4 py-2.5 text-sm text-gray-600 dark:text-gray-300 hover:bg-vnn-red hover:text-white rounded">Newsletter</a>
             </div>
             <div class="px-4 pb-6">
                 @auth
@@ -239,9 +242,9 @@
     </div>
 
     {{-- Breaking News Ticker --}}
-    <div class="bg-vnn-red text-white text-sm">
+    <div class="bg-vnn-blue text-white text-sm">
         <div class="max-w-7xl mx-auto px-4 flex items-center gap-3 py-2 overflow-hidden">
-            <span class="font-extrabold uppercase text-[10px] bg-white text-vnn-red px-2 py-0.5 rounded whitespace-nowrap shrink-0">Breaking</span>
+            <span class="font-extrabold uppercase text-[10px] bg-vnn-red text-white px-2 py-0.5 rounded whitespace-nowrap shrink-0">Breaking</span>
             <div class="overflow-hidden flex-1 relative">
                 <div class="animate-marquee whitespace-nowrap">
                     <span class="mx-4">• President addresses nation on economic reforms — Read more</span>
@@ -268,6 +271,7 @@
                     @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
                     @if($siteLogo)
                     <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto brightness-0 invert">
+                    <span class="font-extrabold text-xl tracking-tight font-heading uppercase whitespace-nowrap"><span class="text-white">VERVE NEWS </span><span style="color:#60a5fa">NETWORK</span></span>
                     @else
                     <div class="w-10 h-10 bg-vnn-red rounded flex items-center justify-center">
                         <span class="text-white font-extrabold text-xl">V</span>
@@ -292,12 +296,12 @@
                 <div>
                     <h4 class="font-bold text-sm uppercase tracking-wider mb-4 text-vnn-red">More</h4>
                     <ul class="space-y-2 text-sm text-gray-300">
-                        <li><a href="#" class="hover:text-white transition">Opinion</a></li>
-                        <li><a href="#" class="hover:text-white transition">Editorial</a></li>
-                        <li><a href="#" class="hover:text-white transition">Video</a></li>
-                        <li><a href="#" class="hover:text-white transition">Podcast</a></li>
+                        <li><a href="{{ route('frontend.category', 'opinion') }}" class="hover:text-white transition">Opinion</a></li>
+                        <li><a href="{{ route('frontend.category', 'editorial') }}" class="hover:text-white transition">Editorial</a></li>
+                        <li><a href="{{ route('frontend.video') }}" class="text-blue-300 hover:text-white transition">Video</a></li>
+                        <li><a href="{{ route('frontend.podcast') }}" class="text-blue-300 hover:text-white transition">Podcast</a></li>
                         <li><a href="#" class="hover:text-white transition">Gallery</a></li>
-                        <li><a href="#" class="hover:text-white transition">Newsletter</a></li>
+                        <li><a href="#subscribe" class="hover:text-white transition">Newsletter</a></li>
                         <li><a href="{{ route('rss') }}" class="hover:text-white transition">RSS Feed</a></li>
                     </ul>
                 </div>
@@ -310,12 +314,14 @@
                         <a href="#" class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center hover:bg-vnn-red transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12v0c0 5.523 4.477 10 10 10s10-4.477 10-10-4.477-10-10-10zm3.5 14.5H14v-2.5c0-.828-.672-1.5-1.5-1.5s-1.5.672-1.5 1.5v2.5H8.5v-8h2.5v1.5c.5-.5 1.2-1 2.5-1 1.933 0 3.5 1.567 3.5 3.5v4zM7.5 8.5c-.828 0-1.5-.672-1.5-1.5s.672-1.5 1.5-1.5S9 6.172 9 7s-.672 1.5-1.5 1.5z"/></svg></a>
                         <a href="#" class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center hover:bg-vnn-red transition"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248c-.237.3-.527.558-.855.753-.03.296-.044.599-.082.897-.46 3.624-1.94 6.143-5.26 7.957-2.246 1.229-4.613 1.38-7.086.384.987.079 1.945-.174 2.79-.672 1.434-.827 2.447-1.93 3.005-3.493.311-.882.088-1.653-.608-2.22-.573-.468-1.185-.684-1.897-.506-.808.202-1.303.716-1.502 1.513-.201.809-.047 1.557.425 2.236.12.173.132.2-.057.072-1.937-2.066-1.87-4.784.201-6.904 1.04-1.064 2.337-1.639 3.914-1.715.899-.043 1.686.202 2.271.899.491.586.539 1.29.376 2.005-.159.7-.585 1.221-1.235 1.55-.342.173-.397.04-.087-.141.385-.225.596-.569.643-1.008.013-.255-.026-.332-.285-.383-.586-.117-1.151-.097-1.54.364-.382.453-.52.988-.492 1.567.042.89.437 1.505 1.213 1.867.429.2.891.305 1.36.338.886.062 1.639-.24 2.143-.995.317-.475.45-1.016.381-1.59-.049-.407-.196-.778-.435-1.092-1.17-1.53-3.478-1.71-4.964-.427-1.45 1.252-1.772 3.188-.61 4.893.425.623.981 1.09 1.672 1.383 1.09.462 2.221.25 3.112-.597.53-.503.877-1.118 1.048-1.844.144-.615.017-1.211-.35-1.736-.28-.4-.344-.439-.054-.195.526.443.79 1.012.747 1.703-.061.988-.465 1.837-1.153 2.531-1.04 1.05-2.341 1.534-3.842 1.471-1.235-.052-2.335-.44-3.237-1.256-1.23-1.114-1.843-2.506-1.808-4.148.036-1.664.643-3.093 1.831-4.258 1.306-1.28 2.903-1.848 4.714-1.72 1.469.104 2.734.672 3.763 1.72.157.16.308.325.382.533.059.165.017.227-.17.113z"/></svg></a>
                     </div>
+                    <div id="subscribe">
                     <h4 class="font-bold text-sm uppercase tracking-wider mb-3 text-vnn-red">Newsletter</h4>
                     <p class="text-xs text-gray-300 mb-2 font-body">Get the latest news delivered to your inbox</p>
                     <form class="flex gap-1">
                         <input type="email" placeholder="Your email" class="flex-1 px-3 py-2 text-xs text-gray-900 rounded border-0 focus:outline-none focus:ring-1 focus:ring-vnn-red font-body">
                         <button class="bg-vnn-red text-white px-3 py-2 text-xs font-bold rounded hover:bg-vnn-red-dark transition">Subscribe</button>
                     </form>
+                </div>
                 </div>
             </div>
             <div class="border-t border-vnn-red/30 mt-8 pt-6 text-center text-xs text-gray-400">
