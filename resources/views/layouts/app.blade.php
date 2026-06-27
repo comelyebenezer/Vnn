@@ -20,31 +20,23 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body class="font-heading antialiased bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 overflow-x-hidden lg:flex">
+<body class="font-heading antialiased bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 overflow-x-hidden">
 
     {{-- Sidebar Overlay --}}
     <div x-show="sidebarOpen && window.innerWidth < 1024" x-cloak @click="sidebarOpen = false" class="fixed inset-0 bg-black/50 z-40 lg:hidden"></div>
 
     {{-- Sidebar --}}
-    <aside x-show="sidebarOpen" x-cloak="lg"
-           x-transition:enter="lg:hidden transition-transform duration-200"
-           x-transition:enter-start="-translate-x-full"
-           x-transition:enter-end="translate-x-0"
-           x-transition:leave="lg:hidden transition-transform duration-200"
-           x-transition:leave-start="translate-x-0"
-           x-transition:leave-end="-translate-x-full"
-           class="fixed top-0 left-0 z-50 h-full w-64 bg-vnn-dark shadow-2xl overflow-y-auto scrollbar-thin lg:translate-x-0 lg:relative lg:z-auto lg:shrink-0">
+    <aside x-show="sidebarOpen" x-cloak x-transition:enter="transition-transform duration-200" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition-transform duration-200" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="fixed top-0 left-0 z-50 h-full w-64 bg-vnn-dark shadow-2xl overflow-y-auto scrollbar-thin lg:translate-x-0 lg:static lg:z-auto lg:transition-none">
         {{-- Brand --}}
         <div class="p-4 border-b border-vnn-red/30">
             <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center gap-3">
-                @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
-                @if($siteLogo)
-                <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto brightness-0 invert">
-                @else
                 <div class="w-10 h-10 bg-vnn-red rounded-lg flex items-center justify-center shadow-lg shadow-vnn-red/30">
                     <span class="text-white font-extrabold text-lg">V</span>
                 </div>
-                @endif
+                <div>
+                    <div class="text-white font-extrabold text-base leading-none uppercase">Verve News</div>
+                    <div class="text-vnn-red text-[10px] tracking-[0.2em] uppercase font-semibold">Admin Panel</div>
+                </div>
             </a>
         </div>
 
@@ -115,7 +107,7 @@
     </aside>
 
     {{-- Main Content Area --}}
-    <div class="flex-1 flex flex-col min-h-screen min-w-0">
+    <div class="flex-1 flex flex-col min-h-screen lg:ml-64">
         {{-- Top Bar --}}
         <header class="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm sticky top-0 z-30">
             <div class="px-4 lg:px-6 h-16 flex items-center justify-between">
