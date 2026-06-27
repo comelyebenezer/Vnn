@@ -24,6 +24,8 @@ export default {
                     'red-dark': '#5C0000',
                     'red-light': '#B22222',
                     navy: '#1a1a2e',
+                    blue: '#042c60',
+                    'blue-dark': '#04122a',
                     dark: '#1a1a1a',
                     'dark-light': '#2d2d2d',
                     gray: '#f5f5f5',

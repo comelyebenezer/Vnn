@@ -39,14 +39,10 @@
             <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center gap-3">
                 @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
                 @if($siteLogo)
-                <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-9 w-auto brightness-0 invert">
+                <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto brightness-0 invert">
                 @else
                 <div class="w-10 h-10 bg-vnn-red rounded-lg flex items-center justify-center shadow-lg shadow-vnn-red/30">
                     <span class="text-white font-extrabold text-lg">V</span>
-                </div>
-                <div>
-                    <div class="text-white font-extrabold text-base leading-none uppercase">Verve News</div>
-                    <div class="text-vnn-red text-[10px] tracking-[0.2em] uppercase font-semibold">Admin Panel</div>
                 </div>
                 @endif
             </a>

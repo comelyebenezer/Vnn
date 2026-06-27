@@ -75,7 +75,7 @@ class SettingsManager extends Component
         }
 
         if ($this->logo) {
-            $path = $this->logo->store('settings', 'public');
+            $path = $this->logo->storeAs('settings', 'logo.' . $this->logo->getClientOriginalExtension(), 'public');
             Setting::updateOrCreate(
                 ['key' => 'site_logo'],
                 ['value' => $path, 'group' => 'general']
