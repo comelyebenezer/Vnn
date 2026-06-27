@@ -35,7 +35,7 @@ use App\Http\Livewire\Admin\Podcasts\PodcastManager;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::view('/dashboard', 'admin.dashboard.index')->name('dashboard');
+    Route::get('/dashboard', \App\Http\Livewire\Admin\Dashboard::class)->name('dashboard');
 
     Route::prefix('articles')->name('articles.')->group(function () {
         Route::get('/', ArticleList::class)->name('index');
