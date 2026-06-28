@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{
     mobileOpen: false,
     searchOpen: false,
+    showEpapers: false,
     darkMode: localStorage.getItem('darkMode') === 'true',
     searchQuery: '',
     searchResults: [],
@@ -72,7 +73,7 @@
                     <svg x-show="!darkMode" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
                     <svg x-show="darkMode" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                 </button>
-                <a href="#" class="hidden md:inline text-gray-400 hover:text-vnn-red transition ml-1 text-[10px] uppercase font-semibold">e-Paper</a>
+                <a href="#" @click.prevent="showEpapers = true" class="hidden md:inline text-gray-400 hover:text-vnn-red transition ml-1 text-[10px] uppercase font-semibold">e-Paper</a>
             </div>
         </div>
     </div>
@@ -337,6 +338,26 @@
             </div>
         </div>
     </footer>
+
+    {{-- e-Paper Coming Soon Modal --}}
+    <div x-show="showEpapers" x-cloak class="fixed inset-0 z-[60] flex items-center justify-center p-4" @keydown.escape.window="showEpapers = false">
+        <div class="fixed inset-0 bg-black/70" @click="showEpapers = false"></div>
+        <div class="relative bg-white dark:bg-vnn-dark-light rounded-2xl shadow-2xl max-w-md w-full p-8 text-center" @click.away="showEpapers = false">
+            <button @click="showEpapers = false" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-white rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            <div class="w-20 h-20 bg-gradient-to-br from-vnn-red to-vnn-red-dark rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+            </div>
+            <h3 class="text-2xl font-extrabold text-vnn-dark dark:text-white font-heading">Coming Soon</h3>
+            <p class="text-gray-500 dark:text-gray-400 text-sm mt-3 font-body leading-relaxed">Our e-Paper edition is currently in development. Stay tuned for digital access to Verve News Network's print edition, coming to your screen very soon.</p>
+            <div class="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400 font-body">
+                <span class="w-2 h-2 bg-vnn-red rounded-full animate-pulse"></span>
+                <span>Notify me when launched</span>
+            </div>
+            <button @click="showEpapers = false" class="mt-6 w-full bg-vnn-red text-white font-bold py-3 px-6 rounded-xl hover:bg-vnn-red-dark transition active:scale-[0.98]">Got it</button>
+        </div>
+    </div>
 
     @stack('scripts')
 </body>
