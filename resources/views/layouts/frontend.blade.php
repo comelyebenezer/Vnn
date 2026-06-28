@@ -157,7 +157,7 @@
     {{-- Primary Navigation --}}
     <nav class="bg-black border-b-2 border-vnn-red hidden lg:block">
         <div class="max-w-7xl mx-auto px-4 flex items-center">
-            <a href="{{ url('/') }}" class="px-4 py-3 text-sm font-semibold {{ request()->is('/') ? 'bg-vnn-red text-white' : 'text-white hover:bg-white/10' }} transition whitespace-nowrap uppercase tracking-wide">Home</a>
+            <a href="{{ url('/') }}" class="px-2 py-3 text-xs font-semibold {{ request()->is('/') ? 'bg-vnn-red text-white' : 'text-white hover:bg-white/10' }} transition whitespace-nowrap uppercase">Home</a>
             @php
                 $navItems = [
                     ['name' => 'News', 'slug' => 'news'],
@@ -173,21 +173,20 @@
                     ['name' => 'VNN List', 'slug' => 'vnn-list'],
                     ['name' => 'Documentary', 'slug' => 'documentary'],
                 ];
-                $navItemsCount = count($navItems);
             @endphp
             @foreach($navItems as $item)
                 <a href="{{ route('frontend.category', $item['slug']) }}"
-                   class="px-3 py-3 text-sm font-medium text-white hover:bg-white/10 transition whitespace-nowrap uppercase tracking-wide">
+                   class="px-2 py-3 text-xs font-medium text-white hover:bg-white/10 transition whitespace-nowrap uppercase">
                     {{ $item['name'] }}
                 </a>
             @endforeach
             <div class="ml-auto flex items-center gap-2">
-                <a href="#live-updates" class="flex items-center gap-1.5 px-3 py-1.5 bg-vnn-red/90 hover:bg-vnn-red text-white text-xs font-bold rounded transition uppercase tracking-wide">
+                <a href="#live-updates" class="flex items-center gap-1 px-2 py-1 bg-vnn-red/90 hover:bg-vnn-red text-white text-[10px] font-bold rounded transition uppercase tracking-wide">
                     <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
                     Live
                 </a>
                 <div class="relative group">
-                <a href="#" class="px-3 py-3 text-sm font-medium text-white hover:bg-white/10 transition uppercase tracking-wide flex items-center gap-1">More <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
+                <a href="#" class="px-2 py-3 text-xs font-medium text-white hover:bg-white/10 transition uppercase flex items-center gap-1">More <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
                 <div class="absolute right-0 top-full bg-white dark:bg-vnn-dark-light shadow-lg border border-gray-200 dark:border-gray-700 rounded-b min-w-48 hidden group-hover:block z-50">
                     <a href="{{ route('frontend.podcast') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-blue hover:text-white transition">Podcast</a>
                     <a href="{{ route('frontend.video') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-blue hover:text-white transition">Video</a>
