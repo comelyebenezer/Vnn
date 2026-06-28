@@ -96,19 +96,13 @@
                     @forelse($trendingVideos as $tv)
                     <div class="bg-vnn-dark rounded overflow-hidden">
                         @if($tv->video_url)
-                        <div class="aspect-video bg-black relative">
+                        <div class="aspect-video bg-black">
                             @if($tv->video_type === 'youtube')
                             <iframe src="{{ $tv->video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
                             @elseif($tv->video_type === 'facebook')
                             <iframe src="{{ $tv->video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
                             @else
                             <video src="{{ asset('storage/' . $tv->video_file) }}" class="w-full h-full" controls></video>
-                            @endif
-                            @if($tv->is_live)
-                            <span class="absolute top-1 left-1 flex items-center gap-1 bg-vnn-red text-white text-[8px] font-bold px-1 py-0.5 rounded uppercase tracking-wide">
-                                <span class="w-1 h-1 bg-white rounded-full animate-pulse"></span>
-                                Live
-                            </span>
                             @endif
                         </div>
                         @endif
