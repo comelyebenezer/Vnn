@@ -16,6 +16,7 @@ Route::prefix('')->name('frontend.')->group(function () {
     Route::get('/author/{id}', \App\Http\Controllers\Frontend\AuthorController::class)->name('author');
     Route::get('/video', \App\Http\Controllers\Frontend\VideoController::class)->name('video');
     Route::get('/podcast', \App\Http\Controllers\Frontend\PodcastController::class)->name('podcast');
+    Route::get('/vnn-list', \App\Http\Controllers\Frontend\VnnListController::class)->name('vnn-list');
 });
 
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');

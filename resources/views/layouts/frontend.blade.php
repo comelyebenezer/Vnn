@@ -171,12 +171,12 @@
                     ['name' => 'Africa', 'slug' => 'africa'],
                     ['name' => 'Opinion', 'slug' => 'opinion'],
                     ['name' => 'Editorial', 'slug' => 'editorial'],
-                    ['name' => 'VNN List', 'slug' => 'vnn-list'],
+                    ['name' => 'VNN List', 'slug' => 'vnn-list', 'route' => 'frontend.vnn-list'],
                     ['name' => 'Documentary', 'slug' => 'documentary'],
                 ];
             @endphp
             @foreach($navItems as $item)
-                <a href="{{ route('frontend.category', $item['slug']) }}"
+                <a href="{{ isset($item['route']) ? route($item['route']) : route('frontend.category', $item['slug']) }}"
                    class="px-2 py-3 text-xs font-medium text-white hover:bg-white/10 transition whitespace-nowrap uppercase">
                     {{ $item['name'] }}
                 </a>
@@ -218,7 +218,7 @@
             <div class="p-4 space-y-1">
                 <a href="{{ url('/') }}" class="block px-4 py-3.5 text-sm md:text-base font-semibold rounded {{ request()->is('/') ? 'bg-vnn-red text-white' : 'text-gray-700 dark:text-gray-200 hover:bg-vnn-gray dark:hover:bg-vnn-dark-light' }}">Home</a>
                 @foreach($navItems as $item)
-                    <a href="{{ route('frontend.category', $item['slug']) }}" class="block px-4 py-3.5 text-sm md:text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-vnn-gray dark:hover:bg-vnn-dark-light rounded">{{ $item['name'] }}</a>
+                    <a href="{{ isset($item['route']) ? route($item['route']) : route('frontend.category', $item['slug']) }}" class="block px-4 py-3.5 text-sm md:text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-vnn-gray dark:hover:bg-vnn-dark-light rounded">{{ $item['name'] }}</a>
                 @endforeach
             </div>
             <div class="px-4 pb-4 pt-2 border-t border-gray-100 dark:border-gray-700 mt-2">
