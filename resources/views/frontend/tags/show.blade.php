@@ -29,7 +29,7 @@
             </a>
             <div class="flex-1">
                 <a href="{{ route('frontend.article', $article->slug) }}">
-                    <h2 class="text-lg font-bold leading-snug hover:text-vnn-red transition font-heading">{{ $article->title }}</h2>
+                    <h2 class="text-lg font-bold leading-snug text-gray-900 dark:text-white hover:text-vnn-red transition font-heading">{{ $article->title }}</h2>
                 </a>
                 @if($article->excerpt)
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 font-body">{{ $article->excerpt }}</p>

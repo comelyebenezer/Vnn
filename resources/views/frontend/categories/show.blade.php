@@ -42,7 +42,7 @@
                 <a href="{{ route('frontend.category', $article->category->slug) }}" class="text-vnn-red text-xs font-bold uppercase tracking-wide hover:underline">{{ $article->category->name }}</a>
                 @endif
                 <a href="{{ route('frontend.article', $article->slug) }}">
-                    <h2 class="text-lg font-bold leading-snug mt-1 group-hover:text-vnn-red transition font-heading">{{ $article->title }}</h2>
+                    <h2 class="text-lg font-bold leading-snug mt-1 text-gray-900 dark:text-white group-hover:text-vnn-red transition font-heading">{{ $article->title }}</h2>
                 </a>
                 @if($article->excerpt)
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 font-body">{{ $article->excerpt }}</p>

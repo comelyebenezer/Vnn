@@ -73,12 +73,12 @@
                     <span class="w-1.5 h-1.5 bg-vnn-red rounded-full mt-1.5 shrink-0 animate-pulse"></span>
                     <div>
                         <h4 class="text-xs font-bold leading-snug text-vnn-dark dark:text-white font-heading">{{ $bn->title }}</h4>
-                        <span class="text-[10px] text-gray-400 font-body">{{ $bn->created_at->diffForHumans() }}</span>
+                        <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body">{{ $bn->created_at->diffForHumans() }}</span>
                     </div>
                 </div>
                 @empty
                 @if(!$story)
-                <p class="text-gray-400 text-xs font-body py-3 text-center">No breaking news at the moment.</p>
+                <p class="text-gray-400 dark:text-gray-500 text-xs font-body py-3 text-center">No breaking news at the moment.</p>
                 @endif
                 @endforelse
             </div>
@@ -115,7 +115,7 @@
                         <div class="w-10 h-10 bg-vnn-blue/20 rounded-full flex items-center justify-center mb-1.5">
                             <svg class="w-5 h-5 text-vnn-blue" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217z" clip-rule="evenodd"/></svg>
                         </div>
-                        <p class="text-xs text-gray-400 font-body">No trending videos yet</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 font-body">No trending videos yet</p>
                     </div>
                     @endforelse
                 </div>
@@ -154,7 +154,7 @@
                     <div class="p-2.5">
                         <h4 class="text-white text-xs font-bold leading-snug">{{ $live->title }}</h4>
                         @if($live->description)
-                        <p class="text-gray-400 text-[11px] mt-1 line-clamp-2 font-body">{{ $live->description }}</p>
+                        <p class="text-gray-400 dark:text-gray-500 text-[11px] mt-1 line-clamp-2 font-body">{{ $live->description }}</p>
                         @endif
                     </div>
                 </div>
@@ -165,7 +165,7 @@
                 <div class="w-10 h-10 bg-vnn-blue/20 rounded-full flex items-center justify-center mx-auto mb-1.5">
                     <svg class="w-5 h-5 text-vnn-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                 </div>
-                <p class="text-gray-400 text-xs font-body">No live streams right now</p>
+                <p class="text-gray-400 dark:text-gray-500 text-xs font-body">No live streams right now</p>
             </div>
             @endif
         </div>
@@ -200,7 +200,7 @@
                         @if(isset($news->category) && $news->category)
                         <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ $news->category->name }}</span>
                         @endif
-                        <h3 class="text-sm font-bold leading-snug mt-0.5 group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $news->title }}</h3>
+                        <h3 class="text-sm font-bold leading-snug mt-0.5 text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $news->title }}</h3>
                     </div>
                 </a>
                 @endforeach
@@ -245,7 +245,7 @@
                             </div>
                             @endif
                             <span class="text-vnn-red text-xs font-bold uppercase tracking-wide">{{ $sec['category']->name }}</span>
-                            <h3 class="text-lg font-bold leading-snug mt-1 group-hover:text-vnn-red transition font-heading">{{ $sec['main']->title }}</h3>
+                            <h3 class="text-lg font-bold leading-snug mt-1 text-gray-900 dark:text-white group-hover:text-vnn-red transition font-heading">{{ $sec['main']->title }}</h3>
                             @if($sec['main']->excerpt)
                             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 font-body">{{ $sec['main']->excerpt }}</p>
                             @endif
@@ -262,7 +262,7 @@
                             </div>
                             @endif
                             <div>
-                                <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $sub->title }}</h4>
+                                <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $sub->title }}</h4>
                                 <span class="text-xs text-gray-400 dark:text-gray-500">{{ $sub->publication_date?->diffForHumans() ?? $sub->created_at->diffForHumans() }}</span>
                             </div>
                         </a>
@@ -273,7 +273,7 @@
                                 <span class="text-white/15 font-extrabold">{{ substr($sec['category']->name, 0, 1) }}</span>
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $sec['category']->name }} headline {{ $i + 1 }} that covers important developments</h4>
+                                <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $sec['category']->name }} headline {{ $i + 1 }} that covers important developments</h4>
                                 <span class="text-xs text-gray-400 dark:text-gray-500">{{ $i + 1 }} hour{{ $i > 0 ? 's' : '' }} ago</span>
                             </div>
                         </a>
@@ -295,7 +295,7 @@
                                 <span class="text-white/15 font-extrabold text-4xl">{{ strtoupper(substr($slug, 0, 1)) }}</span>
                             </div>
                             <span class="text-vnn-red text-xs font-bold uppercase tracking-wide">{{ ucfirst($slug) }}</span>
-                            <h3 class="text-lg font-bold leading-snug mt-1 group-hover:text-vnn-red transition font-heading">Latest {{ ucfirst($slug) }} stories and updates from Verve News Network</h3>
+                            <h3 class="text-lg font-bold leading-snug mt-1 text-gray-900 dark:text-white group-hover:text-vnn-red transition font-heading">Latest {{ ucfirst($slug) }} stories and updates from Verve News Network</h3>
                             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 font-body">Stay informed with the latest {{ $slug }} news, analysis, and in-depth reporting from our team of journalists.</p>
                         </a>
                         @for ($i = 0; $i < 4; $i++)
@@ -304,7 +304,7 @@
                                 <span class="text-white/15 font-extrabold">{{ strtoupper(substr($slug, 0, 1)) }}</span>
                             </div>
                             <div>
-                                <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ ucfirst($slug) }} headline {{ $i + 1 }} that covers important developments</h4>
+                                <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ ucfirst($slug) }} headline {{ $i + 1 }} that covers important developments</h4>
                                 <span class="text-xs text-gray-400 dark:text-gray-500">{{ $i + 1 }} hour{{ $i > 0 ? 's' : '' }} ago</span>
                             </div>
                         </a>
@@ -328,8 +328,8 @@
                     <div class="space-y-4">
                         @forelse($opinions as $opinion)
                         <div class="bg-white dark:bg-vnn-dark-light p-4 rounded shadow-sm border-l-4 border-vnn-blue">
-                            <h3 class="text-sm font-bold leading-snug font-heading"><a href="{{ route('frontend.article', $opinion->slug) }}" class="hover:text-vnn-red transition">{{ $opinion->title }}</a></h3>
-                            <div class="flex items-center gap-2 mt-2 text-xs text-gray-400">
+                            <h3 class="text-sm font-bold leading-snug font-heading"><a href="{{ route('frontend.article', $opinion->slug) }}" class="text-gray-900 dark:text-white hover:text-vnn-red transition">{{ $opinion->title }}</a></h3>
+                            <div class="flex items-center gap-2 mt-2 text-xs text-gray-400 dark:text-gray-500">
                                 @if($opinion->author)
                                 <span>By {{ $opinion->author->user->name ?? $opinion->author->name }}</span>
                                 <span>•</span>
@@ -340,8 +340,8 @@
                         @empty
                         @for ($i = 0; $i < 3; $i++)
                         <div class="bg-white dark:bg-vnn-dark-light p-4 rounded shadow-sm border-l-4 border-vnn-blue">
-                            <h3 class="text-sm font-bold leading-snug font-heading"><a href="#" class="hover:text-vnn-red transition">Thought-Provoking Opinion Piece on Nigeria's Political Landscape and Democratic Future</a></h3>
-                            <div class="flex items-center gap-2 mt-2 text-xs text-gray-400">
+                            <h3 class="text-sm font-bold leading-snug font-heading"><a href="#" class="text-gray-900 dark:text-white hover:text-vnn-red transition">Thought-Provoking Opinion Piece on Nigeria's Political Landscape and Democratic Future</a></h3>
+                            <div class="flex items-center gap-2 mt-2 text-xs text-gray-400 dark:text-gray-500">
                                 <span>By Dr. Amina Bello</span>
                                 <span>•</span>
                                 <span>June {{ 23 - $i }}, 2026</span>
@@ -360,16 +360,16 @@
                     <div class="space-y-4">
                         @forelse($editorials as $editorial)
                         <div class="bg-white dark:bg-vnn-dark-light p-4 rounded shadow-sm border-l-4 border-vnn-red">
-                            <h3 class="text-sm font-bold leading-snug font-heading"><a href="{{ route('frontend.article', $editorial->slug) }}" class="hover:text-vnn-red transition">{{ $editorial->title }}</a></h3>
-                            <div class="flex items-center gap-2 mt-2 text-xs text-gray-400">
+                            <h3 class="text-sm font-bold leading-snug font-heading"><a href="{{ route('frontend.article', $editorial->slug) }}" class="text-gray-900 dark:text-white hover:text-vnn-red transition">{{ $editorial->title }}</a></h3>
+                            <div class="flex items-center gap-2 mt-2 text-xs text-gray-400 dark:text-gray-500">
                                 <span>{{ $editorial->publication_date?->format('F j, Y') ?? $editorial->created_at->format('F j, Y') }}</span>
                             </div>
                         </div>
                         @empty
                         @for ($i = 0; $i < 3; $i++)
                         <div class="bg-white dark:bg-vnn-dark-light p-4 rounded shadow-sm border-l-4 border-vnn-red">
-                            <h3 class="text-sm font-bold leading-snug font-heading"><a href="#" class="hover:text-vnn-red transition">The renewed Lagos monthly sanitation exercise: Matters arising</a></h3>
-                            <div class="flex items-center gap-2 mt-2 text-xs text-gray-400">
+                            <h3 class="text-sm font-bold leading-snug font-heading"><a href="#" class="text-gray-900 dark:text-white hover:text-vnn-red transition">The renewed Lagos monthly sanitation exercise: Matters arising</a></h3>
+                            <div class="flex items-center gap-2 mt-2 text-xs text-gray-400 dark:text-gray-500">
                                 <span>June {{ 26 - $i }}, 2026</span>
                             </div>
                         </div>
@@ -408,7 +408,7 @@
                             </div>
                         </div>
                         @endif
-                        <h3 class="text-sm font-bold mt-2 leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $video->title }}</h3>
+                        <h3 class="text-sm font-bold mt-2 leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $video->title }}</h3>
                         <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ $video->publication_date?->diffForHumans() ?? $video->created_at->diffForHumans() }}</span>
                     </a>
                     @empty
@@ -422,7 +422,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h3 class="text-sm font-bold mt-2 leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">Video Title: Coverage of Major News Event and Expert Analysis</h3>
+                        <h3 class="text-sm font-bold mt-2 leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">Video Title: Coverage of Major News Event and Expert Analysis</h3>
                         <span class="text-xs text-gray-400 dark:text-gray-500 font-body">12:34 • 2 hours ago</span>
                     </a>
                     @endfor
@@ -444,7 +444,7 @@
                             <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <h3 class="text-sm font-bold group-hover:text-vnn-red transition font-heading truncate">{{ $podcast->title }}</h3>
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-vnn-red transition font-heading truncate">{{ $podcast->title }}</h3>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ $podcast->publication_date?->diffForHumans() ?? $podcast->created_at->diffForHumans() }}</span>
                         </div>
                         <span class="hidden sm:inline text-xs text-vnn-blue font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
@@ -456,7 +456,7 @@
                             <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <h3 class="text-sm font-bold group-hover:text-vnn-red transition font-heading truncate">VNN Daily Podcast: Episode {{ $i + 100 }} — Today's Top Stories and Expert Interviews</h3>
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-vnn-red transition font-heading truncate">VNN Daily Podcast: Episode {{ $i + 100 }} — Today's Top Stories and Expert Interviews</h3>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">45 min • Season {{ $i + 1 }}, Ep {{ $i + 100 }}</span>
                         </div>
                         <span class="hidden sm:inline text-xs text-vnn-blue font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
@@ -491,7 +491,7 @@
                             @if($item->category)
                             <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ $item->category->name }}</span>
                             @endif
-                            <h4 class="text-sm font-bold leading-snug mt-0.5 group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
+                            <h4 class="text-sm font-bold leading-snug mt-0.5 text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
                         </div>
                     </a>
                     @empty
@@ -502,7 +502,7 @@
                         </div>
                         <div class="flex-1 min-w-0">
                             <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ ['Politics', 'Business', 'Tech', 'Sports', 'World', 'Entertainment'][$i] }}</span>
-                            <h4 class="text-sm font-bold leading-snug mt-0.5 group-hover:text-vnn-red transition line-clamp-2 font-heading">Latest news headline number {{ $i + 1 }} that is breaking now</h4>
+                            <h4 class="text-sm font-bold leading-snug mt-0.5 text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">Latest news headline number {{ $i + 1 }} that is breaking now</h4>
                         </div>
                     </a>
                     @endfor
@@ -524,7 +524,7 @@
                     <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-3 group">
                         <span class="text-2xl font-extrabold text-vnn-red/60 leading-none shrink-0 w-8">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         <div>
-                            <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ number_format($item->view_count ?? 0) }} views</span>
                         </div>
                     </a>
@@ -533,7 +533,7 @@
                     <a href="#" class="flex gap-3 group">
                         <span class="text-2xl font-extrabold text-vnn-red/60 leading-none shrink-0 w-8">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
                         <div>
-                            <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">Most read story number {{ $i + 1 }} that everyone is talking about</h4>
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">Most read story number {{ $i + 1 }} that everyone is talking about</h4>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ rand(1000, 50000) }} views</span>
                         </div>
                     </a>

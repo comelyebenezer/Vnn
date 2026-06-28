@@ -12,14 +12,14 @@
         {{-- Main Article --}}
         <div class="lg:col-span-2">
             {{-- Breadcrumb --}}
-            <div class="flex items-center gap-2 text-xs text-gray-500 mb-4 font-body">
+            <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mb-4 font-body">
                 <a href="/" class="hover:text-vnn-red">Home</a>
                 <span>/</span>
                 @if($article->category)
                 <a href="{{ route('frontend.category', $article->category->slug) }}" class="hover:text-vnn-red">{{ $article->category->name }}</a>
                 <span>/</span>
                 @endif
-                <span class="text-gray-400 truncate">{{ $article->title }}</span>
+                <span class="text-gray-400 dark:text-gray-500 truncate">{{ $article->title }}</span>
             </div>
 
             {{-- Category Badge --}}
@@ -46,7 +46,7 @@
                     </div>
                     <div>
                         <a href="{{ route('frontend.author', $article->author->id) }}" class="font-semibold text-gray-700 dark:text-gray-200 hover:text-vnn-red">{{ $article->author->name }}</a>
-                        <span class="text-xs text-gray-400 block">{{ $article->author->designation ?? 'Journalist' }}</span>
+                        <span class="text-xs text-gray-400 dark:text-gray-500 block">{{ $article->author->designation ?? 'Journalist' }}</span>
                     </div>
                 </div>
                 @endif
@@ -142,7 +142,7 @@
                             @endif
                         </div>
                         <div>
-                            <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $rel->title }}</h4>
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $rel->title }}</h4>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ $rel->publication_date?->diffForHumans() ?? $rel->created_at->diffForHumans() }}</span>
                         </div>
                     </a>
@@ -163,7 +163,7 @@
                     <a href="{{ route('frontend.article', $trend->slug) }}" class="flex gap-3 group">
                         <span class="text-2xl font-extrabold text-gray-200 dark:text-gray-700 leading-none shrink-0 w-8">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
                         <div>
-                            <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $trend->title }}</h4>
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $trend->title }}</h4>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ number_format($trend->view_count) }} views</span>
                         </div>
                     </a>
@@ -173,14 +173,14 @@
             @endif
 
             {{-- Ad --}}
-            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-64 flex items-center justify-center text-gray-400 text-sm">Advertisement</div>
+            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-64 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">Advertisement</div>
 
             {{-- Newsletter --}}
             <div class="bg-vnn-dark rounded-lg p-6 text-white">
                 <h3 class="font-extrabold text-lg font-heading">Stay Informed</h3>
                 <p class="text-sm text-gray-300 mt-1 font-body">Get the latest news delivered to your inbox.</p>
                 <form class="mt-4">
-                    <input type="email" placeholder="Enter your email" class="w-full px-4 py-2.5 rounded text-sm text-gray-900 mb-2 font-body" required>
+                    <input type="email" placeholder="Enter your email" class="w-full px-4 py-2.5 rounded text-sm text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 mb-2 font-body" required>
                     <button class="w-full bg-vnn-red text-white font-bold py-2.5 rounded text-sm hover:bg-vnn-red-dark transition font-heading">Subscribe</button>
                 </form>
             </div>

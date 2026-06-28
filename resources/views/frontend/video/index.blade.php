@@ -30,12 +30,12 @@
             </div>
             @endif
             <div class="p-4">
-                <h3 class="font-bold text-sm leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $video->title }}</h3>
-                <span class="text-xs text-gray-400 mt-2 block font-body">{{ $video->publication_date?->diffForHumans() ?? $video->created_at->diffForHumans() }}</span>
+                <h3 class="font-bold text-sm leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $video->title }}</h3>
+                <span class="text-xs text-gray-400 dark:text-gray-500 mt-2 block font-body">{{ $video->publication_date?->diffForHumans() ?? $video->created_at->diffForHumans() }}</span>
             </div>
         </a>
         @empty
-        <p class="text-gray-400 col-span-full text-sm font-body">No videos published yet.</p>
+        <p class="text-gray-400 dark:text-gray-500 col-span-full text-sm font-body">No videos published yet.</p>
         @endforelse
     </div>
     <div class="mt-8">

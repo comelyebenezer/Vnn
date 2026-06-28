@@ -149,7 +149,7 @@
                         @if($listing->featured_image)
                         <img src="{{ asset('storage/' . $listing->featured_image) }}" alt="{{ $listing->title }}" class="w-full h-full object-cover">
                         @else
-                        <span class="text-gray-300 dark:text-gray-600 font-black text-2xl font-heading">{{ strtoupper(substr($listing->title, 0, 1)) }}</span>
+                        <span class="text-gray-400 dark:text-gray-500 font-black text-2xl font-heading">{{ strtoupper(substr($listing->title, 0, 1)) }}</span>
                         @endif
                     </div>
                     <div class="flex-1 min-w-0">
@@ -160,7 +160,7 @@
                         @if($listing->excerpt)
                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-1 font-body">{{ $listing->excerpt }}</p>
                         @endif
-                        <div class="flex items-center gap-3 mt-2 text-xs text-gray-400">
+                        <div class="flex items-center gap-3 mt-2 text-xs text-gray-400 dark:text-gray-500">
                             <span class="flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                                 Industry Leader
