@@ -145,12 +145,12 @@
                 <a href="{{ $news->slug !== '#' ? route('frontend.article', $news->slug) : '#' }}" class="flex gap-3 group {{ $i < $topItems->count() - 1 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
                     <span class="text-lg font-extrabold text-gray-200 dark:text-gray-700 leading-none shrink-0 w-6">{{ $i + 1 }}</span>
                     @if(isset($news->featured_image) && $news->featured_image)
-                    <div class="w-24 h-20 rounded overflow-hidden shrink-0">
+                    <div class="w-32 h-24 rounded overflow-hidden shrink-0">
                         <img src="{{ asset('storage/' . $news->featured_image) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                     </div>
                     @else
-                    <div class="w-24 h-20 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
-                        <span class="text-white/15 font-extrabold text-xl">V</span>
+                    <div class="w-32 h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                        <span class="text-white/15 font-extrabold text-2xl">V</span>
                     </div>
                     @endif
                     <div class="flex-1 min-w-0">
