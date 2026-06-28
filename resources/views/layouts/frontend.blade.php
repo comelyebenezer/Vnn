@@ -242,6 +242,27 @@
         </div>
     </div>
 
+    {{-- News Ticker --}}
+    <div class="bg-vnn-dark border-b border-vnn-red/30 overflow-hidden">
+        <div class="max-w-7xl mx-auto flex">
+            <div class="bg-vnn-red text-white text-xs font-bold uppercase tracking-wider px-3 py-2 shrink-0 flex items-center">Latest</div>
+            <div class="overflow-hidden relative flex-1">
+                <div class="flex whitespace-nowrap animate-marquee py-2">
+                    <span class="text-white/90 text-xs font-body mx-4">🔴 President announces new economic reforms to stabilize the naira and attract foreign investment</span>
+                    <span class="text-white/90 text-xs font-body mx-4">📰 NLC suspends planned strike after marathon meeting with federal government</span>
+                    <span class="text-white/90 text-xs font-body mx-4">⚽ Super Eagles qualify for 2026 World Cup after dramatic win over Ghana</span>
+                    <span class="text-white/90 text-xs font-body mx-4">📊 Stock market hits all-time high as investors gain N500 billion in one week</span>
+                    <span class="text-white/90 text-xs font-body mx-4">🌍 African Union summit kicks off in Addis Ababa with focus on trade and security</span>
+                    <span class="text-white/90 text-xs font-body mx-4">🔴 President announces new economic reforms to stabilize the naira and attract foreign investment</span>
+                    <span class="text-white/90 text-xs font-body mx-4">📰 NLC suspends planned strike after marathon meeting with federal government</span>
+                    <span class="text-white/90 text-xs font-body mx-4">⚽ Super Eagles qualify for 2026 World Cup after dramatic win over Ghana</span>
+                    <span class="text-white/90 text-xs font-body mx-4">📊 Stock market hits all-time high as investors gain N500 billion in one week</span>
+                    <span class="text-white/90 text-xs font-body mx-4">🌍 African Union summit kicks off in Addis Ababa with focus on trade and security</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- Main Content --}}
     <main>
         @yield('content')
