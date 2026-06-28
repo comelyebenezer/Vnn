@@ -51,6 +51,8 @@
 </head>
 <body class="font-heading antialiased bg-vnn-gray dark:bg-vnn-dark" :class="{ 'overflow-hidden': mobileOpen }">
 
+    {{-- Sticky Header --}}
+    <div class="sticky top-0 z-50">
     {{-- Top Bar --}}
     <div class="bg-vnn-dark text-white text-[11px] py-2 border-b border-vnn-red/30">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
@@ -188,7 +190,7 @@
             </div>
         </div>
     </nav>
-
+    </div>
 
     {{-- Mobile Navigation --}}
     <div x-show="mobileOpen" x-cloak @click.away="mobileOpen = false" class="fixed inset-0 z-50 lg:hidden">
