@@ -5,9 +5,9 @@
 @section('content')
 {{-- Hero Section --}}
 <section class="max-w-7xl mx-auto px-4 py-6">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 lg:grid-cols-6 gap-5">
         {{-- Breaking News --}}
-        <div>
+        <div class="lg:col-span-3">
             <div class="border-b-2 border-vnn-red pb-2 mb-3">
                 <h2 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Breaking News</h2>
             </div>
@@ -27,7 +27,7 @@
         </div>
 
         {{-- Live Updates --}}
-        <div>
+        <div class="lg:col-span-2">
             <div class="border-b-2 border-vnn-blue pb-2 mb-3">
                 <h2 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading flex items-center gap-2">
                     <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
@@ -69,7 +69,7 @@
         </div>
 
         {{-- Trending --}}
-        <div>
+        <div class="lg:col-span-1">
             <div class="border-b-2 border-vnn-red pb-2 mb-4">
                 <h2 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Trending</h2>
             </div>
