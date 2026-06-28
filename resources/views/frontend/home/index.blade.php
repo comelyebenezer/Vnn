@@ -4,40 +4,40 @@
 
 @section('content')
 {{-- Hero Section --}}
-<section class="max-w-7xl mx-auto px-4 py-6">
-    <div class="grid grid-cols-1 lg:grid-cols-6 gap-5">
+<section class="max-w-7xl mx-auto px-4 py-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {{-- Breaking News --}}
-        <div class="lg:col-span-3">
-            <div class="border-b-2 border-vnn-red pb-2 mb-3">
-                <h2 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Breaking News</h2>
+        <div class="lg:col-span-5">
+            <div class="border-b border-vnn-red pb-1.5 mb-2">
+                <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Breaking News</h2>
             </div>
-            <div class="space-y-2">
+            <div class="divide-y divide-gray-100 dark:divide-gray-800">
                 @forelse($breakingNews as $bn)
-                <div class="flex items-start gap-3 p-2 rounded hover:bg-gray-100 dark:hover:bg-vnn-dark-light transition">
-                    <span class="w-2 h-2 bg-vnn-red rounded-full mt-1.5 shrink-0 animate-pulse"></span>
+                <div class="flex items-start gap-2 py-2.5 pr-1">
+                    <span class="w-1.5 h-1.5 bg-vnn-red rounded-full mt-1.5 shrink-0 animate-pulse"></span>
                     <div>
-                        <h4 class="text-sm font-bold leading-snug text-vnn-dark dark:text-white font-heading">{{ $bn->title }}</h4>
+                        <h4 class="text-xs font-bold leading-snug text-vnn-dark dark:text-white font-heading">{{ $bn->title }}</h4>
                         <span class="text-[10px] text-gray-400 font-body">{{ $bn->created_at->diffForHumans() }}</span>
                     </div>
                 </div>
                 @empty
-                <p class="text-gray-400 text-sm font-body">No breaking news at the moment.</p>
+                <p class="text-gray-400 text-xs font-body py-3 text-center">No breaking news at the moment.</p>
                 @endforelse
             </div>
         </div>
 
         {{-- Live Updates --}}
-        <div class="lg:col-span-2">
-            <div class="border-b-2 border-vnn-blue pb-2 mb-3">
-                <h2 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading flex items-center gap-2">
-                    <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+        <div class="lg:col-span-4">
+            <div class="border-b border-vnn-blue pb-1.5 mb-2">
+                <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
                     Live Updates
                 </h2>
             </div>
             @if($liveUpdates->count())
-            <div class="space-y-3">
+            <div class="space-y-2">
                 @foreach($liveUpdates as $live)
-                <div class="bg-vnn-dark rounded-lg overflow-hidden border-l-4 border-vnn-blue">
+                <div class="bg-vnn-dark rounded overflow-hidden border-l-4 border-vnn-blue">
                     @if($live->video_url)
                     <div class="aspect-video bg-black">
                         @if($live->video_type === 'youtube')
@@ -49,29 +49,29 @@
                         @endif
                     </div>
                     @endif
-                    <div class="p-3">
-                        <h4 class="text-white text-sm font-bold leading-snug">{{ $live->title }}</h4>
+                    <div class="p-2.5">
+                        <h4 class="text-white text-xs font-bold leading-snug">{{ $live->title }}</h4>
                         @if($live->description)
-                        <p class="text-gray-400 text-xs mt-1 line-clamp-2 font-body">{{ $live->description }}</p>
+                        <p class="text-gray-400 text-[11px] mt-1 line-clamp-2 font-body">{{ $live->description }}</p>
                         @endif
                     </div>
                 </div>
                 @endforeach
             </div>
             @else
-            <div class="bg-vnn-dark rounded-lg p-4 text-center border-l-4 border-vnn-blue">
-                <div class="w-12 h-12 bg-vnn-blue/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                    <svg class="w-6 h-6 text-vnn-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <div class="bg-vnn-dark rounded p-3 text-center border-l-4 border-vnn-blue">
+                <div class="w-10 h-10 bg-vnn-blue/20 rounded-full flex items-center justify-center mx-auto mb-1.5">
+                    <svg class="w-5 h-5 text-vnn-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                 </div>
-                <p class="text-gray-400 text-sm font-body">No live streams right now</p>
+                <p class="text-gray-400 text-xs font-body">No live streams right now</p>
             </div>
             @endif
         </div>
 
         {{-- Trending --}}
-        <div class="lg:col-span-1">
-            <div class="border-b-2 border-vnn-red pb-2 mb-4">
-                <h2 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Trending</h2>
+        <div class="lg:col-span-3">
+            <div class="border-b border-vnn-red pb-1.5 mb-2">
+                <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Trending</h2>
             </div>
             @php
                 $topItems = $topNews->isNotEmpty() ? $topNews : collect([
@@ -84,22 +84,13 @@
             @endphp
             <div class="space-y-3">
                 @foreach($topItems as $i => $news)
-                <a href="{{ $news->slug !== '#' ? route('frontend.article', $news->slug) : '#' }}" class="flex gap-3 group {{ $i < $topItems->count() - 1 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
-                    <span class="text-lg font-extrabold text-gray-200 dark:text-gray-700 leading-none shrink-0 w-6">{{ $i + 1 }}</span>
-                    @if(isset($news->featured_image) && $news->featured_image)
-                    <div class="w-24 h-20 rounded overflow-hidden shrink-0">
-                        <img src="{{ asset('storage/' . $news->featured_image) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                    </div>
-                    @else
-                    <div class="w-24 h-20 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
-                        <span class="text-white/15 font-extrabold text-xl">V</span>
-                    </div>
-                    @endif
-                    <div class="flex-1 min-w-0">
+                <a href="{{ $news->slug !== '#' ? route('frontend.article', $news->slug) : '#' }}" class="flex items-start gap-2 group {{ $i < $topItems->count() - 1 ? 'pb-2 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                    <span class="text-base font-extrabold text-gray-200 dark:text-gray-700 leading-none shrink-0 w-5 text-center">{{ $i + 1 }}</span>
+                    <div class="min-w-0">
                         @if(isset($news->category) && $news->category)
                         <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ $news->category->name }}</span>
                         @endif
-                        <h3 class="text-sm font-bold leading-snug mt-0.5 group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $news->title }}</h3>
+                        <h3 class="text-xs font-bold leading-snug mt-0.5 group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $news->title }}</h3>
                     </div>
                 </a>
                 @endforeach
