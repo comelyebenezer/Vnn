@@ -123,7 +123,7 @@
         </div>
 
         {{-- Live Updates --}}
-        <div class="lg:col-span-4">
+        <div id="live-updates" class="lg:col-span-4">
             <div class="border-b border-vnn-blue pb-1.5 mb-2">
                 <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>

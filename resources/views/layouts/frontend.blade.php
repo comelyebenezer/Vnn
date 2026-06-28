@@ -178,7 +178,12 @@
                     {{ $item['name'] }}
                 </a>
             @endforeach
-            <div class="relative group ml-auto">
+            <div class="ml-auto flex items-center gap-2">
+                <a href="#live-updates" class="flex items-center gap-1.5 px-3 py-1.5 bg-vnn-red/90 hover:bg-vnn-red text-white text-xs font-bold rounded transition uppercase tracking-wide">
+                    <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+                    Live
+                </a>
+                <div class="relative group">
                 <a href="#" class="px-3 py-3 text-sm font-medium text-gray-200 hover:bg-white/10 hover:text-white transition uppercase tracking-wide flex items-center gap-1">More <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></a>
                 <div class="absolute right-0 top-full bg-white dark:bg-vnn-dark-light shadow-lg border border-gray-200 dark:border-gray-700 rounded-b min-w-48 hidden group-hover:block z-50">
                     <a href="{{ route('frontend.podcast') }}" class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-vnn-blue hover:text-white transition">Podcast</a>
@@ -215,6 +220,10 @@
             </div>
             <div class="px-4 pb-4 pt-2 border-t border-gray-100 dark:border-gray-700 mt-2">
                 <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-2">More</p>
+                <a href="#live-updates" class="flex items-center gap-2 px-4 py-3 text-sm md:text-base text-vnn-red font-bold rounded">
+                    <span class="w-2 h-2 bg-vnn-red rounded-full animate-pulse"></span>
+                    Live Updates
+                </a>
                 <a href="{{ route('frontend.podcast') }}" class="block px-4 py-3 text-sm md:text-base text-gray-600 dark:text-gray-300 hover:bg-vnn-blue hover:text-white rounded">Podcast</a>
                 <a href="{{ route('frontend.video') }}" class="block px-4 py-3 text-sm md:text-base text-gray-600 dark:text-gray-300 hover:bg-vnn-blue hover:text-white rounded">Video</a>
                 <a href="#" class="block px-4 py-3 text-sm md:text-base text-gray-600 dark:text-gray-300 hover:bg-vnn-red hover:text-white rounded">Gallery</a>
