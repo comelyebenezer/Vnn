@@ -173,7 +173,7 @@
                     ['name' => 'Opinion', 'slug' => 'opinion'],
                     ['name' => 'Editorial', 'slug' => 'editorial'],
                     ['name' => 'VNN List', 'slug' => 'vnn-list', 'route' => 'frontend.vnn-list'],
-                    ['name' => 'Documentary', 'slug' => 'documentary'],
+                    ['name' => 'Documentary', 'slug' => 'documentary', 'route' => 'frontend.documentary'],
                 ];
             @endphp
             @foreach($navItems as $item)
