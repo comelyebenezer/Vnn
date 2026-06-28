@@ -82,6 +82,48 @@
                 @endif
                 @endforelse
             </div>
+
+            {{-- Trending Videos --}}
+            <div class="mt-4 pt-3 border-t border-vnn-red/30">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-vnn-red" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/></svg>
+                        Top Videos
+                    </h2>
+                    <a href="{{ route('frontend.video') }}" class="text-[10px] text-vnn-blue font-semibold hover:underline">View All →</a>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    @forelse($videos as $v)
+                    <a href="{{ route('frontend.article', $v->slug) }}" class="group">
+                        <div class="aspect-video bg-vnn-dark rounded overflow-hidden relative">
+                            @if($v->featured_image)
+                            <img src="{{ asset('storage/' . $v->featured_image) }}" alt="{{ $v->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            @else
+                            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-vnn-blue/80 to-vnn-dark">
+                                <svg class="w-6 h-6 text-white/30" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217z" clip-rule="evenodd"/></svg>
+                            </div>
+                            @endif
+                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                <span class="w-8 h-8 bg-vnn-red rounded-full flex items-center justify-center">
+                                    <svg class="w-3.5 h-3.5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                                </span>
+                            </div>
+                        </div>
+                        <h4 class="text-xs font-bold leading-snug mt-1 group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $v->title }}</h4>
+                    </a>
+                    @empty
+                    <div class="col-span-2 flex items-center gap-3 py-3">
+                        <div class="w-12 h-12 bg-vnn-blue/20 rounded-full flex items-center justify-center shrink-0">
+                            <svg class="w-5 h-5 text-vnn-blue" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217z" clip-rule="evenodd"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 font-heading">No videos yet</p>
+                            <p class="text-[10px] text-gray-400 font-body">Check back for music videos</p>
+                        </div>
+                    </div>
+                    @endforelse
+                </div>
+            </div>
         </div>
 
         {{-- Live Updates --}}
