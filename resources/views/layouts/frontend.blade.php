@@ -231,22 +231,6 @@
         </div>
     </div>
 
-    {{-- Breaking News Ticker --}}
-    <div class="bg-vnn-blue text-white text-sm">
-        <div class="max-w-7xl mx-auto px-4 flex items-center gap-3 py-2 overflow-hidden">
-            <span class="font-extrabold uppercase text-[10px] bg-vnn-red text-white px-2 py-0.5 rounded whitespace-nowrap shrink-0">Breaking</span>
-            <div class="overflow-hidden flex-1 relative">
-                <div class="animate-marquee whitespace-nowrap">
-                    <span class="mx-4">• President addresses nation on economic reforms — Read more</span>
-                    <span class="mx-4">• Supreme Court delivers landmark judgment on electoral act</span>
-                    <span class="mx-4">• Oil prices surge as OPEC+ announces production cuts</span>
-                    <span class="mx-4">• Super Eagles qualify for AFCON semi-finals after dramatic win</span>
-                    <span class="mx-4">• Naira strengthens against dollar as CBN introduces new policies</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
     {{-- Main Content --}}
     <main>
         @yield('content')

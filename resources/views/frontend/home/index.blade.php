@@ -66,7 +66,7 @@
         {{-- Top News Sidebar --}}
         <div>
             <div class="border-b-2 border-vnn-red pb-2 mb-4">
-                <h2 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Top News</h2>
+                <h2 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Trending</h2>
             </div>
             @php
                 $topItems = $topNews->isNotEmpty() ? $topNews : collect([
@@ -81,7 +81,16 @@
                 @foreach($topItems as $i => $news)
                 <a href="{{ $news->slug !== '#' ? route('frontend.article', $news->slug) : '#' }}" class="flex gap-3 group {{ $i < $topItems->count() - 1 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
                     <span class="text-lg font-extrabold text-gray-200 dark:text-gray-700 leading-none shrink-0 w-6">{{ $i + 1 }}</span>
-                    <div>
+                    @if(isset($news->featured_image) && $news->featured_image)
+                    <div class="w-24 h-20 rounded overflow-hidden shrink-0">
+                        <img src="{{ asset('storage/' . $news->featured_image) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    </div>
+                    @else
+                    <div class="w-24 h-20 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                        <span class="text-white/15 font-extrabold text-xl">V</span>
+                    </div>
+                    @endif
+                    <div class="flex-1 min-w-0">
                         @if(isset($news->category) && $news->category)
                         <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ $news->category->name }}</span>
                         @endif
@@ -97,6 +106,81 @@
 {{-- Ad Banner --}}
 <section class="max-w-7xl mx-auto px-4 py-3">
     <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">Advertisement</div>
+</section>
+
+{{-- Breaking News / Live Updates --}}
+<section class="max-w-7xl mx-auto px-4 py-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {{-- Breaking News --}}
+        <div class="lg:col-span-2 bg-vnn-dark rounded-lg overflow-hidden border-l-4 border-vnn-red">
+            <div class="bg-vnn-red px-4 py-2 flex items-center gap-2">
+                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
+                <span class="text-white font-extrabold text-sm uppercase tracking-wider">Breaking News</span>
+            </div>
+            <div class="divide-y divide-vnn-red/20">
+                @forelse($breakingNews as $bn)
+                <div class="px-4 py-3 hover:bg-white/5 transition">
+                    <div class="flex items-start gap-3">
+                        <span class="w-2 h-2 bg-vnn-red rounded-full mt-1.5 shrink-0 animate-pulse"></span>
+                        <div>
+                            <h4 class="text-white text-sm font-bold leading-snug">{{ $bn->title }}</h4>
+                            @if($bn->content)
+                            <p class="text-gray-400 text-xs mt-1 line-clamp-2 font-body">{{ $bn->content }}</p>
+                            @endif
+                            <span class="text-gray-500 text-[10px] mt-1 block font-body">{{ $bn->created_at->diffForHumans() }}</span>
+                        </div>
+                    </div>
+                </div>
+                @empty
+                <div class="px-4 py-6 text-center">
+                    <p class="text-gray-400 text-sm font-body">No breaking news at the moment. Stay tuned.</p>
+                </div>
+                @endforelse
+            </div>
+        </div>
+
+        {{-- Live Updates --}}
+        <div class="bg-vnn-dark rounded-lg overflow-hidden border-l-4 border-vnn-blue">
+            <div class="bg-vnn-blue px-4 py-2 flex items-center gap-2">
+                <span class="w-2 h-2 bg-red-400 rounded-full animate-pulse"></span>
+                <span class="text-white font-extrabold text-sm uppercase tracking-wider">Live Updates</span>
+            </div>
+            @if($liveUpdates->count())
+            <div class="divide-y divide-vnn-blue/20">
+                @foreach($liveUpdates as $live)
+                <div class="px-4 py-3">
+                    @if($live->video_url)
+                    <div class="aspect-video bg-black rounded overflow-hidden mb-2">
+                        @if($live->video_type === 'youtube')
+                        <iframe src="{{ $live->video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                        @elseif($live->video_type === 'facebook')
+                        <iframe src="{{ $live->video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                        @else
+                        <video src="{{ asset('storage/' . $live->video_file) }}" class="w-full h-full" controls></video>
+                        @endif
+                    </div>
+                    @endif
+                    <h4 class="text-white text-sm font-bold leading-snug">{{ $live->title }}</h4>
+                    @if($live->description)
+                    <p class="text-gray-400 text-xs mt-1 line-clamp-2 font-body">{{ $live->description }}</p>
+                    @endif
+                </div>
+                @endforeach
+            </div>
+            @else
+            <div class="px-4 py-6 text-center">
+                <div class="w-16 h-16 bg-vnn-blue/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg class="w-8 h-8 text-vnn-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </div>
+                <p class="text-gray-400 text-sm font-body">No live streams right now</p>
+                <p class="text-gray-500 text-xs mt-1 font-body">Check back later for live video coverage</p>
+            </div>
+            @endif
+            <div class="px-4 py-2 bg-white/5 text-center">
+                <a href="#" class="text-vnn-blue text-xs font-semibold hover:underline">Watch all live videos →</a>
+            </div>
+        </div>
+    </div>
 </section>
 
 {{-- Main Content + Sidebar --}}

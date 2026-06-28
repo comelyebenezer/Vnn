@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\BreakingNews;
+use App\Models\LiveUpdate;
 
 class HomeController extends Controller
 {
@@ -68,12 +69,14 @@ class HomeController extends Controller
             })
             ->latest()->take(5)->get();
 
+        $liveUpdates = LiveUpdate::live()->latest()->take(3)->get();
+
         $navCategories = Category::where('status', 'active')->orderBy('display_order')->get();
 
         return view('frontend.home.index', compact(
             'featured', 'topNews', 'categoryArticles',
             'opinions', 'editorials', 'videos', 'podcasts',
-            'latest', 'mostRead', 'breakingNews', 'navCategories'
+            'latest', 'mostRead', 'breakingNews', 'liveUpdates', 'navCategories'
         ));
     }
 }
