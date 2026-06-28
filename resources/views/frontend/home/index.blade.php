@@ -217,9 +217,9 @@
 
 {{-- Main Content + Sidebar --}}
 <section class="max-w-7xl mx-auto px-4 py-6">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {{-- Main Column --}}
-        <div class="lg:col-span-2 space-y-10">
+        <div class="lg:col-span-7 space-y-10">
 
             @php
                 $sectionOrder = ['news', 'politics', 'business', 'technology', 'sports', 'entertainment', 'world'];
@@ -469,7 +469,7 @@
         </div>
 
         {{-- Sidebar --}}
-        <aside class="space-y-8">
+        <aside class="lg:col-span-5 space-y-8">
             {{-- Latest News --}}
             <div>
                 <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
@@ -478,32 +478,32 @@
                 </div>
                 <div class="space-y-3">
                     @forelse($latest as $item)
-                    <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-3 group {{ !$loop->last ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                    <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-4 group {{ !$loop->last ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
                         @if($item->featured_image)
-                        <div class="w-16 h-14 rounded overflow-hidden shrink-0">
-                            <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover">
+                        <div class="w-28 h-20 rounded overflow-hidden shrink-0">
+                            <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         </div>
                         @else
-                        <div class="w-16 h-14 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
-                            <span class="text-white/15 font-extrabold text-lg">V</span>
+                        <div class="w-28 h-20 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-white/15 font-extrabold text-xl">V</span>
                         </div>
                         @endif
                         <div class="flex-1">
                             @if($item->category)
                             <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ $item->category->name }}</span>
                             @endif
-                            <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
+                            <h4 class="text-sm font-bold leading-snug mt-0.5 group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
                         </div>
                     </a>
                     @empty
                     @for ($i = 0; $i < 6; $i++)
-                    <a href="#" class="flex gap-3 group {{ $i < 5 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
-                        <div class="w-16 h-14 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
-                            <span class="text-white/15 font-extrabold text-lg">V</span>
+                    <a href="#" class="flex gap-4 group {{ $i < 5 ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-28 h-20 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-white/15 font-extrabold text-xl">V</span>
                         </div>
                         <div class="flex-1">
                             <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ ['Politics', 'Business', 'Tech', 'Sports', 'World', 'Entertainment'][$i] }}</span>
-                            <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">Latest news headline number {{ $i + 1 }} that is breaking now</h4>
+                            <h4 class="text-sm font-bold leading-snug mt-0.5 group-hover:text-vnn-red transition line-clamp-2 font-heading">Latest news headline number {{ $i + 1 }} that is breaking now</h4>
                         </div>
                     </a>
                     @endfor
