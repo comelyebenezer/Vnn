@@ -94,19 +94,23 @@
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     @forelse($videos as $v)
-                    <a href="{{ route('frontend.article', $v->slug) }}" class="group">
+                    <a href="{{ route('frontend.article', $v->slug) }}" class="group block">
                         <div class="aspect-video bg-vnn-dark rounded overflow-hidden relative">
                             @if($v->featured_image)
                             <img src="{{ asset('storage/' . $v->featured_image) }}" alt="{{ $v->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                             @else
                             <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-vnn-blue/80 to-vnn-dark">
-                                <svg class="w-6 h-6 text-white/30" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217z" clip-rule="evenodd"/></svg>
+                                <svg class="w-8 h-8 text-white/20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217z" clip-rule="evenodd"/></svg>
                             </div>
                             @endif
-                            <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                                <span class="w-8 h-8 bg-vnn-red rounded-full flex items-center justify-center">
-                                    <svg class="w-3.5 h-3.5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="w-10 h-10 bg-vnn-red/90 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition">
+                                    <svg class="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
                                 </span>
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 p-1.5">
+                                <span class="text-[9px] text-white/80 font-semibold bg-black/50 px-1 py-0.5 rounded">MUSIC VIDEO</span>
                             </div>
                         </div>
                         <h4 class="text-xs font-bold leading-snug mt-1 group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $v->title }}</h4>
