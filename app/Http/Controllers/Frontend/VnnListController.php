@@ -31,15 +31,6 @@ class VnnListController extends Controller
             ? Article::where('category_id', $category->id)->where('status', 'published')->count()
             : 0;
 
-        $industries = $category
-            ? Article::where('category_id', $category->id)
-                ->where('status', 'published')
-                ->selectRaw('DISTINCT JSON_UNQUOTE(JSON_EXTRACT(meta, "$.industry")) as industry')
-                ->pluck('industry')
-                ->filter()
-                ->values()
-            : collect([]);
-
-        return view('frontend.vnn-list.index', compact('listings', 'featured', 'count', 'industries'));
+        return view('frontend.vnn-list.index', compact('listings', 'featured', 'count'));
     }
 }

@@ -26,7 +26,7 @@
                     <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Listings</div>
                 </div>
                 <div class="bg-white/10 backdrop-blur rounded-lg px-5 py-3 text-center">
-                    <div class="text-3xl font-black text-white font-heading">{{ $industries->count() ?: '12' }}</div>
+                    <div class="text-3xl font-black text-white font-heading">12+</div>
                     <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Industries</div>
                 </div>
                 <div class="bg-white/10 backdrop-blur rounded-lg px-5 py-3 text-center">
@@ -134,17 +134,7 @@
                 <span class="text-vnn-red text-xs font-bold uppercase tracking-[0.2em]">The List</span>
                 <h2 class="text-3xl md:text-4xl font-black text-vnn-dark dark:text-white mt-2 font-heading">VNN <span class="text-vnn-red">100</span></h2>
             </div>
-            @if($industries->isNotEmpty())
-            <div class="hidden md:flex items-center gap-2">
-                <span class="text-xs text-gray-500 font-medium">Filter:</span>
-                <select class="text-xs border border-gray-200 dark:border-gray-700 rounded px-3 py-2 bg-white dark:bg-vnn-dark dark:text-white focus:outline-none focus:border-vnn-red font-body">
-                    <option value="">All Industries</option>
-                    @foreach($industries as $ind)
-                    <option value="{{ $ind }}">{{ $ind }}</option>
-                    @endforeach
-                </select>
-            </div>
-            @endif
+            <div class="hidden md:block"></div>
         </div>
 
         @if($listings->count())
