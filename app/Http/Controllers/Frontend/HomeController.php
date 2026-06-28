@@ -71,12 +71,17 @@ class HomeController extends Controller
 
         $liveUpdates = LiveUpdate::live()->latest()->take(3)->get();
 
+        $trendingVideos = LiveUpdate::where('status', 'active')->latest()->skip(3)->take(4)->get();
+        if ($trendingVideos->isEmpty()) {
+            $trendingVideos = LiveUpdate::where('status', 'active')->latest()->take(4)->get();
+        }
+
         $navCategories = Category::where('status', 'active')->orderBy('display_order')->get();
 
         return view('frontend.home.index', compact(
             'featured', 'topNews', 'categoryArticles',
             'opinions', 'editorials', 'videos', 'podcasts',
-            'latest', 'mostRead', 'breakingNews', 'liveUpdates', 'navCategories'
+            'latest', 'mostRead', 'breakingNews', 'liveUpdates', 'trendingVideos', 'navCategories'
         ));
     }
 }
