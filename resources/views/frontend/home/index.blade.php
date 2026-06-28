@@ -187,7 +187,7 @@
             <div class="space-y-3">
                 @foreach($topItems as $i => $news)
                 <a href="{{ $news->slug !== '#' ? route('frontend.article', $news->slug) : '#' }}" class="flex gap-3 group {{ $i < $topItems->count() - 1 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
-                    <span class="text-lg font-extrabold text-gray-200 dark:text-gray-700 leading-none shrink-0 w-6">{{ $i + 1 }}</span>
+                    <span class="text-lg font-extrabold text-vnn-red/60 leading-none shrink-0 w-6">{{ $i + 1 }}</span>
                     @if(isset($news->featured_image) && $news->featured_image)
                     <div class="w-32 h-24 rounded overflow-hidden shrink-0">
                         <img src="{{ asset('storage/' . $news->featured_image) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
@@ -523,7 +523,7 @@
                 <div class="space-y-4">
                     @forelse($mostRead as $item)
                     <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-3 group">
-                        <span class="text-2xl font-extrabold text-gray-200 dark:text-gray-700 leading-none shrink-0 w-8">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                        <span class="text-2xl font-extrabold text-vnn-red/60 leading-none shrink-0 w-8">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         <div>
                             <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ number_format($item->view_count ?? 0) }} views</span>
@@ -532,7 +532,7 @@
                     @empty
                     @for ($i = 0; $i < 5; $i++)
                     <a href="#" class="flex gap-3 group">
-                        <span class="text-2xl font-extrabold text-gray-200 dark:text-gray-700 leading-none shrink-0 w-8">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                        <span class="text-2xl font-extrabold text-vnn-red/60 leading-none shrink-0 w-8">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
                         <div>
                             <h4 class="text-sm font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2 font-heading">Most read story number {{ $i + 1 }} that everyone is talking about</h4>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ rand(1000, 50000) }} views</span>
