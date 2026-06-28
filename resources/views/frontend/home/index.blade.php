@@ -11,9 +11,65 @@
             <div class="border-b border-vnn-red pb-1.5 mb-2">
                 <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Breaking News</h2>
             </div>
+            {{-- Featured breaking story --}}
+            @php $story = $featured; @endphp
+            @if($story)
+            <a href="{{ route('frontend.article', $story->slug) }}" class="group block relative mb-2">
+                <div class="aspect-[16/9] bg-vnn-dark rounded overflow-hidden">
+                    @if($story->featured_image)
+                    <img src="{{ asset('storage/' . $story->featured_image) }}" alt="{{ $story->title }}" class="w-full h-full object-cover">
+                    @else
+                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-vnn-red/80 to-vnn-dark">
+                        <span class="text-white/10 font-extrabold text-5xl font-heading">V</span>
+                    </div>
+                    @endif
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                        @if($story->is_breaking)
+                        <span class="bg-vnn-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">Breaking News</span>
+                        @endif
+                        <h2 class="text-white text-sm font-extrabold mt-1.5 leading-snug group-hover:underline transition-all duration-200 font-heading">{{ $story->title }}</h2>
+                        <p class="text-gray-300 text-[11px] mt-1 line-clamp-1 font-body">{{ $story->excerpt }}</p>
+                        <div class="flex items-center gap-2 mt-1.5 text-[10px] text-gray-400">
+                            @if($story->author)
+                            <span>By {{ $story->author->user->name ?? $story->author->name }}</span>
+                            <span>•</span>
+                            @endif
+                            <span>{{ $story->publication_date?->diffForHumans() ?? $story->created_at->diffForHumans() }}</span>
+                            @if($story->category)
+                            <span>•</span>
+                            <span class="text-vnn-red font-semibold">{{ $story->category->name }}</span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </a>
+            @else
+            <a href="#" class="group block relative mb-2">
+                <div class="aspect-[16/9] bg-vnn-dark rounded overflow-hidden">
+                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-vnn-red/80 to-vnn-dark">
+                        <span class="text-white/10 font-extrabold text-5xl font-heading">V</span>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                        <span class="bg-vnn-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">Breaking News</span>
+                        <h2 class="text-white text-sm font-extrabold mt-1.5 leading-snug group-hover:underline transition-all duration-200 font-heading">President Announces Major Economic Reforms to Stabilize Currency and Boost Foreign Investment</h2>
+                        <p class="text-gray-300 text-[11px] mt-1 line-clamp-1 font-body">In a nationwide address, the President outlined sweeping economic measures including tax reforms, foreign exchange liberalization, and infrastructure spending aimed at restoring investor confidence.</p>
+                        <div class="flex items-center gap-2 mt-1.5 text-[10px] text-gray-400">
+                            <span>By Chidi Okonkwo</span>
+                            <span>•</span>
+                            <span>15 mins ago</span>
+                            <span>•</span>
+                            <span class="text-vnn-red font-semibold">Politics</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            @endif
+            {{-- More breaking news list --}}
             <div class="divide-y divide-gray-100 dark:divide-gray-800">
                 @forelse($breakingNews as $bn)
-                <div class="flex items-start gap-2 py-2.5 pr-1">
+                <div class="flex items-start gap-2 py-2 pr-1">
                     <span class="w-1.5 h-1.5 bg-vnn-red rounded-full mt-1.5 shrink-0 animate-pulse"></span>
                     <div>
                         <h4 class="text-xs font-bold leading-snug text-vnn-dark dark:text-white font-heading">{{ $bn->title }}</h4>
@@ -21,7 +77,9 @@
                     </div>
                 </div>
                 @empty
+                @if(!$story)
                 <p class="text-gray-400 text-xs font-body py-3 text-center">No breaking news at the moment.</p>
+                @endif
                 @endforelse
             </div>
         </div>
@@ -94,74 +152,6 @@
                     </div>
                 </a>
                 @endforeach
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- Featured Story --}}
-@php $story = $featured; @endphp
-<section class="max-w-7xl mx-auto px-4 py-4">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <div class="lg:col-span-2">
-            @if($story)
-            <a href="{{ route('frontend.article', $story->slug) }}" class="group block relative">
-                <div class="aspect-[21/9] bg-vnn-dark rounded overflow-hidden">
-                    @if($story->featured_image)
-                    <img src="{{ asset('storage/' . $story->featured_image) }}" alt="{{ $story->title }}" class="w-full h-full object-cover">
-                    @else
-                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-vnn-red/80 to-vnn-dark">
-                        <span class="text-white/10 font-extrabold text-7xl font-heading">V</span>
-                    </div>
-                    @endif
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6">
-                        @if($story->is_breaking)
-                        <span class="bg-vnn-red text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Breaking News</span>
-                        @endif
-                        <h2 class="text-white text-2xl md:text-3xl font-extrabold mt-3 leading-tight group-hover:underline transition-all duration-200 font-heading">{{ $story->title }}</h2>
-                        <p class="text-gray-300 text-sm mt-2 line-clamp-2 font-body">{{ $story->excerpt }}</p>
-                        <div class="flex items-center gap-3 mt-3 text-xs text-gray-400">
-                            @if($story->author)
-                            <span>By {{ $story->author->user->name ?? $story->author->name }}</span>
-                            <span>•</span>
-                            @endif
-                            <span>{{ $story->publication_date?->diffForHumans() ?? $story->created_at->diffForHumans() }}</span>
-                            @if($story->category)
-                            <span>•</span>
-                            <span class="text-vnn-red font-semibold">{{ $story->category->name }}</span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </a>
-            @else
-            <a href="#" class="group block relative">
-                <div class="aspect-[21/9] bg-vnn-dark rounded overflow-hidden">
-                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-vnn-red/80 to-vnn-dark">
-                        <span class="text-white/10 font-extrabold text-7xl font-heading">V</span>
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6">
-                        <span class="bg-vnn-red text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">Breaking News</span>
-                        <h2 class="text-white text-2xl md:text-3xl font-extrabold mt-3 leading-tight group-hover:underline transition-all duration-200 font-heading">President Announces Major Economic Reforms to Stabilize Currency and Boost Foreign Investment</h2>
-                        <p class="text-gray-300 text-sm mt-2 line-clamp-2 font-body">In a nationwide address, the President outlined sweeping economic measures including tax reforms, foreign exchange liberalization, and infrastructure spending aimed at restoring investor confidence.</p>
-                        <div class="flex items-center gap-3 mt-3 text-xs text-gray-400">
-                            <span>By Chidi Okonkwo</span>
-                            <span>•</span>
-                            <span>15 mins ago</span>
-                            <span>•</span>
-                            <span class="text-vnn-red font-semibold">Politics</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            @endif
-        </div>
-        <div class="hidden lg:flex flex-col justify-center">
-            <div class="border-l-4 border-vnn-red pl-4">
-                <h3 class="text-lg font-heading font-extrabold text-vnn-dark dark:text-white">Latest Updates</h3>
-                <p class="text-gray-500 text-sm mt-1 font-body">Stay informed with our comprehensive coverage of the most important stories shaping Nigeria and the world.</p>
             </div>
         </div>
     </div>
