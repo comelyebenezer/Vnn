@@ -187,7 +187,6 @@
             <div class="space-y-3">
                 @foreach($topItems as $i => $news)
                 <a href="{{ $news->slug !== '#' ? route('frontend.article', $news->slug) : '#' }}" class="flex gap-3 group {{ $i < $topItems->count() - 1 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
-                    <span class="text-lg font-extrabold text-vnn-red/60 leading-none shrink-0 w-6">{{ $i + 1 }}</span>
                     @if(isset($news->featured_image) && $news->featured_image)
                     <div class="w-32 h-24 rounded overflow-hidden shrink-0">
                         <img src="{{ asset('storage/' . $news->featured_image) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
