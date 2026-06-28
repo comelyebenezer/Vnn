@@ -22,6 +22,8 @@ class CategorySeeder extends Seeder
             ['name' => 'Editorial', 'slug' => 'editorial', 'description' => 'Editorial content and perspectives', 'display_order' => 10],
             ['name' => 'Health', 'slug' => 'health', 'description' => 'Health news and medical updates', 'display_order' => 11],
             ['name' => 'Education', 'slug' => 'education', 'description' => 'Education news and academic updates', 'display_order' => 12],
+            ['name' => 'VNN List', 'slug' => 'vnn-list', 'description' => 'Curated lists and rankings from Verve News Network', 'display_order' => 13],
+            ['name' => 'Documentary', 'slug' => 'documentary', 'description' => 'In-depth documentary features and investigative reports', 'display_order' => 14],
         ];
 
         foreach ($categories as $cat) {

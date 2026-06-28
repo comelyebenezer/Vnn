@@ -170,7 +170,10 @@
                     ['name' => 'Africa', 'slug' => 'africa'],
                     ['name' => 'Opinion', 'slug' => 'opinion'],
                     ['name' => 'Editorial', 'slug' => 'editorial'],
+                    ['name' => 'VNN List', 'slug' => 'vnn-list'],
+                    ['name' => 'Documentary', 'slug' => 'documentary'],
                 ];
+                $navItemsCount = count($navItems);
             @endphp
             @foreach($navItems as $item)
                 <a href="{{ route('frontend.category', $item['slug']) }}"
