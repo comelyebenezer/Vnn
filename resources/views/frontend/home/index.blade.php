@@ -478,17 +478,17 @@
                 </div>
                 <div class="space-y-3">
                     @forelse($latest as $item)
-                    <a href="{{ route('frontend.article', $item->slug) }}" class="block group {{ !$loop->last ? 'pb-4 mb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                    <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-4 group {{ !$loop->last ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
                         @if($item->featured_image)
-                        <div class="aspect-[16/9] rounded overflow-hidden mb-2">
+                        <div class="w-32 h-24 rounded overflow-hidden shrink-0">
                             <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         </div>
                         @else
-                        <div class="aspect-[16/9] bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden flex items-center justify-center mb-2">
-                            <span class="text-white/15 font-extrabold text-3xl">V</span>
+                        <div class="w-32 h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-white/15 font-extrabold text-2xl">V</span>
                         </div>
                         @endif
-                        <div>
+                        <div class="flex-1 min-w-0">
                             @if($item->category)
                             <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ $item->category->name }}</span>
                             @endif
@@ -497,11 +497,11 @@
                     </a>
                     @empty
                     @for ($i = 0; $i < 6; $i++)
-                    <a href="#" class="block group {{ $i < 5 ? 'pb-4 mb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
-                        <div class="aspect-[16/9] bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden flex items-center justify-center mb-2">
-                            <span class="text-white/15 font-extrabold text-3xl">V</span>
+                    <a href="#" class="flex gap-4 group {{ $i < 5 ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-32 h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-white/15 font-extrabold text-2xl">V</span>
                         </div>
-                        <div>
+                        <div class="flex-1 min-w-0">
                             <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ ['Politics', 'Business', 'Tech', 'Sports', 'World', 'Entertainment'][$i] }}</span>
                             <h4 class="text-sm font-bold leading-snug mt-0.5 group-hover:text-vnn-red transition line-clamp-2 font-heading">Latest news headline number {{ $i + 1 }} that is breaking now</h4>
                         </div>
