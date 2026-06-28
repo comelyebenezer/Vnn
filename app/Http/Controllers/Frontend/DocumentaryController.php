@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Tag;
 
 class DocumentaryController extends Controller
 {
@@ -16,7 +17,7 @@ class DocumentaryController extends Controller
             ? Article::where('category_id', $category->id)
                 ->where('status', 'published')
                 ->orderBy('publication_date', 'desc')
-                ->paginate(12)
+                ->get()
             : collect([]);
 
         $featured = $category
@@ -27,10 +28,12 @@ class DocumentaryController extends Controller
                 ->first()
             : null;
 
-        $count = $category
-            ? Article::where('category_id', $category->id)->where('status', 'published')->count()
-            : 0;
+        $tags = Tag::whereHas('articles', function ($q) use ($category) {
+            $q->where('category_id', $category?->id)->where('status', 'published');
+        })->orderBy('name')->get();
 
-        return view('frontend.documentary.index', compact('documentaries', 'featured', 'count'));
+        $count = $documentaries->count();
+
+        return view('frontend.documentary.index', compact('documentaries', 'featured', 'tags', 'count'));
     }
 }

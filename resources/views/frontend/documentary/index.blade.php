@@ -55,17 +55,16 @@
     <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-vnn-red/50 to-transparent"></div>
 </section>
 
+{{-- Documentary Grid Wrapper --}}
+<div x-data="{ activeFilter: 'all' }">
 {{-- Categories Filter --}}
 <section class="bg-white dark:bg-vnn-dark border-b border-gray-100 dark:border-gray-800 sticky top-[var(--header-height, 0)] z-20">
     <div class="max-w-7xl mx-auto px-4 py-4">
-        <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide" x-data="{ active: 'all' }">
-            <button @click="active = 'all'" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition font-heading" :class="active === 'all' ? 'bg-vnn-red text-white border-vnn-red' : 'text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-vnn-red hover:text-vnn-red'">All</button>
-            <button @click="active = 'government'" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition font-heading" :class="active === 'government' ? 'bg-vnn-red text-white border-vnn-red' : 'text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-vnn-red hover:text-vnn-red'">Government</button>
-            <button @click="active = 'business'" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition font-heading" :class="active === 'business' ? 'bg-vnn-red text-white border-vnn-red' : 'text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-vnn-red hover:text-vnn-red'">Business</button>
-            <button @click="active = 'entertainment'" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition font-heading" :class="active === 'entertainment' ? 'bg-vnn-red text-white border-vnn-red' : 'text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-vnn-red hover:text-vnn-red'">Entertainment</button>
-            <button @click="active = 'sports'" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition font-heading" :class="active === 'sports' ? 'bg-vnn-red text-white border-vnn-red' : 'text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-vnn-red hover:text-vnn-red'">Sports</button>
-            <button @click="active = 'culture'" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition font-heading" :class="active === 'culture' ? 'bg-vnn-red text-white border-vnn-red' : 'text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-vnn-red hover:text-vnn-red'">Culture</button>
-            <button @click="active = 'investigative'" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition font-heading" :class="active === 'investigative' ? 'bg-vnn-red text-white border-vnn-red' : 'text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-vnn-red hover:text-vnn-red'">Investigative</button>
+        <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+            <button @click="activeFilter = 'all'" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition font-heading" :class="activeFilter === 'all' ? 'bg-vnn-red text-white border-vnn-red' : 'text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-vnn-red hover:text-vnn-red'">All</button>
+            @foreach($tags as $tag)
+            <button @click="activeFilter = '{{ $tag->slug }}'" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition font-heading" :class="activeFilter === '{{ $tag->slug }}' ? 'bg-vnn-red text-white border-vnn-red' : 'text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-vnn-red hover:text-vnn-red'">{{ $tag->name }}</button>
+            @endforeach
         </div>
     </div>
 </section>
@@ -134,7 +133,8 @@
         @if($documentaries->count())
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($documentaries as $doc)
-            <a href="{{ route('frontend.article', $doc->slug) }}" class="group block bg-gray-50 dark:bg-vnn-dark-light rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 hover:shadow-xl">
+            @php $docTags = $doc->tags->pluck('slug')->implode(','); @endphp
+            <a href="{{ route('frontend.article', $doc->slug) }}" x-show="activeFilter === 'all' || '{{ $docTags }}'.includes(activeFilter)" class="group block bg-gray-50 dark:bg-vnn-dark-light rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 hover:shadow-xl">
                 <div class="aspect-video bg-vnn-dark overflow-hidden relative">
                     @if($doc->featured_image)
                     <img src="{{ asset('storage/' . $doc->featured_image) }}" alt="{{ $doc->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
@@ -176,9 +176,6 @@
             @endforeach
         </div>
 
-        <div class="mt-12">
-            {{ $documentaries->links() }}
-        </div>
         @else
         <div class="text-center py-20">
             <div class="w-20 h-20 bg-gradient-to-br from-vnn-red/20 to-vnn-blue/20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -194,6 +191,7 @@
         @endif
     </div>
 </section>
+</div>
 
 {{-- Categories Section --}}
 <section class="bg-gray-50 dark:bg-vnn-dark-light border-t border-gray-100 dark:border-gray-800">
