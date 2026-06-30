@@ -69,11 +69,11 @@ class HomeController extends Controller
             })
             ->latest()->take(5)->get();
 
-        $liveUpdates = LiveUpdate::live()->latest()->take(3)->get();
+        $liveUpdates = LiveUpdate::live()->latest()->take(2)->get();
 
-        $trendingVideos = LiveUpdate::where('status', 'active')->latest()->skip(3)->take(4)->get();
+        $trendingVideos = LiveUpdate::where('status', 'active')->latest()->skip(2)->take(2)->get();
         if ($trendingVideos->isEmpty()) {
-            $trendingVideos = LiveUpdate::where('status', 'active')->latest()->take(4)->get();
+            $trendingVideos = LiveUpdate::where('status', 'active')->latest()->take(2)->get();
         }
 
         $navCategories = Category::where('status', 'active')->orderBy('display_order')->get();

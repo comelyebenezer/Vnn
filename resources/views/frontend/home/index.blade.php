@@ -7,14 +7,14 @@
 <section class="max-w-7xl mx-auto px-4 py-4">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {{-- Breaking News --}}
-        <div class="lg:col-span-5">
+        <div class="lg:col-span-5 lg:flex lg:flex-col">
             <div class="border-b border-vnn-red pb-1.5 mb-2">
                 <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Breaking News</h2>
             </div>
             {{-- Featured breaking story --}}
             @php $story = $featured; @endphp
             @if($story)
-            <a href="{{ route('frontend.article', $story->slug) }}" class="group block relative mb-2">
+            <a href="{{ route('frontend.article', $story->slug) }}" class="group block relative mb-2 shrink-0">
                 <div class="aspect-[16/9] bg-vnn-dark rounded overflow-hidden">
                     @if($story->featured_image)
                     <img src="{{ asset('storage/' . $story->featured_image) }}" alt="{{ $story->title }}" class="w-full h-full object-cover">
@@ -45,7 +45,7 @@
                 </div>
             </a>
             @else
-            <a href="#" class="group block relative mb-2">
+            <a href="#" class="group block relative mb-2 shrink-0">
                 <div class="aspect-[16/9] bg-vnn-dark rounded overflow-hidden">
                     <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-vnn-red/80 to-vnn-dark">
                         <span class="text-white/10 font-extrabold text-5xl font-heading">V</span>
@@ -67,7 +67,7 @@
             </a>
             @endif
             {{-- More breaking news list --}}
-            <div class="divide-y divide-gray-100 dark:divide-gray-800">
+            <div class="divide-y divide-gray-100 dark:divide-gray-800 shrink-0">
                 @forelse($breakingNews as $bn)
                 <div class="flex items-start gap-2 py-2 pr-1">
                     <span class="w-1.5 h-1.5 bg-vnn-red rounded-full mt-1.5 shrink-0 animate-pulse"></span>
@@ -84,13 +84,12 @@
             </div>
 
             {{-- Trending Videos --}}
-            <div class="mt-4 pt-3 border-t border-vnn-red/30">
+            <div class="mt-4 pt-3 border-t border-vnn-red/30 shrink-0">
                 <div class="flex items-center justify-between mb-2">
                     <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading flex items-center gap-1.5">
                         <svg class="w-3.5 h-3.5 text-vnn-red" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/></svg>
                         Top Videos
                     </h2>
-                    <a href="{{ route('frontend.video') }}" class="text-[10px] text-vnn-blue font-semibold hover:underline">View All →</a>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     @forelse($trendingVideos as $tv)
@@ -120,6 +119,9 @@
                     @endforelse
                 </div>
             </div>
+
+            {{-- Ad Banner --}}
+            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded flex items-center justify-center text-gray-400 dark:text-gray-500 text-xs mt-4 lg:flex-1">Advertisement</div>
         </div>
 
         {{-- Live Updates --}}

@@ -27,5 +27,10 @@ class DatabaseSeeder extends Seeder
             ]
         );
         $superAdmin->assignRole('Super Admin');
+
+        $this->call(ArticleSeeder::class);
+        $this->call(DocumentarySeeder::class);
+        $this->call(LiveUpdateSeeder::class);
+        $this->call(SettingSeeder::class);
     }
 }
