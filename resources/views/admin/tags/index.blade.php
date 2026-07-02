@@ -38,7 +38,7 @@
                         <tr>
                             <th wire:click="sortBy('name')" class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-vnn-red">Name</th>
                             <th wire:click="sortBy('slug')" class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-vnn-red hidden md:table-cell">Slug</th>
-                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden md:table-cell">Articles</th>
+                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden md:table-cell">News</th>
                             <th class="px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400">Actions</th>
                         </tr>
                     </thead>

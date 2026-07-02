@@ -20,6 +20,7 @@ class VideoManager extends Component
     public $duration;
     public $category_id;
     public $status = 'draft';
+    public $is_top = false;
 
     public $editMode = false;
 
@@ -35,6 +36,7 @@ class VideoManager extends Component
             'duration' => 'nullable|integer|min:0',
             'category_id' => 'nullable|exists:categories,id',
             'status' => 'required|in:draft,published,archived',
+            'is_top' => 'boolean',
         ];
     }
 
@@ -52,6 +54,7 @@ class VideoManager extends Component
             $this->duration = $video->duration;
             $this->category_id = $video->category_id;
             $this->status = $video->status;
+            $this->is_top = $video->is_top;
         }
     }
 
@@ -76,6 +79,7 @@ class VideoManager extends Component
             'duration' => $this->duration,
             'category_id' => $this->category_id ?: null,
             'status' => $this->status,
+            'is_top' => $this->is_top,
         ];
 
         if ($this->editMode) {

@@ -41,7 +41,7 @@
                     <thead class="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
                         <tr>
                             <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400">Comment</th>
-                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden md:table-cell">Article</th>
+                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden md:table-cell">News</th>
                             <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden sm:table-cell">Commenter</th>
                             <th wire:click="sortBy('status')" class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-vnn-red">Status</th>
                             <th wire:click="sortBy('created_at')" class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-vnn-red hidden md:table-cell">Date</th>
@@ -55,7 +55,11 @@
                                 <div class="truncate text-gray-700 dark:text-gray-300">{{ $comment->body }}</div>
                             </td>
                             <td class="px-5 py-3.5 hidden md:table-cell">
-                                <a href="{{ route('admin.articles.edit', $comment->article_id) }}" class="text-vnn-blue hover:text-vnn-red text-xs font-semibold">{{ $comment->article?->title ?? 'N/A' }}</a>
+                                @if($comment->article)
+                                <a href="{{ route('admin.articles.edit', $comment->article) }}" class="text-vnn-blue hover:text-vnn-red text-xs font-semibold">{{ $comment->article->title }}</a>
+                                @else
+                                <span class="text-gray-400 text-xs">N/A</span>
+                                @endif
                             </td>
                             <td class="px-5 py-3.5 hidden sm:table-cell">
                                 <span class="text-xs text-gray-600 dark:text-gray-400">{{ $comment->user?->name ?? $comment->guest_name ?? 'Guest' }}</span>

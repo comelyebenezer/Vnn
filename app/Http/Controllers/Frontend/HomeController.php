@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\BreakingNews;
 use App\Models\LiveUpdate;
+use App\Models\Video;
 
 class HomeController extends Controller
 {
@@ -71,10 +72,7 @@ class HomeController extends Controller
 
         $liveUpdates = LiveUpdate::live()->latest()->take(2)->get();
 
-        $trendingVideos = LiveUpdate::where('status', 'active')->latest()->skip(2)->take(2)->get();
-        if ($trendingVideos->isEmpty()) {
-            $trendingVideos = LiveUpdate::where('status', 'active')->latest()->take(2)->get();
-        }
+        $trendingVideos = Video::where('is_top', true)->where('status', 'published')->latest()->take(2)->get();
 
         $navCategories = Category::where('status', 'active')->orderBy('display_order')->get();
 

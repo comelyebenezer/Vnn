@@ -29,7 +29,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Linked Article</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Linked News</label>
                         <select wire:model="article_id" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red">
                             <option value="">None</option>
                             @foreach($articles as $article)

@@ -75,15 +75,27 @@
             </div>
             @endif
 
-            {{-- Featured Image --}}
-            @if($article->featured_image)
-            <div class="mt-6">
-                <img src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}" class="w-full rounded">
-                @if($article->image_caption)
-                <p class="text-sm text-gray-400 dark:text-gray-500 mt-2 italic font-body">{{ $article->image_caption }}</p>
-                @endif
+        </div>
+    </div>
+
+    {{-- Featured Image Hero --}}
+    @if($article->featured_image)
+    <div class="w-full max-w-7xl mx-auto px-4 mt-6">
+        <div class="relative w-full overflow-hidden rounded-xl">
+            <img src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}" class="w-full h-auto max-h-[500px] object-cover">
+            @if($article->image_caption)
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                <p class="text-sm text-white/90 italic font-body">{{ $article->image_caption }}</p>
             </div>
             @endif
+        </div>
+    </div>
+    @endif
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {{-- Main Article --}}
+        <div class="lg:col-span-2">
 
             {{-- Article Body --}}
             <div class="mt-8 prose prose-lg max-w-none prose-headings:text-vnn-dark dark:prose-headings:text-white prose-a:text-vnn-red prose-a:no-underline hover:prose-a:underline prose-img:rounded dark:prose-invert font-body">
@@ -185,6 +197,7 @@
                 </form>
             </div>
         </aside>
+    </div>
     </div>
 </article>
 @endsection

@@ -44,7 +44,7 @@
                     <thead class="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
                         <tr>
                             <th wire:click="sortBy('title')" class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-vnn-red">Title</th>
-                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden md:table-cell">Article</th>
+                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden md:table-cell">News</th>
                             <th wire:click="sortBy('status')" class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-vnn-red">Status</th>
                             <th wire:click="sortBy('priority')" class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-vnn-red">Priority</th>
                             <th wire:click="sortBy('expires_at')" class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-vnn-red hidden md:table-cell">Expires</th>
@@ -58,7 +58,11 @@
                                 <a href="{{ route('admin.breaking-news.edit', $bn) }}" class="font-medium text-vnn-blue hover:text-vnn-red transition">{{ $bn->title }}</a>
                             </td>
                             <td class="px-5 py-3.5 hidden md:table-cell">
-                                <a href="{{ route('admin.articles.edit', $bn->article_id) }}" class="text-vnn-blue hover:text-vnn-red text-xs font-semibold">{{ $bn->article?->title ?? 'N/A' }}</a>
+                                @if($bn->article)
+                                <a href="{{ route('admin.articles.edit', $bn->article) }}" class="text-vnn-blue hover:text-vnn-red text-xs font-semibold">{{ $bn->article->title }}</a>
+                                @else
+                                <span class="text-gray-400 text-xs">N/A</span>
+                                @endif
                             </td>
                             <td class="px-5 py-3.5">
                                 <span class="px-2 py-0.5 rounded text-xs font-semibold {{ $bn->status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600' }}">

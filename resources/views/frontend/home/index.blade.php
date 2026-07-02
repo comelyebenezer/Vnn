@@ -93,28 +93,39 @@
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     @forelse($trendingVideos as $tv)
-                    <div class="bg-vnn-dark rounded overflow-hidden">
-                        @if($tv->video_url)
-                        <div class="aspect-video bg-black">
-                            @if($tv->video_type === 'youtube')
-                            <iframe src="{{ $tv->video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
-                            @elseif($tv->video_type === 'facebook')
-                            <iframe src="{{ $tv->video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
-                            @else
-                            <video src="{{ asset('storage/' . $tv->video_file) }}" class="w-full h-full" controls></video>
-                            @endif
+                    <a href="{{ $tv->url ?: '#' }}" target="{{ $tv->url ? '_blank' : '_self' }}" class="group bg-vnn-dark rounded overflow-hidden">
+                        @if($tv->thumbnail)
+                        <div class="aspect-video bg-black overflow-hidden relative">
+                            <img src="{{ $tv->thumbnail }}" alt="{{ $tv->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-10 h-10 bg-vnn-red/90 rounded-full flex items-center justify-center shadow-lg">
+                                    <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                        @else
+                        <div class="aspect-video bg-gradient-to-br from-vnn-red to-vnn-red-dark flex items-center justify-center relative">
+                            <span class="text-white/15 font-extrabold text-3xl">V</span>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center shadow-lg">
+                                    <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
                         </div>
                         @endif
                         <div class="p-2">
-                            <h4 class="text-white text-[11px] font-bold leading-snug">{{ $tv->title }}</h4>
+                            <h4 class="text-white text-[11px] font-bold leading-snug group-hover:text-vnn-red transition">{{ $tv->title }}</h4>
+                            @if($tv->duration)
+                            <span class="text-[10px] text-gray-400">{{ gmdate('i:s', $tv->duration) }}</span>
+                            @endif
                         </div>
-                    </div>
+                    </a>
                     @empty
                     <div class="col-span-2 flex flex-col items-center justify-center py-4 text-center">
                         <div class="w-10 h-10 bg-vnn-blue/20 rounded-full flex items-center justify-center mb-1.5">
                             <svg class="w-5 h-5 text-vnn-blue" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217z" clip-rule="evenodd"/></svg>
                         </div>
-                        <p class="text-xs text-gray-400 dark:text-gray-500 font-body">No trending videos yet</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 font-body">No top videos yet</p>
                     </div>
                     @endforelse
                 </div>

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Videos;
+namespace App\Http\Livewire\Admin\Live;
 
-use App\Models\Video;
+use App\Models\LiveUpdate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class VideoList extends Component
+class LiveList extends Component
 {
     use WithPagination;
 
@@ -27,22 +27,21 @@ class VideoList extends Component
         $this->sortField = $field;
     }
 
-    public function toggleTop($id)
+    public function toggleLive($id)
     {
-        $video = Video::findOrFail($id);
-        $video->update(['is_top' => !$video->is_top]);
+        $live = LiveUpdate::findOrFail($id);
+        $live->update(['is_live' => !$live->is_live]);
     }
 
-    public function deleteVideo($id)
+    public function deleteLive($id)
     {
-        Video::findOrFail($id)->delete();
-        session()->flash('message', 'Video moved to trash.');
+        LiveUpdate::findOrFail($id)->delete();
+        session()->flash('message', 'Live video deleted.');
     }
 
     public function render()
     {
-        $query = Video::query()
-            ->with('category')
+        $query = LiveUpdate::query()
             ->when($this->search, function ($q) {
                 $q->where(function ($q) {
                     $q->where('title', 'like', '%' . $this->search . '%')
@@ -52,8 +51,8 @@ class VideoList extends Component
             ->when($this->status, fn($q) => $q->where('status', $this->status))
             ->orderBy($this->sortField, $this->sortDirection);
 
-        return view('admin.videos.index', [
-            'videos' => $query->paginate(15),
+        return view('admin.live.index', [
+            'liveUpdates' => $query->paginate(15),
         ])->layout('layouts.app');
     }
 }

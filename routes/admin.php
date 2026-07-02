@@ -32,6 +32,8 @@ use App\Http\Livewire\Admin\Videos\VideoList;
 use App\Http\Livewire\Admin\Videos\VideoManager;
 use App\Http\Livewire\Admin\Podcasts\PodcastList;
 use App\Http\Livewire\Admin\Podcasts\PodcastManager;
+use App\Http\Livewire\Admin\Live\LiveList;
+use App\Http\Livewire\Admin\Live\LiveManager;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -64,6 +66,12 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
         Route::get('/', PodcastList::class)->name('index');
         Route::get('/create', PodcastManager::class)->name('create');
         Route::get('/{podcast}/edit', PodcastManager::class)->name('edit');
+    });
+
+    Route::prefix('live')->name('live.')->group(function () {
+        Route::get('/', LiveList::class)->name('index');
+        Route::get('/create', LiveManager::class)->name('create');
+        Route::get('/{live}/edit', LiveManager::class)->name('edit');
     });
 
     Route::prefix('tags')->name('tags.')->group(function () {

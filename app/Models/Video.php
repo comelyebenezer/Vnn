@@ -22,12 +22,14 @@ class Video extends Model
         'user_id',
         'status',
         'views',
+        'is_top',
     ];
 
     protected function casts(): array
     {
         return [
             'views' => 'integer',
+            'is_top' => 'boolean',
         ];
     }
 

@@ -129,7 +129,7 @@
                         x-model="searchQuery"
                         @input.debounce.300ms="doSearch()"
                         @keydown.escape="searchOpen = false; searchQuery = ''; searchResults = []"
-                        placeholder="Search news, topics, articles..."
+                        placeholder="Search news, topics..."
                         class="w-full border border-gray-300 dark:border-gray-600 rounded px-4 py-3 pr-12 text-sm bg-white dark:bg-vnn-dark dark:text-white focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red font-body"
                     >
                     <svg x-show="searching" class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>

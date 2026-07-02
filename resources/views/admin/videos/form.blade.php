@@ -80,6 +80,11 @@
                             @error('status') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
                     </div>
+
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg mt-4">
+                        <input wire:model="is_top" type="checkbox" id="is_top" class="rounded text-yellow-500 focus:ring-yellow-500 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="is_top" class="text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">Mark as Top Video</label>
+                    </div>
                 </div>
 
                 <div class="flex justify-end">

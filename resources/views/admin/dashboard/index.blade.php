@@ -8,7 +8,7 @@
             <div class="flex items-center gap-3">
                 <a href="{{ route('admin.articles.create') }}" class="flex items-center gap-2 bg-vnn-red text-white text-sm font-bold px-4 py-2.5 rounded-lg hover:bg-vnn-red-dark transition shadow-lg shadow-vnn-red/20">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                    New Article
+New News
                 </a>
             </div>
         </div>
@@ -28,7 +28,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
                 @php
                     $stats = [
-                        ['label' => 'Total Articles', 'value' => number_format($totalArticles), 'icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>', 'color' => 'from-vnn-red to-vnn-red-dark', 'bg' => 'bg-red-50 dark:bg-red-900/20'],
+                        ['label' => 'Total News', 'value' => number_format($totalArticles), 'icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>', 'color' => 'from-vnn-red to-vnn-red-dark', 'bg' => 'bg-red-50 dark:bg-red-900/20'],
                         ['label' => 'Published', 'value' => number_format($publishedArticles), 'icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>', 'color' => 'from-green-600 to-green-700', 'bg' => 'bg-green-50 dark:bg-green-900/20'],
                         ['label' => 'Pending Review', 'value' => number_format($pendingReview), 'icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>', 'color' => 'from-yellow-500 to-yellow-600', 'bg' => 'bg-yellow-50 dark:bg-yellow-900/20'],
                         ['label' => 'Total Views', 'value' => number_format($totalViews), 'icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>', 'color' => 'from-blue-600 to-blue-700', 'bg' => 'bg-blue-50 dark:bg-blue-900/20'],
@@ -50,10 +50,10 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {{-- Recent Articles --}}
+                {{-- Recent News --}}
                 <div class="lg:col-span-2 bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
                     <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                        <h2 class="font-bold text-gray-900 dark:text-white">Recent Articles</h2>
+                        <h2 class="font-bold text-gray-900 dark:text-white">Recent News</h2>
                         <a href="{{ route('admin.articles.index') }}" wire:navigate class="text-sm text-vnn-red hover:underline font-medium">View All</a>
                     </div>
                     @if($recentArticles->isNotEmpty())
@@ -98,7 +98,7 @@
                         <p class="text-sm text-gray-400 mt-1">Create your first article to get started.</p>
                         <a href="{{ route('admin.articles.create') }}" class="inline-flex items-center gap-2 mt-4 text-sm font-semibold text-vnn-red hover:underline">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                            Create Article
+                            Create News
                         </a>
                     </div>
                     @endif
@@ -112,7 +112,7 @@
                         <div class="space-y-2">
                             <a href="{{ route('admin.articles.create') }}" class="flex items-center gap-3 px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-vnn-red hover:text-white transition group">
                                 <svg class="w-5 h-5 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                                <span class="text-sm font-medium">Write New Article</span>
+                                <span class="text-sm font-medium">Write New News</span>
                             </a>
                             <a href="{{ route('admin.media.index') }}" class="flex items-center gap-3 px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-vnn-red hover:text-white transition group">
                                 <svg class="w-5 h-5 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -150,7 +150,7 @@
                                 <span class="font-medium text-gray-900 dark:text-gray-100">{{ app()->environment() }}</span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-gray-500">Articles</span>
+                                <span class="text-gray-500">News</span>
                                 <span class="font-medium text-gray-900 dark:text-gray-100">{{ $totalArticles }}</span>
                             </div>
                             <div class="flex justify-between">
