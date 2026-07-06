@@ -17,10 +17,15 @@ new class extends Component
         <div class="flex justify-between h-16">
             <div class="flex">
                 <div class="shrink-0 flex items-center">
+                    @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
                     <a href="{{ route('dashboard') }}" wire:navigate class="flex items-center gap-2">
+                        @if($siteLogo)
+                        <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-8 w-auto shrink-0">
+                        @else
                         <div class="w-8 h-8 bg-vnn-red rounded flex items-center justify-center">
                             <span class="text-white font-extrabold text-sm">V</span>
                         </div>
+                        @endif
                         <div class="text-sm font-bold tracking-tight leading-tight">
                             <span class="block text-white">VERVE NEWS</span>
                             <span class="text-red-300 text-xs tracking-widest uppercase">Admin</span>

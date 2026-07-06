@@ -173,8 +173,14 @@
                 <div class="space-y-4">
                     @foreach($trending as $i => $trend)
                     <a href="{{ route('frontend.article', $trend->slug) }}" class="flex gap-3 group">
-                        <span class="text-2xl font-extrabold text-gray-200 dark:text-gray-700 leading-none shrink-0 w-8">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
-                        <div>
+                        @if($trend->featured_image)
+                        <img src="{{ asset('storage/' . $trend->featured_image) }}" alt="{{ $trend->title }}" class="w-20 h-14 object-cover rounded-lg shrink-0 group-hover:opacity-80 transition">
+                        @else
+                        <div class="w-20 h-14 bg-gray-200 dark:bg-gray-700 rounded-lg shrink-0 flex items-center justify-center">
+                            <span class="text-lg font-extrabold text-gray-400 dark:text-gray-500">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                        </div>
+                        @endif
+                        <div class="min-w-0">
                             <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $trend->title }}</h4>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ number_format($trend->view_count) }} views</span>
                         </div>
