@@ -12,7 +12,7 @@
                 <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Breaking News</h2>
             </div>
             {{-- Featured breaking story --}}
-            @php $story = $featured; @endphp
+            @php $story = $breakingArticles->isNotEmpty() ? $breakingArticles->first() : $featured; @endphp
             @if($story)
             <a href="{{ route('frontend.article', $story->slug) }}" class="group block relative mb-2 shrink-0">
                 <div class="aspect-[16/9] bg-vnn-dark rounded overflow-hidden">
@@ -84,6 +84,7 @@
             </div>
 
             {{-- Trending Videos --}}
+            @if($trendingVideos->isNotEmpty())
             <div class="mt-4 pt-3 border-t border-vnn-red/30 shrink-0">
                 <div class="flex items-center justify-between mb-2">
                     <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading flex items-center gap-1.5">
@@ -91,48 +92,57 @@
                         Top Videos
                     </h2>
                 </div>
-                <div class="grid grid-cols-2 gap-2">
-                    @forelse($trendingVideos as $tv)
-                    <a href="{{ $tv->url ?: '#' }}" target="{{ $tv->url ? '_blank' : '_self' }}" class="group bg-vnn-dark rounded overflow-hidden">
+                <div class="grid grid-cols-2 gap-3">
+                    @foreach($trendingVideos->take(2) as $tv)
+                    <a href="{{ $tv->url ?: '#' }}" target="{{ $tv->url ? '_blank' : '_self' }}" class="group bg-vnn-dark rounded-lg overflow-hidden">
                         @if($tv->thumbnail)
                         <div class="aspect-video bg-black overflow-hidden relative">
                             <img src="{{ $tv->thumbnail }}" alt="{{ $tv->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                             <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="w-10 h-10 bg-vnn-red/90 rounded-full flex items-center justify-center shadow-lg">
-                                    <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                                <div class="w-12 h-12 bg-vnn-red/90 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
                                 </div>
                             </div>
                         </div>
                         @else
                         <div class="aspect-video bg-gradient-to-br from-vnn-red to-vnn-red-dark flex items-center justify-center relative">
-                            <span class="text-white/15 font-extrabold text-3xl">V</span>
+                            <span class="text-white/15 font-extrabold text-4xl">V</span>
                             <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center shadow-lg">
-                                    <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
                                 </div>
                             </div>
                         </div>
                         @endif
-                        <div class="p-2">
-                            <h4 class="text-white text-[11px] font-bold leading-snug group-hover:text-vnn-red transition">{{ $tv->title }}</h4>
+                        <div class="p-2.5">
+                            <h4 class="text-white text-[11px] font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2">{{ $tv->title }}</h4>
                             @if($tv->duration)
-                            <span class="text-[10px] text-gray-400">{{ gmdate('i:s', $tv->duration) }}</span>
+                            <span class="text-[10px] text-gray-400 mt-1 inline-block">{{ gmdate('i:s', $tv->duration) }}</span>
                             @endif
                         </div>
                     </a>
-                    @empty
-                    <div class="col-span-2 flex flex-col items-center justify-center py-4 text-center">
-                        <div class="w-10 h-10 bg-vnn-blue/20 rounded-full flex items-center justify-center mb-1.5">
-                            <svg class="w-5 h-5 text-vnn-blue" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217z" clip-rule="evenodd"/></svg>
-                        </div>
-                        <p class="text-xs text-gray-400 dark:text-gray-500 font-body">No top videos yet</p>
-                    </div>
-                    @endforelse
+                    @endforeach
                 </div>
             </div>
+            @endif
 
             {{-- Ad Banner --}}
+            @if(isset($advertisements['banner']) && $advertisements['banner']->isNotEmpty())
+                @php $ad = $advertisements['banner']->random(); @endphp
+                <div class="mt-4 lg:flex-1">
+                    @if($ad->script_code)
+                        {!! $ad->script_code !!}
+                    @elseif($ad->image_url)
+                        <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
+                            <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full rounded">
+                        </a>
+                    @else
+                        <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded flex items-center justify-center text-gray-400 dark:text-gray-500 text-xs h-full min-h-[100px]">{{ $ad->title }}</div>
+                    @endif
+                </div>
+            @else
             <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded flex items-center justify-center text-gray-400 dark:text-gray-500 text-xs mt-4 lg:flex-1">Advertisement</div>
+            @endif
         </div>
 
         {{-- Live Updates --}}
@@ -150,9 +160,9 @@
                     @if($live->video_url)
                     <div class="aspect-video bg-black relative">
                         @if($live->video_type === 'youtube')
-                        <iframe src="{{ $live->video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                        <iframe src="{{ $live->embed_url }}" class="w-full h-full" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                         @elseif($live->video_type === 'facebook')
-                        <iframe src="{{ $live->video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                        <iframe src="{{ $live->embed_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
                         @else
                         <video src="{{ asset('storage/' . $live->video_file) }}" class="w-full h-full" controls></video>
                         @endif
@@ -189,18 +199,12 @@
                 <h2 class="text-sm font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Trending</h2>
             </div>
             @php
-                $topItems = $topNews->isNotEmpty() ? $topNews : collect([
-                    (object)['id' => 0, 'slug' => '#', 'title' => "Obi blasts Lokoja verdict on NDC, warns against capture of state institutions", 'category' => (object)['slug' => 'politics', 'name' => 'Politics']],
-                    (object)['id' => 1, 'slug' => '#', 'title' => "Kwara PDP presents Certificates of Return, INEC forms to guber candidate", 'category' => (object)['slug' => 'politics', 'name' => 'Politics']],
-                    (object)['id' => 2, 'slug' => '#', 'title' => "Olukoyas award N6.2m, scholarships to students, reaffirm commitment to youth development", 'category' => (object)['slug' => 'news', 'name' => 'News']],
-                    (object)['id' => 3, 'slug' => '#', 'title' => "Davido releases first 2026 single, 'I Know Who I Be'", 'category' => (object)['slug' => 'entertainment', 'name' => 'Entertainment']],
-                    (object)['id' => 4, 'slug' => '#', 'title' => "ABSU holds screening of first-class graduates eligible for retainment", 'category' => (object)['slug' => 'education', 'name' => 'Education']],
-                ]);
+                $trendingItems = $trendingArticles->isNotEmpty() ? $trendingArticles : $topNews;
             @endphp
             <div class="space-y-3">
-                @foreach($topItems as $i => $news)
-                <a href="{{ $news->slug !== '#' ? route('frontend.article', $news->slug) : '#' }}" class="flex gap-3 group {{ $i < $topItems->count() - 1 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
-                    @if(isset($news->featured_image) && $news->featured_image)
+                @forelse($trendingItems as $i => $news)
+                <a href="{{ route('frontend.article', $news->slug) }}" class="flex gap-3 group {{ !$loop->last ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                    @if($news->featured_image)
                     <div class="w-32 h-24 rounded overflow-hidden shrink-0">
                         <img src="{{ asset('storage/' . $news->featured_image) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                     </div>
@@ -210,13 +214,25 @@
                     </div>
                     @endif
                     <div class="flex-1 min-w-0">
-                        @if(isset($news->category) && $news->category)
+                        @if($news->category)
                         <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ $news->category->name }}</span>
                         @endif
                         <h3 class="text-sm font-bold leading-snug mt-0.5 text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $news->title }}</h3>
                     </div>
                 </a>
-                @endforeach
+                @empty
+                @for ($i = 0; $i < 5; $i++)
+                <a href="#" class="flex gap-3 group {{ $i < 4 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                    <div class="w-32 h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                        <span class="text-white/15 font-extrabold text-2xl">V</span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <span class="text-vnn-red text-[10px] font-bold uppercase tracking-wide">{{ ['Politics', 'News', 'Entertainment', 'Education', 'Sports'][$i] }}</span>
+                        <h3 class="text-sm font-bold leading-snug mt-0.5 text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">Trending headline {{ $i + 1 }} that is making waves right now</h3>
+                    </div>
+                </a>
+                @endfor
+                @endforelse
             </div>
         </div>
     </div>
@@ -224,7 +240,20 @@
 
 {{-- Ad Banner --}}
 <section class="max-w-7xl mx-auto px-4 py-3">
+    @if(isset($advertisements['banner']) && $advertisements['banner']->count() > 1)
+        @php $ad = $advertisements['banner']->except($advertisements['banner']->keys()->first())->random(); @endphp
+        @if($ad->script_code)
+            {!! $ad->script_code !!}
+        @elseif($ad->image_url)
+            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
+                <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-24 object-cover rounded border border-gray-200 dark:border-gray-700">
+            </a>
+        @else
+            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
+        @endif
+    @else
     <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">Advertisement</div>
+    @endif
 </section>
 
 {{-- Main Content + Sidebar --}}
@@ -328,7 +357,20 @@
             @endforeach
 
             {{-- Ad --}}
+            @if(isset($advertisements['inline']) && $advertisements['inline']->isNotEmpty())
+                @php $ad = $advertisements['inline']->random(); @endphp
+                @if($ad->script_code)
+                    {!! $ad->script_code !!}
+                @elseif($ad->image_url)
+                    <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
+                        <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-24 object-cover rounded border border-gray-200 dark:border-gray-700">
+                    </a>
+                @else
+                    <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
+                @endif
+            @else
             <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">Advertisement</div>
+            @endif
 
             {{-- Opinion & Editorial --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -391,6 +433,38 @@
                     </div>
                 </div>
             </div>
+
+            {{-- Editor's Pick --}}
+            @if($editorPicks->isNotEmpty())
+            <div>
+                <div class="flex items-center gap-3 mb-5 border-b-2 border-vnn-blue pb-2">
+                    <h2 class="text-lg font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Editor's Pick</h2>
+                    <div class="flex-1"></div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    @foreach($editorPicks as $pick)
+                    <a href="{{ route('frontend.article', $pick->slug) }}" class="group block hover:-translate-y-1 transition-all duration-200">
+                        @if($pick->featured_image)
+                        <div class="aspect-video rounded overflow-hidden mb-3">
+                            <img src="{{ asset('storage/' . $pick->featured_image) }}" alt="{{ $pick->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        </div>
+                        @else
+                        <div class="aspect-video bg-gradient-to-br from-vnn-blue to-vnn-blue-dark rounded overflow-hidden flex items-center justify-center mb-3">
+                            <span class="text-white/15 font-extrabold text-3xl">V</span>
+                        </div>
+                        @endif
+                        @if($pick->category)
+                        <span class="text-vnn-blue text-xs font-bold uppercase tracking-wide">{{ $pick->category->name }}</span>
+                        @endif
+                        <h3 class="text-sm font-bold leading-snug mt-1 text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $pick->title }}</h3>
+                        @if($pick->author)
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 font-body">By {{ $pick->author->user->name ?? $pick->author->name }}</p>
+                        @endif
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+            @endif
 
             {{-- Video Section --}}
             <div>
@@ -524,7 +598,20 @@
             </div>
 
             {{-- Ad --}}
+            @if(isset($advertisements['sidebar']) && $advertisements['sidebar']->isNotEmpty())
+                @php $ad = $advertisements['sidebar']->random(); @endphp
+                @if($ad->script_code)
+                    {!! $ad->script_code !!}
+                @elseif($ad->image_url)
+                    <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
+                        <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-64 object-cover rounded border border-gray-200 dark:border-gray-700">
+                    </a>
+                @else
+                    <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-64 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
+                @endif
+            @else
             <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-64 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">Advertisement</div>
+            @endif
 
             {{-- Most Read --}}
             <div>
@@ -596,6 +683,30 @@
 
 {{-- Bottom Ad --}}
 <section class="max-w-7xl mx-auto px-4 py-6">
+    @if(isset($advertisements['banner']) && $advertisements['banner']->count() > 2)
+        @php $ad = $advertisements['banner']->slice(2)->random(); @endphp
+        @if($ad->script_code)
+            {!! $ad->script_code !!}
+        @elseif($ad->image_url)
+            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
+                <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-24 object-cover rounded border border-gray-200 dark:border-gray-700">
+            </a>
+        @else
+            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
+        @endif
+    @elseif(isset($advertisements['sidebar']) && $advertisements['sidebar']->count() > 1)
+        @php $ad = $advertisements['sidebar']->skip(1)->random(); @endphp
+        @if($ad->script_code)
+            {!! $ad->script_code !!}
+        @elseif($ad->image_url)
+            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
+                <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-24 object-cover rounded border border-gray-200 dark:border-gray-700">
+            </a>
+        @else
+            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
+        @endif
+    @else
     <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">Advertisement</div>
+    @endif
 </section>
 @endsection

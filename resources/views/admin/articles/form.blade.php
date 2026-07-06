@@ -120,6 +120,12 @@
                             <input id="featured-image-input" wire:model="featured_image" type="file" accept="image/*" class="hidden">
                         </div>
                         @error('featured_image') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        <div id="upload-notification" class="mt-3 hidden">
+                            <div class="bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg p-3 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                <span id="upload-notification-text" class="text-sm text-green-700 dark:text-green-300"></span>
+                            </div>
+                        </div>
                         <div class="mt-3">
                             <input wire:model="image_caption" type="text" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-vnn-red" placeholder="Image caption">
                         </div>
@@ -171,49 +177,45 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
         document.addEventListener('livewire:init', function () {
-            let editor;
+            const el = document.querySelector('#ckeditor');
+            if (!el) return;
 
-            ClassicEditor
-                .create(document.querySelector('#ckeditor'), {
-                    toolbar: {
-                        items: [
-                            'heading', '|',
-                            'bold', 'italic', 'underline', 'strikethrough', '|',
-                            'bulletedList', 'numberedList', '|',
-                            'outdent', 'indent', '|',
-                            'link', 'blockQuote', 'insertTable', 'mediaEmbed', '|',
-                            'imageUpload', '|',
-                            'undo', 'redo', '|',
-                            'sourceEditing'
-                        ]
-                    },
-                    heading: {
-                        options: [
-                            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-                            { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
-                        ]
-                    },
-                    mediaEmbed: {
-                        previewsInData: true
+            ClassicEditor.create(el, {
+                toolbar: [
+                    'heading', '|',
+                    'bold', 'italic', 'underline', 'strikethrough', '|',
+                    'bulletedList', 'numberedList', '|',
+                    'outdent', 'indent', '|',
+                    'link', 'blockQuote', 'insertTable', 'mediaEmbed', '|',
+                    'imageUpload', '|',
+                    'undo', 'redo'
+                ],
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                    ]
+                },
+                mediaEmbed: { previewsInData: true }
+            }).then(editor => {
+                window.LivewireCkEditor = editor;
+
+                const wireEl = document.querySelector('[wire\\:id]');
+                const componentId = wireEl ? wireEl.getAttribute('wire:id') : null;
+
+                editor.model.document.on('change:data', () => {
+                    try {
+                        if (componentId) {
+                            Livewire.find(componentId).set('body', editor.getData());
+                        }
+                    } catch (e) {
+                        console.warn('Livewire sync skipped:', e);
                     }
-                })
-                .then(newEditor => {
-                    editor = newEditor;
-                    editor.model.document.on('change:data', () => {
-                        @this.set('body', editor.getData());
-                    });
-                })
-                .catch(error => {
-                    console.error(error);
                 });
-
-            Livewire.on('article-saved', () => {
-                if (editor) {
-                    editor.setData('');
-                }
+            }).catch(err => {
+                console.error('CKEditor error:', err);
             });
         });
     </script>

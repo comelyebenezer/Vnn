@@ -27,6 +27,10 @@ class RoleManager extends Component
     public function mount($role = null)
     {
         if ($role) {
+            if (is_string($role) || is_int($role)) {
+                $role = \Spatie\Permission\Models\Role::findOrFail($role);
+            }
+
             $this->editMode = true;
             $this->roleId = $role->id;
             $this->name = $role->name;

@@ -15,6 +15,7 @@ class Video extends Model
         'slug',
         'description',
         'url',
+        'video_file',
         'embed_code',
         'thumbnail',
         'duration',

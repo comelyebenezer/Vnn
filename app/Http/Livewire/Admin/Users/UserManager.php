@@ -53,6 +53,10 @@ class UserManager extends Component
     public function mount($user = null)
     {
         if ($user) {
+            if (is_string($user) || is_int($user)) {
+                $user = \App\Models\User::findOrFail($user);
+            }
+
             $this->editMode = true;
             $this->userId = $user->id;
             $this->name = $user->name;
@@ -90,14 +94,16 @@ class UserManager extends Component
         if ($this->editMode) {
             $user = User::findOrFail($this->userId);
             $user->update($data);
-            $user->syncRoles($this->selectedRoles);
+            $roleNames = Role::whereIn('id', $this->selectedRoles)->pluck('name')->toArray();
+            $user->syncRoles($roleNames);
             session()->flash('message', 'User updated successfully.');
         } else {
             if (!isset($data['password'])) {
                 $data['password'] = Hash::make('password');
             }
             $user = User::create($data);
-            $user->syncRoles($this->selectedRoles);
+            $roleNames = Role::whereIn('id', $this->selectedRoles)->pluck('name')->toArray();
+            $user->syncRoles($roleNames);
             session()->flash('message', 'User created successfully.');
         }
 

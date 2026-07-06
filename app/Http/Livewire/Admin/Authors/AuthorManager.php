@@ -39,6 +39,10 @@ class AuthorManager extends Component
     public function mount($author = null)
     {
         if ($author) {
+            if (is_string($author) || is_int($author)) {
+                $author = \App\Models\Author::findOrFail($author);
+            }
+
             $this->editMode = true;
             $this->authorId = $author->id;
             $this->user_id = $author->user_id;

@@ -43,6 +43,10 @@ class PodcastManager extends Component
     public function mount($podcast = null)
     {
         if ($podcast) {
+            if (is_string($podcast) || is_int($podcast)) {
+                $podcast = \App\Models\Podcast::findOrFail($podcast);
+            }
+
             $this->editMode = true;
             $this->podcastId = $podcast->id;
             $this->title = $podcast->title;

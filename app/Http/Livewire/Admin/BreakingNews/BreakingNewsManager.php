@@ -33,6 +33,10 @@ class BreakingNewsManager extends Component
     public function mount($breakingnews = null)
     {
         if ($breakingnews) {
+            if (is_string($breakingnews) || is_int($breakingnews)) {
+                $breakingnews = \App\Models\BreakingNews::findOrFail($breakingnews);
+            }
+
             $this->editMode = true;
             $this->breakingId = $breakingnews->id;
             $this->title = $breakingnews->title;

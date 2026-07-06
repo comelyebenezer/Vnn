@@ -37,6 +37,10 @@ class CategoryManager extends Component
     public function mount($category = null)
     {
         if ($category) {
+            if (is_string($category) || is_int($category)) {
+                $category = \App\Models\Category::findOrFail($category);
+            }
+
             $this->editMode = true;
             $this->categoryId = $category->id;
             $this->name = $category->name;

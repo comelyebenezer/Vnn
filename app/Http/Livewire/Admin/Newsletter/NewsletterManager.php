@@ -30,6 +30,10 @@ class NewsletterManager extends Component
     public function mount($newsletter = null)
     {
         if ($newsletter) {
+            if (is_string($newsletter) || is_int($newsletter)) {
+                $newsletter = \App\Models\Newsletter::findOrFail($newsletter);
+            }
+
             $this->editMode = true;
             $this->newsletterId = $newsletter->id;
             $this->subject = $newsletter->subject;

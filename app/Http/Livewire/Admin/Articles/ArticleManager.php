@@ -38,7 +38,7 @@ class ArticleManager extends Component
 
     protected function rules()
     {
-        return [
+        $rules = [
             'title' => 'required|min:5|max:255',
             'slug' => 'required|unique:articles,slug,' . $this->articleId,
             'category_id' => 'nullable|exists:categories,id',
@@ -53,13 +53,23 @@ class ArticleManager extends Component
             'is_trending' => 'boolean',
             'is_editor_pick' => 'boolean',
             'allow_comments' => 'boolean',
-            'scheduled_date' => 'nullable|date|after:now',
+            'scheduled_date' => 'nullable|date_format:Y-m-d\TH:i',
         ];
+
+        if ($this->status === 'scheduled') {
+            $rules['scheduled_date'] = 'required|date_format:Y-m-d\TH:i|after:now';
+        }
+
+        return $rules;
     }
 
     public function mount($article = null)
     {
         if ($article) {
+            if (is_string($article) || is_int($article)) {
+                $article = Article::findOrFail($article);
+            }
+
             $this->editMode = true;
             $this->articleId = $article->id;
             $this->title = $article->title;
@@ -86,6 +96,13 @@ class ArticleManager extends Component
     {
         if (!$this->editMode) {
             $this->slug = Str::slug($value);
+        }
+    }
+
+    public function updatedFeaturedImage()
+    {
+        if ($this->featured_image) {
+            $this->dispatch('image-uploaded', fileName: $this->featured_image->getClientOriginalName());
         }
     }
 
@@ -116,6 +133,7 @@ class ArticleManager extends Component
             'allow_comments' => $this->allow_comments,
             'reading_time' => $this->calculateReadingTime($this->body),
             'scheduled_date' => $this->scheduled_date,
+            'publication_date' => $this->status === 'published' ? now() : null,
         ];
 
         if ($this->editMode) {

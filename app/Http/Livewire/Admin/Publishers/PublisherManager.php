@@ -25,6 +25,10 @@ class PublisherManager extends Component
     public function mount($publisher = null)
     {
         if ($publisher) {
+            if (is_string($publisher) || is_int($publisher)) {
+                $publisher = \App\Models\Publisher::findOrFail($publisher);
+            }
+
             $this->editMode = true;
             $this->publisherId = $publisher->id;
             $this->user_id = $publisher->user_id;

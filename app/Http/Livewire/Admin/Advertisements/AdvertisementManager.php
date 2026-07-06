@@ -42,6 +42,10 @@ class AdvertisementManager extends Component
     public function mount($advertisement = null)
     {
         if ($advertisement) {
+            if (is_string($advertisement) || is_int($advertisement)) {
+                $advertisement = Advertisement::findOrFail($advertisement);
+            }
+
             $this->editMode = true;
             $this->advertisementId = $advertisement->id;
             $this->title = $advertisement->title;

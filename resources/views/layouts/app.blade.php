@@ -18,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=poppins:300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
     @stack('styles')
 </head>
 <body class="font-heading antialiased bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 overflow-x-hidden lg:flex">
@@ -214,6 +215,7 @@
         </footer>
     </div>
 
+    @livewireScripts
     @stack('scripts')
 </body>
 </html>

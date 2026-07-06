@@ -25,6 +25,10 @@ class TagManager extends Component
     public function mount($tag = null)
     {
         if ($tag) {
+            if (is_string($tag) || is_int($tag)) {
+                $tag = \App\Models\Tag::findOrFail($tag);
+            }
+
             $this->editMode = true;
             $this->tagId = $tag->id;
             $this->name = $tag->name;

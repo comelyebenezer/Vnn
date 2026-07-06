@@ -27,6 +27,10 @@ class FactCheckerManager extends Component
     public function mount($factChecker = null)
     {
         if ($factChecker) {
+            if (is_string($factChecker) || is_int($factChecker)) {
+                $factChecker = \App\Models\FactChecker::findOrFail($factChecker);
+            }
+
             $this->editMode = true;
             $this->factCheckerId = $factChecker->id;
             $this->user_id = $factChecker->user_id;

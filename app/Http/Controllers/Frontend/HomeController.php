@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\BreakingNews;
 use App\Models\LiveUpdate;
 use App\Models\Video;
+use App\Models\Advertisement;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,27 @@ class HomeController extends Controller
             ->with(['category'])
             ->latest('publication_date')
             ->take(5)
+            ->get();
+
+        $breakingArticles = Article::where('status', 'published')
+            ->where('is_breaking', true)
+            ->with(['category', 'author'])
+            ->latest('publication_date')
+            ->take(5)
+            ->get();
+
+        $trendingArticles = Article::where('status', 'published')
+            ->where('is_trending', true)
+            ->with(['category', 'author'])
+            ->latest('publication_date')
+            ->take(5)
+            ->get();
+
+        $editorPicks = Article::where('status', 'published')
+            ->where('is_editor_pick', true)
+            ->with(['category', 'author'])
+            ->latest('publication_date')
+            ->take(3)
             ->get();
 
         $sections = ['news', 'politics', 'business', 'technology', 'sports', 'entertainment', 'world'];
@@ -76,10 +98,21 @@ class HomeController extends Controller
 
         $navCategories = Category::where('status', 'active')->orderBy('display_order')->get();
 
+        $advertisements = Advertisement::where('status', 'active')
+            ->where(function ($q) {
+                $q->whereNull('start_date')->orWhere('start_date', '<=', now());
+            })
+            ->where(function ($q) {
+                $q->whereNull('end_date')->orWhere('end_date', '>=', now());
+            })
+            ->get()
+            ->groupBy('type');
+
         return view('frontend.home.index', compact(
             'featured', 'topNews', 'categoryArticles',
             'opinions', 'editorials', 'videos', 'podcasts',
-            'latest', 'mostRead', 'breakingNews', 'liveUpdates', 'trendingVideos', 'navCategories'
+            'latest', 'mostRead', 'breakingNews', 'breakingArticles', 'trendingArticles', 'editorPicks',
+            'liveUpdates', 'trendingVideos', 'navCategories', 'advertisements'
         ));
     }
 }
