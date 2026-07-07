@@ -40,14 +40,49 @@
                         </div>
                     </div>
 
+                    {{-- Media Upload --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image URL</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Upload Media (Image or Video)</label>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mb-2">Supports: JPG, PNG, GIF, WebP, MP4, WebM, OGG — Max 10MB</p>
+
+                        @if($existing_media && !$media_file)
+                        <div class="relative mb-3">
+                            @if(\App\Models\Advertisement::find($advertisementId)?->media_type === 'video')
+                            <video src="{{ asset('storage/' . $existing_media) }}" class="w-full max-h-48 object-cover rounded-lg border border-gray-200 dark:border-gray-700" controls></video>
+                            @else
+                            <img src="{{ asset('storage/' . $existing_media) }}" class="w-full max-h-48 object-cover rounded-lg border border-gray-200 dark:border-gray-700">
+                            @endif
+                            <button type="button" wire:click="$set('existing_media', null)" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">&times;</button>
+                        </div>
+                        @endif
+
+                        @if($media_file)
+                        <div class="relative mb-3">
+                            @if(str_starts_with($media_file->getMimeType(), 'video/'))
+                            <video src="{{ $media_file->temporaryUrl() }}" class="w-full max-h-48 object-cover rounded-lg border border-gray-200 dark:border-gray-700" controls></video>
+                            @else
+                            <img src="{{ $media_file->temporaryUrl() }}" class="w-full max-h-48 object-cover rounded-lg border border-gray-200 dark:border-gray-700">
+                            @endif
+                        </div>
+                        @endif
+
+                        <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-vnn-red transition cursor-pointer" onclick="document.getElementById('media-input').click()">
+                            <svg class="w-10 h-10 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Click to upload image or video</p>
+                            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">JPG, PNG, GIF, WebP, MP4, WebM — Max 10MB</p>
+                            <input id="media-input" wire:model="media_file" type="file" accept="image/*,video/*" class="hidden">
+                        </div>
+                        @error('media_file') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image URL <span class="text-gray-400 font-normal">(optional, fallback)</span></label>
                         <input wire:model="image_url" type="text" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red" placeholder="https://example.com/ad.jpg">
                         @error('image_url') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Script Code</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Script Code <span class="text-gray-400 font-normal">(for ad networks)</span></label>
                         <textarea wire:model="script_code" rows="4" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm font-mono focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red" placeholder="&lt;script&gt;...&lt;/script&gt;"></textarea>
                         @error('script_code') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>

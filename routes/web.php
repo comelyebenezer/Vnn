@@ -26,5 +26,11 @@ Route::get('/feed', [\App\Http\Controllers\RssFeedController::class, '__invoke']
 
 Route::get('/api/search', \App\Http\Controllers\Api\SearchController::class)->name('api.search');
 
+Route::get('/unsubscribe/{token}', function ($token) {
+    $subscriber = \App\Models\Subscriber::where('unsubscribe_token', $token)->firstOrFail();
+    $subscriber->update(['status' => 'unsubscribed']);
+    return view('frontend.unsubscribed');
+})->name('newsletter.unsubscribe');
+
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';

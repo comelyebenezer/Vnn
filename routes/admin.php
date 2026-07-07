@@ -4,6 +4,10 @@ use App\Http\Livewire\Admin\Advertisements\AdvertisementList;
 use App\Http\Livewire\Admin\Advertisements\AdvertisementManager;
 use App\Http\Livewire\Admin\Articles\ArticleList;
 use App\Http\Livewire\Admin\Articles\ArticleManager;
+use App\Http\Livewire\Admin\VnnList\VnnListList;
+use App\Http\Livewire\Admin\VnnList\VnnListManager;
+use App\Http\Livewire\Admin\Documentary\DocumentaryList;
+use App\Http\Livewire\Admin\Documentary\DocumentaryManager;
 use App\Http\Livewire\Admin\Authors\AuthorList;
 use App\Http\Livewire\Admin\Authors\AuthorManager;
 use App\Http\Livewire\Admin\BreakingNews\BreakingNewsList;
@@ -43,6 +47,18 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
         Route::get('/', ArticleList::class)->name('index');
         Route::get('/create', ArticleManager::class)->name('create');
         Route::get('/{article}/edit', ArticleManager::class)->name('edit');
+    });
+
+    Route::prefix('vnn-list')->name('vnn-list.')->group(function () {
+        Route::get('/', VnnListList::class)->name('index');
+        Route::get('/create', VnnListManager::class)->name('create');
+        Route::get('/{article}/edit', VnnListManager::class)->name('edit');
+    });
+
+    Route::prefix('documentary')->name('documentary.')->group(function () {
+        Route::get('/', DocumentaryList::class)->name('index');
+        Route::get('/create', DocumentaryManager::class)->name('create');
+        Route::get('/{article}/edit', DocumentaryManager::class)->name('edit');
     });
 
     Route::prefix('categories')->name('categories.')->group(function () {
@@ -98,6 +114,12 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
         Route::get('/', AdvertisementList::class)->name('index');
         Route::get('/create', AdvertisementManager::class)->name('create');
         Route::get('/{advertisement}/edit', AdvertisementManager::class)->name('edit');
+    });
+
+    Route::prefix('ticker')->name('ticker.')->group(function () {
+        Route::get('/', \App\Http\Livewire\Admin\Ticker\TickerList::class)->name('index');
+        Route::get('/create', \App\Http\Livewire\Admin\Ticker\TickerManager::class)->name('create');
+        Route::get('/{ticker}/edit', \App\Http\Livewire\Admin\Ticker\TickerManager::class)->name('edit');
     });
 
     Route::prefix('authors')->name('authors.')->group(function () {

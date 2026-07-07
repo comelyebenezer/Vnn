@@ -98,7 +98,7 @@
         <div class="lg:col-span-2">
 
             {{-- Article Body --}}
-            <div class="mt-8 prose prose-lg max-w-none prose-headings:text-vnn-dark dark:prose-headings:text-white prose-a:text-vnn-red prose-a:no-underline hover:prose-a:underline prose-img:rounded dark:prose-invert font-body">
+            <div class="mt-8 prose prose-lg max-w-none overflow-x-auto prose-headings:text-vnn-dark dark:prose-headings:text-white prose-a:text-vnn-red prose-a:no-underline hover:prose-a:underline prose-img:rounded dark:prose-invert font-body">
                 {!! $article->body !!}
             </div>
 
@@ -112,13 +112,13 @@
             @endif
 
             {{-- Share Buttons --}}
-            <div class="mt-8 flex flex-wrap items-center gap-3 p-4 bg-vnn-gray dark:bg-vnn-dark-light rounded">
+            <div class="mt-8 flex flex-wrap items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-vnn-gray dark:bg-vnn-dark-light rounded">
                 <span class="text-sm font-semibold text-gray-600 dark:text-gray-300">Share:</span>
-                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" class="w-9 h-9 md:w-8 md:h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs hover:bg-blue-700 transition">f</a>
-                <a href="https://twitter.com/intent/tweet?text={{ urlencode($article->title) }}&url={{ urlencode(url()->current()) }}" target="_blank" class="w-9 h-9 md:w-8 md:h-8 bg-black text-white rounded-full flex items-center justify-center text-xs hover:bg-gray-800 transition">X</a>
-                <a href="https://wa.me/?text={{ urlencode($article->title . ' ' . url()->current()) }}" target="_blank" class="w-9 h-9 md:w-8 md:h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-xs hover:bg-green-700 transition">W</a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(url()->current()) }}" target="_blank" class="w-9 h-9 md:w-8 md:h-8 bg-blue-800 text-white rounded-full flex items-center justify-center text-xs hover:bg-blue-900 transition">in</a>
-                <a href="mailto:?subject={{ urlencode($article->title) }}&body={{ urlencode(url()->current()) }}" class="w-9 h-9 md:w-8 md:h-8 bg-gray-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-gray-600 transition">@</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs hover:bg-blue-700 transition">f</a>
+                <a href="https://twitter.com/intent/tweet?text={{ urlencode($article->title) }}&url={{ urlencode(url()->current()) }}" target="_blank" class="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center text-xs hover:bg-gray-800 transition">X</a>
+                <a href="https://wa.me/?text={{ urlencode($article->title . ' ' . url()->current()) }}" target="_blank" class="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center text-xs hover:bg-green-700 transition">W</a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(url()->current()) }}" target="_blank" class="w-8 h-8 bg-blue-800 text-white rounded-full flex items-center justify-center text-xs hover:bg-blue-900 transition">in</a>
+                <a href="mailto:?subject={{ urlencode($article->title) }}&body={{ urlencode(url()->current()) }}" class="w-8 h-8 bg-gray-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-gray-600 transition">@</a>
             </div>
 
             {{-- Updated Date --}}
@@ -197,10 +197,7 @@
             <div class="bg-vnn-dark rounded-lg p-6 text-white">
                 <h3 class="font-extrabold text-lg font-heading">Stay Informed</h3>
                 <p class="text-sm text-gray-300 mt-1 font-body">Get the latest news delivered to your inbox.</p>
-                <form class="mt-4">
-                    <input type="email" placeholder="Enter your email" class="w-full px-4 py-2.5 rounded text-sm text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 mb-2 font-body" required>
-                    <button class="w-full bg-vnn-red text-white font-bold py-2.5 rounded text-sm hover:bg-vnn-red-dark transition font-heading">Subscribe</button>
-                </form>
+                @livewire('newsletter-subscribe', ['layout' => 'vertical'], key('article-subscribe'))
             </div>
         </aside>
     </div>

@@ -2,7 +2,10 @@
 
 namespace App\Http\Livewire\Admin\Newsletter;
 
+use App\Mail\NewsletterMail;
 use App\Models\Newsletter;
+use App\Models\Subscriber;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class NewsletterManager extends Component
@@ -31,7 +34,7 @@ class NewsletterManager extends Component
     {
         if ($newsletter) {
             if (is_string($newsletter) || is_int($newsletter)) {
-                $newsletter = \App\Models\Newsletter::findOrFail($newsletter);
+                $newsletter = Newsletter::findOrFail($newsletter);
             }
 
             $this->editMode = true;
@@ -57,15 +60,50 @@ class NewsletterManager extends Component
         ];
 
         if ($this->editMode) {
-            Newsletter::findOrFail($this->newsletterId)->update($data);
+            $newsletter = Newsletter::findOrFail($this->newsletterId);
+            $wasAlreadySent = $newsletter->status === 'sent';
+            $newsletter->update($data);
+
+            if ($this->status === 'sent' && !$wasAlreadySent) {
+                $this->sendNewsletter($newsletter);
+            }
+
             session()->flash('message', 'Newsletter updated successfully.');
         } else {
-            Newsletter::create($data);
+            $newsletter = Newsletter::create($data);
+
+            if ($this->status === 'sent') {
+                $this->sendNewsletter($newsletter);
+            }
+
             $this->reset();
             session()->flash('message', 'Newsletter created successfully.');
         }
 
         return redirect()->route('admin.newsletter.index');
+    }
+
+    protected function sendNewsletter(Newsletter $newsletter): void
+    {
+        $subscribers = Subscriber::where('status', 'active')->get();
+
+        $count = 0;
+        foreach ($subscribers as $subscriber) {
+            if ($subscriber->unsubscribe_token) {
+                try {
+                    Mail::to($subscriber->email)->queue(new NewsletterMail($newsletter, $subscriber));
+                    $count++;
+                } catch (\Exception $e) {
+                    \Log::error("Newsletter send failed for {$subscriber->email}: " . $e->getMessage());
+                }
+            }
+        }
+
+        $newsletter->update([
+            'status' => 'sent',
+            'sent_at' => now(),
+            'total_recipients' => $count,
+        ]);
     }
 
     public function render()

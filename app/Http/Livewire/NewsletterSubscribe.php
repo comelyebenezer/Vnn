@@ -10,8 +10,6 @@ class NewsletterSubscribe extends Component
 {
     public string $email = '';
 
-    public string $name = '';
-
     public bool $success = false;
 
     public string $message = '';
@@ -19,26 +17,36 @@ class NewsletterSubscribe extends Component
     public string $layout = 'horizontal';
 
     protected array $rules = [
-        'email' => 'required|email|max:255|unique:subscribers,email',
-        'name' => 'nullable|string|max:255',
+        'email' => 'required|email|max:255',
     ];
 
     public function subscribe()
     {
         $this->validate();
 
-        Subscriber::create([
-            'email' => $this->email,
-            'name' => $this->name ?: null,
-            'unsubscribe_token' => Str::random(32),
-            'status' => 'active',
-            'is_verified' => false,
-        ]);
+        $existing = Subscriber::where('email', $this->email)->first();
 
-        $this->success = true;
-        $this->message = 'You have been subscribed successfully!';
+        if ($existing) {
+            if ($existing->status === 'unsubscribed') {
+                $existing->update(['status' => 'active']);
+                $this->success = true;
+                $this->message = 'Welcome back! You have been resubscribed.';
+            } else {
+                $this->success = true;
+                $this->message = 'You are already subscribed!';
+            }
+        } else {
+            Subscriber::create([
+                'email' => $this->email,
+                'unsubscribe_token' => Str::random(32),
+                'status' => 'active',
+                'is_verified' => true,
+            ]);
+            $this->success = true;
+            $this->message = 'You have been subscribed successfully!';
+        }
+
         $this->email = '';
-        $this->name = '';
     }
 
     public function render()

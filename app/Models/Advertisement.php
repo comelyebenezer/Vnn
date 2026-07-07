@@ -11,6 +11,8 @@ class Advertisement extends Model
         'type',
         'placement',
         'image_url',
+        'media_file',
+        'media_type',
         'script_code',
         'link',
         'start_date',

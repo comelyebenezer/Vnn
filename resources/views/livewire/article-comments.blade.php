@@ -1,12 +1,19 @@
 <div>
     <h3 class="text-xl font-bold text-vnn-dark dark:text-white mb-6 font-heading">Comments</h3>
 
+    @if($success)
+    <div class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-center gap-3">
+        <svg class="w-5 h-5 text-green-600 dark:text-green-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <p class="text-sm text-green-700 dark:text-green-300 font-body">Your comment has been submitted and is awaiting moderation.</p>
+    </div>
+    @endif
+
     <form wire:submit="submit" class="mb-8">
         @auth
         @else
-            <div class="grid grid-cols-2 gap-3 mb-3">
-                <input wire:model="guestName" type="text" placeholder="Your name (optional)" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm bg-white dark:bg-vnn-dark dark:text-white focus:outline-none focus:border-vnn-red font-body">
-                <input wire:model="guestEmail" type="email" placeholder="Your email (optional)" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm bg-white dark:bg-vnn-dark dark:text-white focus:outline-none focus:border-vnn-red font-body">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                <input wire:model="guestName" type="text" placeholder="Your name (optional)" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2.5 text-sm bg-white dark:bg-vnn-dark dark:text-white focus:outline-none focus:border-vnn-red font-body">
+                <input wire:model="guestEmail" type="email" placeholder="Your email (optional)" class="border border-gray-300 dark:border-gray-600 rounded px-3 py-2.5 text-sm bg-white dark:bg-vnn-dark dark:text-white focus:outline-none focus:border-vnn-red font-body">
             </div>
         @endauth
         <textarea wire:model="body" rows="4" placeholder="Share your thoughts..." class="w-full border border-gray-300 dark:border-gray-600 rounded p-4 text-sm bg-white dark:bg-vnn-dark dark:text-white focus:outline-none focus:border-vnn-red font-body"></textarea>

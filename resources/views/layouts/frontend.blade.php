@@ -48,9 +48,10 @@
     <link rel="alternate" type="application/rss+xml" title="{{ config('app.name') }}" href="{{ route('rss') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
     @stack('styles')
 </head>
-<body class="font-heading antialiased bg-vnn-gray dark:bg-vnn-dark" :class="{ 'overflow-hidden': mobileOpen }">
+<body class="font-heading antialiased bg-vnn-gray dark:bg-vnn-dark overflow-x-hidden" :class="{ 'overflow-hidden': mobileOpen }">
 
     {{-- Sticky Header --}}
     <div class="sticky top-0 z-50">
@@ -82,25 +83,28 @@
     {{-- Header / Logo --}}
     <header class="bg-white dark:bg-vnn-dark-light border-b border-gray-200 dark:border-vnn-dark-light">
         <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <button @click="mobileOpen = !mobileOpen" class="lg:hidden p-2.5 -ml-2 text-gray-600 dark:text-gray-300 hover:text-vnn-red focus:outline-none" aria-label="Toggle menu">
+            <div class="flex items-center gap-2 sm:gap-4 min-w-0">
+                <button @click="mobileOpen = !mobileOpen" class="lg:hidden p-2.5 text-gray-600 dark:text-gray-300 hover:text-vnn-red focus:outline-none shrink-0" aria-label="Toggle menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path x-show="!mobileOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         <path x-show="mobileOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
-                <a href="{{ url('/') }}" class="flex items-center gap-3 shrink-0">
+                <button @click="searchOpen = !searchOpen; if(!searchOpen) { searchQuery = ''; searchResults = []; }" class="lg:hidden p-2.5 text-gray-600 dark:text-gray-300 hover:text-vnn-red focus:outline-none shrink-0" aria-label="Toggle search">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </button>
+                <a href="{{ url('/') }}" class="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
                     @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
                     @if($siteLogo)
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto">
-                    <span class="font-extrabold text-base sm:text-lg md:text-xl lg:text-2xl tracking-tight font-heading uppercase whitespace-nowrap"><span class="text-vnn-red dark:text-white">VERVE NEWS </span><span style="color:#042c60">NETWORK</span></span>
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-8 sm:h-10 w-auto shrink-0">
+                    <span class="font-extrabold text-sm sm:text-lg md:text-xl lg:text-2xl tracking-tight font-heading uppercase truncate"><span class="text-vnn-red dark:text-white">VERVE NEWS </span><span class="hidden sm:inline" style="color:#042c60">NETWORK</span></span>
                     @else
-                    <div class="w-10 h-10 bg-vnn-red rounded flex items-center justify-center shadow">
-                        <span class="text-white font-extrabold text-xl">V</span>
+                    <div class="w-8 h-8 sm:w-10 sm:h-10 bg-vnn-red rounded flex items-center justify-center shadow shrink-0">
+                        <span class="text-white font-extrabold text-lg sm:text-xl">V</span>
                     </div>
-                    <div>
-                        <div class="text-vnn-red dark:text-white font-extrabold text-base sm:text-lg md:text-xl lg:text-2xl tracking-tight leading-none font-heading uppercase">VERVE NEWS</div>
-                        <div class="text-gray-500 dark:text-gray-400 font-medium text-[10px] tracking-[0.15em] uppercase">Network</div>
+                    <div class="min-w-0">
+                        <div class="text-vnn-red dark:text-white font-extrabold text-sm sm:text-lg md:text-xl lg:text-2xl tracking-tight leading-none font-heading uppercase truncate">VERVE NEWS</div>
+                        <div class="text-gray-500 dark:text-gray-400 font-medium text-[9px] sm:text-[10px] tracking-[0.15em] uppercase">Network</div>
                     </div>
                     @endif
                 </a>
@@ -247,25 +251,20 @@
     </div>
 
     {{-- News Ticker --}}
+    @php $tickerItems = \App\Models\TickerItem::where('is_active', true)->orderBy('sort_order')->get(); @endphp
+    @if($tickerItems->count())
     <div class="bg-vnn-dark border-b border-vnn-red/30 overflow-hidden">
         <div class="max-w-7xl mx-auto flex">
-
             <div class="overflow-hidden relative flex-1">
                 <div class="flex whitespace-nowrap animate-marquee py-2">
-                    <span class="text-white/90 text-xs font-body mx-4">🔴 President announces new economic reforms to stabilize the naira and attract foreign investment</span>
-                    <span class="text-white/90 text-xs font-body mx-4">📰 NLC suspends planned strike after marathon meeting with federal government</span>
-                    <span class="text-white/90 text-xs font-body mx-4">⚽ Super Eagles qualify for 2026 World Cup after dramatic win over Ghana</span>
-                    <span class="text-white/90 text-xs font-body mx-4">📊 Stock market hits all-time high as investors gain N500 billion in one week</span>
-                    <span class="text-white/90 text-xs font-body mx-4">🌍 African Union summit kicks off in Addis Ababa with focus on trade and security</span>
-                    <span class="text-white/90 text-xs font-body mx-4">🔴 President announces new economic reforms to stabilize the naira and attract foreign investment</span>
-                    <span class="text-white/90 text-xs font-body mx-4">📰 NLC suspends planned strike after marathon meeting with federal government</span>
-                    <span class="text-white/90 text-xs font-body mx-4">⚽ Super Eagles qualify for 2026 World Cup after dramatic win over Ghana</span>
-                    <span class="text-white/90 text-xs font-body mx-4">📊 Stock market hits all-time high as investors gain N500 billion in one week</span>
-                    <span class="text-white/90 text-xs font-body mx-4">🌍 African Union summit kicks off in Addis Ababa with focus on trade and security</span>
+                    @foreach($tickerItems->merge($tickerItems) as $item)
+                    <span class="text-white/90 text-xs font-body mx-4">{{ $item->icon }} {{ $item->text }}</span>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
+    @endif
 
     {{-- Main Content --}}
     <main>
@@ -280,8 +279,8 @@
                     <div class="flex items-center gap-3 mb-4">
                     @php $siteLogo = \App\Models\Setting::where('key', 'site_logo')->value('value'); @endphp
                     @if($siteLogo)
-                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-10 w-auto brightness-0 invert">
-                    <span class="font-extrabold text-xl tracking-tight font-heading uppercase whitespace-nowrap"><span class="text-white">VERVE NEWS </span><span style="color:#60a5fa">NETWORK</span></span>
+                    <img src="{{ asset('storage/' . $siteLogo) }}" alt="{{ config('app.name') }}" class="h-8 sm:h-10 w-auto brightness-0 invert shrink-0">
+                    <span class="font-extrabold text-lg sm:text-xl tracking-tight font-heading uppercase truncate"><span class="text-white">VERVE NEWS </span><span class="hidden sm:inline" style="color:#60a5fa">NETWORK</span></span>
                     @else
                     <div class="w-10 h-10 bg-vnn-red rounded flex items-center justify-center">
                         <span class="text-white font-extrabold text-xl">V</span>
@@ -327,10 +326,7 @@
                     <div id="subscribe">
                     <h4 class="font-bold text-sm uppercase tracking-wider mb-3 text-vnn-red">Newsletter</h4>
                     <p class="text-xs text-gray-300 mb-2 font-body">Get the latest news delivered to your inbox</p>
-                    <form class="flex gap-1">
-                        <input type="email" placeholder="Your email" class="flex-1 px-3 py-2 text-xs text-gray-900 rounded border-0 focus:outline-none focus:ring-1 focus:ring-vnn-red font-body">
-                        <button class="bg-vnn-red text-white px-3 py-2 text-xs font-bold rounded hover:bg-vnn-red-dark transition">Subscribe</button>
-                    </form>
+                    @livewire('newsletter-subscribe', ['layout' => 'horizontal'], key('footer-subscribe'))
                 </div>
                 </div>
             </div>
@@ -360,6 +356,7 @@
         </div>
     </div>
 
+    @livewireScripts
     @stack('scripts')
 </body>
 </html>

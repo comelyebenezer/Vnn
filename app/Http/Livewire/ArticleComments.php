@@ -16,6 +16,8 @@ class ArticleComments extends Component
 
     public string $guestEmail = '';
 
+    public bool $success = false;
+
     protected array $rules = [
         'body' => 'required|string|min:2|max:2000',
         'guestName' => 'nullable|string|max:255',
@@ -44,6 +46,7 @@ class ArticleComments extends Component
         $this->body = '';
         $this->guestName = '';
         $this->guestEmail = '';
+        $this->success = true;
 
         $this->dispatch('comment-submitted');
     }

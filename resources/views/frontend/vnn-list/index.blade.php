@@ -9,31 +9,74 @@
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(220,38,38,0.15)_0%,_transparent_60%)]"></div>
     <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(4,44,96,0.2)_0%,_transparent_60%)]"></div>
     <div class="max-w-7xl mx-auto px-4 py-20 md:py-28 relative z-10">
-        <div class="max-w-3xl">
-            <div class="flex items-center gap-3 mb-4">
-                <span class="w-10 h-[2px] bg-vnn-red"></span>
-                <span class="text-vnn-red text-xs font-bold uppercase tracking-[0.2em]">Verve News Network</span>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="max-w-3xl">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-10 h-[2px] bg-vnn-red"></span>
+                    <span class="text-vnn-red text-xs font-bold uppercase tracking-[0.2em]">Verve News Network</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight font-heading">
+                    <span class="text-vnn-red">VNN</span> List
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 mt-4 font-body leading-relaxed max-w-2xl">
+                    The definitive ranking of Nigeria's most valuable businesses, enterprises, and industry leaders. A benchmark of excellence, innovation, and economic impact.
+                </p>
+                <div class="flex flex-wrap gap-4 mt-8">
+                    <div class="bg-white/10 backdrop-blur rounded-lg px-5 py-3 text-center">
+                        <div class="text-3xl font-black text-white font-heading">{{ $count }}</div>
+                        <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Listings</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur rounded-lg px-5 py-3 text-center">
+                        <div class="text-3xl font-black text-white font-heading">12+</div>
+                        <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Industries</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur rounded-lg px-5 py-3 text-center">
+                        <div class="text-3xl font-black text-white font-heading">₦</div>
+                        <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Valuation</div>
+                    </div>
+                </div>
             </div>
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight font-heading">
-                <span class="text-vnn-red">VNN</span> List
-            </h1>
-            <p class="text-lg md:text-xl text-gray-300 mt-4 font-body leading-relaxed max-w-2xl">
-                The definitive ranking of Nigeria's most valuable businesses, enterprises, and industry leaders. A benchmark of excellence, innovation, and economic impact.
-            </p>
-            <div class="flex flex-wrap gap-4 mt-8">
-                <div class="bg-white/10 backdrop-blur rounded-lg px-5 py-3 text-center">
-                    <div class="text-3xl font-black text-white font-heading">{{ $count }}</div>
-                    <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Listings</div>
-                </div>
-                <div class="bg-white/10 backdrop-blur rounded-lg px-5 py-3 text-center">
-                    <div class="text-3xl font-black text-white font-heading">12+</div>
-                    <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Industries</div>
-                </div>
-                <div class="bg-white/10 backdrop-blur rounded-lg px-5 py-3 text-center">
-                    <div class="text-3xl font-black text-white font-heading">₦</div>
-                    <div class="text-xs text-gray-400 uppercase tracking-wider mt-1">Valuation</div>
+
+            @if($topTen->count())
+            <div class="hidden lg:block">
+                <div id="vnn-hero-slider" class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-slate-800/50 border border-white/10">
+                    @foreach($topTen as $i => $item)
+                    <div class="vnn-slide absolute inset-0 {{ $i === 0 ? 'active' : '' }}" data-index="{{ $i }}">
+                        @if($item->featured_image)
+                        <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover object-center">
+                        @else
+                        <div class="w-full h-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center">
+                            <span class="text-6xl font-black text-white/10 font-heading">{{ strtoupper(substr($item->title, 0, 1)) }}</span>
+                        </div>
+                        @endif
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="bg-vnn-red text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">#{{ $i + 1 }}</span>
+                                <span class="text-white/60 text-[10px] font-semibold uppercase tracking-wider">VNN Listed</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-white font-heading leading-tight">{{ $item->title }}</h3>
+                            @if($item->excerpt)
+                            <p class="text-white/70 text-sm mt-1.5 line-clamp-2 font-body">{{ $item->excerpt }}</p>
+                            @endif
+                        </div>
+                    </div>
+                    @endforeach
+
+                    {{-- Dots --}}
+                    <div class="vnn-dots absolute bottom-3 right-4 flex items-center gap-1.5 z-10">
+                        @foreach($topTen as $i => $item)
+                        <button data-dot="{{ $i }}" class="vnn-dot w-2 h-2 rounded-full transition-all duration-300 {{ $i === 0 ? 'bg-vnn-red w-5' : 'bg-white/40 hover:bg-white/60' }}"></button>
+                        @endforeach
+                    </div>
+
+                    {{-- Rank badge top-right --}}
+                    <div class="absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-lg px-3 py-1.5 z-10">
+                        <span class="text-white text-xs font-bold">Top {{ $topTen->count() }}</span>
+                    </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
     <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-vnn-red/50 to-transparent"></div>
@@ -141,11 +184,11 @@
         <div class="space-y-4">
             @foreach($listings as $index => $listing)
             <a href="{{ route('frontend.article', $listing->slug) }}" class="group block bg-white dark:bg-vnn-dark rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:border-vnn-red/30 hover:-translate-y-0.5">
-                <div class="flex items-center gap-5 p-5">
-                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-vnn-red to-vnn-red-dark flex items-center justify-center shrink-0">
-                        <span class="text-white font-black text-lg font-heading">{{ $loop->iteration + ($listings->currentPage() - 1) * $listings->perPage() }}</span>
+                <div class="flex items-center gap-3 sm:gap-5 p-3 sm:p-5">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-vnn-red to-vnn-red-dark flex items-center justify-center shrink-0">
+                        <span class="text-white font-black text-sm sm:text-lg font-heading">{{ $loop->iteration + ($listings->currentPage() - 1) * $listings->perPage() }}</span>
                     </div>
-                    <div class="w-16 h-16 bg-gray-100 dark:bg-vnn-dark-light rounded-lg overflow-hidden shrink-0 flex items-center justify-center">
+                    <div class="hidden sm:flex w-16 h-16 bg-gray-100 dark:bg-vnn-dark-light rounded-lg overflow-hidden shrink-0 items-center justify-center">
                         @if($listing->featured_image)
                         <img src="{{ asset('storage/' . $listing->featured_image) }}" alt="{{ $listing->title }}" class="w-full h-full object-cover">
                         @else
@@ -154,8 +197,8 @@
                     </div>
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2">
-                            <h3 class="text-lg font-bold text-vnn-dark dark:text-white group-hover:text-vnn-red transition font-heading">{{ $listing->title }}</h3>
-                            <span class="text-[10px] bg-vnn-red/10 text-vnn-red font-bold px-2 py-0.5 rounded-full uppercase">VNN Listed</span>
+                            <h3 class="text-sm sm:text-lg font-bold text-vnn-dark dark:text-white group-hover:text-vnn-red transition font-heading line-clamp-1">{{ $listing->title }}</h3>
+                            <span class="hidden sm:inline text-[10px] bg-vnn-red/10 text-vnn-red font-bold px-2 py-0.5 rounded-full uppercase shrink-0">VNN Listed</span>
                         </div>
                         @if($listing->excerpt)
                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-1 font-body">{{ $listing->excerpt }}</p>
@@ -243,3 +286,44 @@
     </div>
 </section>
 @endsection
+
+@push('styles')
+<style>
+    .vnn-slide { opacity: 0; transition: opacity 0.7s ease-in-out; }
+    .vnn-slide.active { opacity: 1; }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+(function() {
+    const container = document.getElementById('vnn-hero-slider');
+    if (!container) return;
+    const slides = container.querySelectorAll('.vnn-slide');
+    const dots = container.querySelectorAll('.vnn-dot');
+    let current = 0;
+    const total = slides.length;
+    if (total === 0) return;
+
+    function goTo(index) {
+        slides[current].classList.remove('active');
+        dots[current].classList.replace('bg-vnn-red', 'bg-white/40');
+        dots[current].classList.remove('w-5');
+        current = index;
+        slides[current].classList.add('active');
+        dots[current].classList.replace('bg-white/40', 'bg-vnn-red');
+        dots[current].classList.add('w-5');
+    }
+
+    dots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+            goTo(parseInt(this.dataset.dot));
+        });
+    });
+
+    setInterval(function() {
+        goTo((current + 1) % total);
+    }, 3500);
+})();
+</script>
+@endpush

@@ -15,6 +15,8 @@ class Podcast extends Model
         'slug',
         'description',
         'audio_url',
+        'audio_file',
+        'audio_type',
         'cover_image',
         'duration',
         'episode_number',

@@ -150,6 +150,25 @@
                         </div>
                     </div>
 
+                    @if(property_exists($this, 'youtube_url'))
+                    {{-- YouTube Video --}}
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-3">YouTube Video</h3>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">YouTube URL</label>
+                            <input wire:model="youtube_url" type="url" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red" placeholder="https://www.youtube.com/watch?v=...">
+                            @error('youtube_url') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        </div>
+                        @if($youtube_url)
+                        <div class="mt-3 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <div class="aspect-video bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                                <p class="text-xs text-gray-500 dark:text-gray-400 px-3 text-center">Preview available after saving</p>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    @endif
+
                     {{-- Submit --}}
                     <button type="submit" class="w-full bg-vnn-red text-white font-bold py-3.5 rounded-xl hover:bg-vnn-red-dark transition shadow-lg shadow-vnn-red/20 flex items-center justify-center gap-2 text-sm">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>

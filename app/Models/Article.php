@@ -39,6 +39,7 @@ class Article extends Model
         'publisher_id',
         'fact_checker_id',
         'type',
+        'youtube_url',
     ];
 
     protected function casts(): array
@@ -134,5 +135,22 @@ class Article extends Model
     public function scopeEditorPick($query)
     {
         return $query->where('is_editor_pick', true);
+    }
+
+    public function getYoutubeIdAttribute(): ?string
+    {
+        if (!$this->youtube_url) return null;
+
+        $patterns = [
+            '/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/',
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $this->youtube_url, $matches)) {
+                return $matches[1];
+            }
+        }
+
+        return null;
     }
 }

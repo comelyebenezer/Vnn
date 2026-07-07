@@ -92,7 +92,7 @@
                         Top Videos
                     </h2>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     @foreach($trendingVideos->take(2) as $tv)
                     <a href="{{ $tv->url ?: '#' }}" target="{{ $tv->url ? '_blank' : '_self' }}" class="group bg-vnn-dark rounded-lg overflow-hidden">
                         @if($tv->thumbnail)
@@ -132,12 +132,22 @@
                 <div class="mt-4 lg:flex-1">
                     @if($ad->script_code)
                         {!! $ad->script_code !!}
+                    @elseif($ad->media_file)
+                        <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                            @if($ad->media_type === 'video')
+                            <div class="relative w-full" style="padding-top: 25%;">
+                                <video src="{{ asset('storage/' . $ad->media_file) }}" class="absolute inset-0 w-full h-full object-cover" muted playsinline onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;"></video>
+                            </div>
+                            @else
+                            <img src="{{ asset('storage/' . $ad->media_file) }}" alt="{{ $ad->title }}" class="w-full h-40 object-cover">
+                            @endif
+                        </a>
                     @elseif($ad->image_url)
-                        <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
-                            <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full rounded">
+                        <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                            <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-40 object-cover">
                         </a>
                     @else
-                        <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded flex items-center justify-center text-gray-400 dark:text-gray-500 text-xs h-full min-h-[100px]">{{ $ad->title }}</div>
+                        <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded flex items-center justify-center text-gray-400 dark:text-gray-500 text-xs h-40">{{ $ad->title }}</div>
                     @endif
                 </div>
             @else
@@ -205,11 +215,11 @@
                 @forelse($trendingItems as $i => $news)
                 <a href="{{ route('frontend.article', $news->slug) }}" class="flex gap-3 group {{ !$loop->last ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
                     @if($news->featured_image)
-                    <div class="w-32 h-24 rounded overflow-hidden shrink-0">
+                    <div class="w-20 sm:w-32 h-16 sm:h-24 rounded overflow-hidden shrink-0">
                         <img src="{{ asset('storage/' . $news->featured_image) }}" alt="{{ $news->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                     </div>
                     @else
-                    <div class="w-32 h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                    <div class="w-20 sm:w-32 h-16 sm:h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
                         <span class="text-white/15 font-extrabold text-2xl">V</span>
                     </div>
                     @endif
@@ -223,7 +233,7 @@
                 @empty
                 @for ($i = 0; $i < 5; $i++)
                 <a href="#" class="flex gap-3 group {{ $i < 4 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
-                    <div class="w-32 h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                    <div class="w-20 sm:w-32 h-16 sm:h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
                         <span class="text-white/15 font-extrabold text-2xl">V</span>
                     </div>
                     <div class="flex-1 min-w-0">
@@ -244,12 +254,22 @@
         @php $ad = $advertisements['banner']->except($advertisements['banner']->keys()->first())->random(); @endphp
         @if($ad->script_code)
             {!! $ad->script_code !!}
+        @elseif($ad->media_file)
+            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                @if($ad->media_type === 'video')
+                <div class="relative w-full" style="padding-top: 25%;">
+                    <video src="{{ asset('storage/' . $ad->media_file) }}" class="absolute inset-0 w-full h-full object-cover" muted playsinline onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;"></video>
+                </div>
+                @else
+                <img src="{{ asset('storage/' . $ad->media_file) }}" alt="{{ $ad->title }}" class="w-full h-40 object-cover">
+                @endif
+            </a>
         @elseif($ad->image_url)
-            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
-                <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-24 object-cover rounded border border-gray-200 dark:border-gray-700">
+            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-40 object-cover">
             </a>
         @else
-            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
+            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-40 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
         @endif
     @else
     <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">Advertisement</div>
@@ -295,11 +315,11 @@
                         @forelse($sec['subs'] as $sub)
                         <a href="{{ route('frontend.article', $sub->slug) }}" class="group flex gap-3">
                             @if($sub->featured_image)
-                            <div class="w-20 h-16 rounded overflow-hidden shrink-0">
+                            <div class="w-16 sm:w-20 h-12 sm:h-16 rounded overflow-hidden shrink-0">
                                 <img src="{{ asset('storage/' . $sub->featured_image) }}" alt="{{ $sub->title }}" class="w-full h-full object-cover">
                             </div>
                             @else
-                            <div class="w-20 h-16 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <div class="w-16 sm:w-20 h-12 sm:h-16 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
                                 <span class="text-white/15 font-extrabold">{{ substr($sec['category']->name, 0, 1) }}</span>
                             </div>
                             @endif
@@ -311,7 +331,7 @@
                         @empty
                         @for ($i = 0; $i < 4; $i++)
                         <a href="#" class="group flex gap-3">
-                            <div class="w-20 h-16 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <div class="w-16 sm:w-20 h-12 sm:h-16 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
                                 <span class="text-white/15 font-extrabold">{{ substr($sec['category']->name, 0, 1) }}</span>
                             </div>
                             <div>
@@ -342,7 +362,7 @@
                         </a>
                         @for ($i = 0; $i < 4; $i++)
                         <a href="#" class="group flex gap-3">
-                            <div class="w-20 h-16 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <div class="w-16 sm:w-20 h-12 sm:h-16 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
                                 <span class="text-white/15 font-extrabold">{{ strtoupper(substr($slug, 0, 1)) }}</span>
                             </div>
                             <div>
@@ -361,12 +381,22 @@
                 @php $ad = $advertisements['inline']->random(); @endphp
                 @if($ad->script_code)
                     {!! $ad->script_code !!}
+                @elseif($ad->media_file)
+                    <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                        @if($ad->media_type === 'video')
+                        <div class="relative w-full" style="padding-top: 25%;">
+                            <video src="{{ asset('storage/' . $ad->media_file) }}" class="absolute inset-0 w-full h-full object-cover" muted playsinline onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;"></video>
+                        </div>
+                        @else
+                        <img src="{{ asset('storage/' . $ad->media_file) }}" alt="{{ $ad->title }}" class="w-full h-32 object-cover">
+                        @endif
+                    </a>
                 @elseif($ad->image_url)
-                    <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
-                        <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-24 object-cover rounded border border-gray-200 dark:border-gray-700">
+                    <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                        <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-32 object-cover">
                     </a>
                 @else
-                    <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
+                    <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-32 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
                 @endif
             @else
             <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">Advertisement</div>
@@ -566,11 +596,11 @@
                     @forelse($latest as $item)
                     <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-4 group {{ !$loop->last ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
                         @if($item->featured_image)
-                        <div class="w-32 h-24 rounded overflow-hidden shrink-0">
+                        <div class="w-20 sm:w-32 h-16 sm:h-24 rounded overflow-hidden shrink-0">
                             <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                         </div>
                         @else
-                        <div class="w-32 h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                        <div class="w-20 sm:w-32 h-16 sm:h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
                             <span class="text-white/15 font-extrabold text-2xl">V</span>
                         </div>
                         @endif
@@ -584,7 +614,7 @@
                     @empty
                     @for ($i = 0; $i < 6; $i++)
                     <a href="#" class="flex gap-4 group {{ $i < 5 ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
-                        <div class="w-32 h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                        <div class="w-20 sm:w-32 h-16 sm:h-24 bg-gradient-to-br from-vnn-dark to-slate-800 rounded overflow-hidden shrink-0 flex items-center justify-center">
                             <span class="text-white/15 font-extrabold text-2xl">V</span>
                         </div>
                         <div class="flex-1 min-w-0">
@@ -602,9 +632,19 @@
                 @php $ad = $advertisements['sidebar']->random(); @endphp
                 @if($ad->script_code)
                     {!! $ad->script_code !!}
+                @elseif($ad->media_file)
+                    <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                        @if($ad->media_type === 'video')
+                        <div class="relative w-full" style="padding-top: 125%;">
+                            <video src="{{ asset('storage/' . $ad->media_file) }}" class="absolute inset-0 w-full h-full object-cover" muted playsinline onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;"></video>
+                        </div>
+                        @else
+                        <img src="{{ asset('storage/' . $ad->media_file) }}" alt="{{ $ad->title }}" class="w-full h-64 object-cover">
+                        @endif
+                    </a>
                 @elseif($ad->image_url)
-                    <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
-                        <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-64 object-cover rounded border border-gray-200 dark:border-gray-700">
+                    <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                        <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-64 object-cover">
                     </a>
                 @else
                     <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-64 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
@@ -656,7 +696,7 @@
                     <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Gallery</h3>
                     <div class="flex-1"></div>
                 </div>
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     @for ($i = 0; $i < 4; $i++)
                     <a href="#" class="aspect-square bg-gradient-to-br {{ $i % 2 ? 'from-vnn-red to-vnn-red-dark' : 'from-vnn-dark to-slate-800' }} rounded overflow-hidden flex items-center justify-center group">
                         <span class="text-white/20 font-extrabold text-2xl group-hover:scale-125 transition-transform duration-500">V</span>
@@ -687,23 +727,43 @@
         @php $ad = $advertisements['banner']->slice(2)->random(); @endphp
         @if($ad->script_code)
             {!! $ad->script_code !!}
+        @elseif($ad->media_file)
+            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                @if($ad->media_type === 'video')
+                <div class="relative w-full" style="padding-top: 25%;">
+                    <video src="{{ asset('storage/' . $ad->media_file) }}" class="absolute inset-0 w-full h-full object-cover" muted playsinline onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;"></video>
+                </div>
+                @else
+                <img src="{{ asset('storage/' . $ad->media_file) }}" alt="{{ $ad->title }}" class="w-full h-40 object-cover">
+                @endif
+            </a>
         @elseif($ad->image_url)
-            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
-                <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-24 object-cover rounded border border-gray-200 dark:border-gray-700">
+            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-40 object-cover">
             </a>
         @else
-            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
+            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-40 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
         @endif
     @elseif(isset($advertisements['sidebar']) && $advertisements['sidebar']->count() > 1)
         @php $ad = $advertisements['sidebar']->skip(1)->random(); @endphp
         @if($ad->script_code)
             {!! $ad->script_code !!}
+        @elseif($ad->media_file)
+            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                @if($ad->media_type === 'video')
+                <div class="relative w-full" style="padding-top: 25%;">
+                    <video src="{{ asset('storage/' . $ad->media_file) }}" class="absolute inset-0 w-full h-full object-cover" muted playsinline onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0;"></video>
+                </div>
+                @else
+                <img src="{{ asset('storage/' . $ad->media_file) }}" alt="{{ $ad->title }}" class="w-full h-40 object-cover">
+                @endif
+            </a>
         @elseif($ad->image_url)
-            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener">
-                <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-24 object-cover rounded border border-gray-200 dark:border-gray-700">
+            <a href="{{ $ad->link ?? '#' }}" target="_blank" rel="noopener" class="block overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
+                <img src="{{ $ad->image_url }}" alt="{{ $ad->title }}" class="w-full h-40 object-cover">
             </a>
         @else
-            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
+            <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-40 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">{{ $ad->title }}</div>
         @endif
     @else
     <div class="bg-vnn-gray dark:bg-vnn-dark-light border border-gray-200 dark:border-gray-700 rounded h-24 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm">Advertisement</div>

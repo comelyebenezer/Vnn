@@ -58,7 +58,7 @@
 {{-- Documentary Grid Wrapper --}}
 <div x-data="{ activeFilter: 'all' }">
 {{-- Categories Filter --}}
-<section class="bg-white dark:bg-vnn-dark border-b border-gray-100 dark:border-gray-800 sticky top-[var(--header-height, 0)] z-20">
+<section class="bg-white dark:bg-vnn-dark border-b border-gray-100 dark:border-gray-800 sticky top-[120px] z-20">
     <div class="max-w-7xl mx-auto px-4 py-4">
         <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide">
             <button @click="activeFilter = 'all'" class="shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-full border transition font-heading" :class="activeFilter === 'all' ? 'bg-vnn-red text-white border-vnn-red' : 'text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-vnn-red hover:text-vnn-red'">All</button>
@@ -79,23 +79,34 @@
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
             <div class="lg:col-span-3">
-                <a href="{{ route('frontend.article', $featured->slug) }}" class="group block relative">
-                    <div class="aspect-video bg-vnn-dark rounded-2xl overflow-hidden">
+                <div class="doc-player relative aspect-video bg-vnn-dark rounded-2xl overflow-hidden" data-youtube-id="{{ $featured->youtube_id }}">
+                    {{-- Poster --}}
+                    <div class="doc-poster absolute inset-0 cursor-pointer group">
                         @if($featured->featured_image)
-                        <img src="{{ asset('storage/' . $featured->featured_image) }}" alt="{{ $featured->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        <img src="{{ asset('storage/' . $featured->featured_image) }}" alt="{{ $featured->title }}" class="w-full h-full object-cover">
+                        @elseif($featured->youtube_id)
+                        <img src="https://img.youtube.com/vi/{{ $featured->youtube_id }}/maxresdefault.jpg" alt="{{ $featured->title }}" class="w-full h-full object-cover">
                         @else
                         <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-vnn-red/60 to-vnn-dark">
                             <span class="text-white/10 font-extrabold text-6xl font-heading">D</span>
                         </div>
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        @if($featured->youtube_id)
                         <div class="absolute inset-0 flex items-center justify-center">
                             <div class="w-16 h-16 md:w-20 md:h-20 bg-vnn-red/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-2xl shadow-vnn-red/30">
                                 <svg class="w-7 h-7 md:w-9 md:h-9 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                             </div>
                         </div>
+                        @endif
                     </div>
-                </a>
+                    {{-- Iframe (hidden initially) --}}
+                    @if($featured->youtube_id)
+                    <div class="doc-iframe" style="display:none; position:absolute; inset:0;">
+                        <iframe src="" data-src="https://www.youtube.com/embed/{{ $featured->youtube_id }}?autoplay=1&rel=0&modestbranding=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    @endif
+                </div>
             </div>
             <div class="lg:col-span-2 flex flex-col justify-center">
                 <span class="text-vnn-red text-xs font-bold uppercase tracking-wider">Documentary</span>
@@ -111,7 +122,7 @@
                     <span>{{ $featured->publication_date?->format('F j, Y') ?? $featured->created_at->format('F j, Y') }}</span>
                 </div>
                 <a href="{{ route('frontend.article', $featured->slug) }}" class="inline-flex items-center gap-2 mt-6 text-vnn-red font-bold text-sm group">
-                    <span>Watch Documentary</span>
+                    <span>Read More</span>
                     <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
             </div>
@@ -134,24 +145,37 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($documentaries as $doc)
             @php $docTags = $doc->tags->pluck('slug')->implode(','); @endphp
-            <a href="{{ route('frontend.article', $doc->slug) }}" x-show="activeFilter === 'all' || '{{ $docTags }}'.includes(activeFilter)" class="group block bg-gray-50 dark:bg-vnn-dark-light rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 hover:shadow-xl">
-                <div class="aspect-video bg-vnn-dark overflow-hidden relative">
-                    @if($doc->featured_image)
-                    <img src="{{ asset('storage/' . $doc->featured_image) }}" alt="{{ $doc->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    @else
-                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
-                        <span class="text-white/10 font-extrabold text-4xl font-heading">D</span>
-                    </div>
-                    @endif
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div class="w-14 h-14 bg-vnn-red/90 rounded-full flex items-center justify-center shadow-xl shadow-vnn-red/20">
-                            <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <div x-show="activeFilter === 'all' || '{{ $docTags }}'.includes(activeFilter)" class="group block bg-gray-50 dark:bg-vnn-dark-light rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 hover:shadow-xl">
+                <div class="doc-player relative aspect-video bg-vnn-dark overflow-hidden" data-youtube-id="{{ $doc->youtube_id }}">
+                    {{-- Poster --}}
+                    <div class="doc-poster absolute inset-0 cursor-pointer">
+                        @if($doc->featured_image)
+                        <img src="{{ asset('storage/' . $doc->featured_image) }}" alt="{{ $doc->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        @elseif($doc->youtube_id)
+                        <img src="https://img.youtube.com/vi/{{ $doc->youtube_id }}/maxresdefault.jpg" alt="{{ $doc->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        @else
+                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900">
+                            <span class="text-white/10 font-extrabold text-4xl font-heading">D</span>
+                        </div>
+                        @endif
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        @if($doc->youtube_id)
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-14 h-14 bg-vnn-red/90 rounded-full flex items-center justify-center shadow-xl shadow-vnn-red/20">
+                                <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                        @endif
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-vnn-red text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide">Documentary</span>
                         </div>
                     </div>
-                    <div class="absolute top-3 left-3">
-                        <span class="bg-vnn-red text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide">Documentary</span>
+                    {{-- Iframe (hidden initially) --}}
+                    @if($doc->youtube_id)
+                    <div class="doc-iframe" style="display:none; position:absolute; inset:0;">
+                        <iframe src="" data-src="https://www.youtube.com/embed/{{ $doc->youtube_id }}?autoplay=1&rel=0&modestbranding=1" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
                     </div>
+                    @endif
                 </div>
                 <div class="p-5">
                     <div class="flex items-center gap-2 text-[11px] text-gray-400 dark:text-gray-500 mb-2 font-body">
@@ -163,16 +187,19 @@
                     @if($doc->excerpt)
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2 font-body">{{ $doc->excerpt }}</p>
                     @endif
-                    @if($doc->author)
-                    <div class="flex items-center gap-2 mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
-                        <div class="w-6 h-6 bg-vnn-red/20 rounded-full flex items-center justify-center">
-                            <span class="text-[10px] font-bold text-vnn-red">{{ substr($doc->author->name, 0, 1) }}</span>
+                    <div class="flex items-center justify-between mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
+                        @if($doc->author)
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 bg-vnn-red/20 rounded-full flex items-center justify-center">
+                                <span class="text-[10px] font-bold text-vnn-red">{{ substr($doc->author->name, 0, 1) }}</span>
+                            </div>
+                            <span class="text-xs text-gray-500 dark:text-gray-400 font-body">{{ $doc->author->name }}</span>
                         </div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400 font-body">{{ $doc->author->name }}</span>
+                        @endif
+                        <a href="{{ route('frontend.article', $doc->slug) }}" class="text-xs font-bold text-vnn-red hover:underline">Read More →</a>
                     </div>
-                    @endif
                 </div>
-            </a>
+            </div>
             @endforeach
         </div>
 
@@ -301,4 +328,37 @@
         </div>
     </div>
 </section>
+
+@push('styles')
+<style>
+    .doc-player { position: relative; }
+    .doc-player .doc-iframe { position: absolute; inset: 0; }
+    .doc-player .doc-iframe iframe { width: 100%; height: 100%; border: 0; }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+(function() {
+    document.querySelectorAll('.doc-player').forEach(function(player) {
+        var poster = player.querySelector('.doc-poster');
+        var iframeWrap = player.querySelector('.doc-iframe');
+        if (!poster || !iframeWrap) return;
+
+        poster.style.cursor = 'pointer';
+
+        poster.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var iframe = iframeWrap.querySelector('iframe');
+            if (iframe && iframe.dataset.src) {
+                iframe.src = iframe.dataset.src;
+            }
+            poster.style.display = 'none';
+            iframeWrap.style.display = 'block';
+        });
+    });
+})();
+</script>
+@endpush
 @endsection

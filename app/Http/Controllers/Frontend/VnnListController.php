@@ -31,6 +31,27 @@ class VnnListController extends Controller
             ? Article::where('category_id', $category->id)->where('status', 'published')->count()
             : 0;
 
-        return view('frontend.vnn-list.index', compact('listings', 'featured', 'count'));
+        $topTen = $category
+            ? Article::where('category_id', $category->id)
+                ->where('status', 'published')
+                ->where('is_featured', true)
+                ->orderBy('publication_date', 'desc')
+                ->limit(10)
+                ->get()
+            : collect([]);
+
+        if ($topTen->count() < 10 && $category) {
+            $existingIds = $topTen->pluck('id');
+            $topTen = $topTen->merge(
+                Article::where('category_id', $category->id)
+                    ->where('status', 'published')
+                    ->whereNotIn('id', $existingIds)
+                    ->orderBy('publication_date', 'desc')
+                    ->limit(10 - $topTen->count())
+                    ->get()
+            );
+        }
+
+        return view('frontend.vnn-list.index', compact('listings', 'featured', 'count', 'topTen'));
     }
 }
