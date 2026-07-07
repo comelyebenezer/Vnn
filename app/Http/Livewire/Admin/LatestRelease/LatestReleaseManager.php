@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Documentary;
+namespace App\Http\Livewire\Admin\LatestRelease;
 
 use App\Http\Livewire\Admin\Articles\ArticleManager;
-use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 
-class DocumentaryManager extends ArticleManager
+class LatestReleaseManager extends ArticleManager
 {
     use WithFileUploads;
 
@@ -21,7 +20,7 @@ class DocumentaryManager extends ArticleManager
     {
         parent::mount($article);
 
-        $categoryId = Category::where('slug', 'documentary')->value('id');
+        $categoryId = \App\Models\Category::where('slug', 'latest-release')->value('id');
         if ($categoryId) {
             $this->category_id = $categoryId;
         }
@@ -68,7 +67,7 @@ class DocumentaryManager extends ArticleManager
             $mediaType = null;
         } elseif ($this->media_file && !$this->remove_media) {
             $mediaPath = $this->media_file->store('articles/media', 'public');
-            $mediaType = $this->media_file->getMimeType() === 'video/mp4' ? 'video' : 'video';
+            $mediaType = 'video';
         }
 
         $data = [
@@ -98,7 +97,7 @@ class DocumentaryManager extends ArticleManager
             $article = \App\Models\Article::findOrFail($this->articleId);
             $article->update($data);
             $article->tags()->sync($this->tags);
-            session()->flash('message', 'Documentary updated successfully.');
+            session()->flash('message', 'Latest Release updated successfully.');
         } else {
             $data['user_id'] = \Illuminate\Support\Facades\Auth::id();
             $article = \App\Models\Article::create($data);
@@ -106,10 +105,10 @@ class DocumentaryManager extends ArticleManager
                 $article->tags()->attach($this->tags);
             }
             $this->reset();
-            session()->flash('message', 'Documentary created successfully.');
+            session()->flash('message', 'Latest Release created successfully.');
         }
 
-        return redirect()->route('admin.documentary.index');
+        return redirect()->route('admin.latest-release.index');
     }
 
     public function render()

@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\BreakingNews;
 use App\Models\LiveUpdate;
 use App\Models\Video;
+use App\Models\Gallery;
 use App\Models\Advertisement;
 
 class HomeController extends Controller
@@ -96,6 +97,73 @@ class HomeController extends Controller
 
         $trendingVideos = Video::where('is_top', true)->where('status', 'published')->latest()->take(2)->get();
 
+        $galleryImages = Gallery::where('status', 'published')
+            ->orderBy('sort_order')
+            ->latest()
+            ->take(8)
+            ->get();
+
+        $vnnListCategory = Category::where('slug', 'vnn-list')->where('status', 'active')->first();
+        $vnnListArticles = $vnnListCategory
+            ? Article::where('category_id', $vnnListCategory->id)
+                ->where('status', 'published')
+                ->with(['category', 'author'])
+                ->latest('publication_date')
+                ->take(5)
+                ->get()
+            : collect();
+
+        $documentaryCategory = Category::where('slug', 'documentary')->where('status', 'active')->first();
+        $documentaryArticles = $documentaryCategory
+            ? Article::where('category_id', $documentaryCategory->id)
+                ->where('status', 'published')
+                ->with(['category', 'author'])
+                ->latest('publication_date')
+                ->take(2)
+                ->get()
+            : collect();
+
+        $techStartupsCategory = Category::where('slug', 'tech-start-ups')->where('status', 'active')->first();
+        $techStartupsArticles = $techStartupsCategory
+            ? Article::where('category_id', $techStartupsCategory->id)
+                ->where('status', 'published')
+                ->with(['category', 'author'])
+                ->latest('publication_date')
+                ->take(3)
+                ->get()
+            : collect();
+
+        $latestGadgetsCategory = Category::where('slug', 'latest-gadgets')->where('status', 'active')->first();
+        $latestGadgetsArticles = $latestGadgetsCategory
+            ? Article::where('category_id', $latestGadgetsCategory->id)
+                ->where('status', 'published')
+                ->with(['category', 'author'])
+                ->latest('publication_date')
+                ->take(3)
+                ->get()
+            : collect();
+
+        $socialTrendsCategory = Category::where('slug', 'social-trends')->where('status', 'active')->first();
+        $socialTrendsArticles = $socialTrendsCategory
+            ? Article::where('category_id', $socialTrendsCategory->id)
+                ->where('status', 'published')
+                ->where('type', 'video')
+                ->with(['category', 'author'])
+                ->latest('publication_date')
+                ->take(2)
+                ->get()
+            : collect();
+
+        $latestReleaseCategory = Category::where('slug', 'latest-release')->where('status', 'active')->first();
+        $latestReleaseArticles = $latestReleaseCategory
+            ? Article::where('category_id', $latestReleaseCategory->id)
+                ->where('status', 'published')
+                ->with(['category', 'author'])
+                ->latest('publication_date')
+                ->take(2)
+                ->get()
+            : collect();
+
         $navCategories = Category::where('status', 'active')->orderBy('display_order')->get();
 
         $advertisements = Advertisement::where('status', 'active')
@@ -112,7 +180,9 @@ class HomeController extends Controller
             'featured', 'topNews', 'categoryArticles',
             'opinions', 'editorials', 'videos', 'podcasts',
             'latest', 'mostRead', 'breakingNews', 'breakingArticles', 'trendingArticles', 'editorPicks',
-            'liveUpdates', 'trendingVideos', 'navCategories', 'advertisements'
+            'liveUpdates', 'trendingVideos', 'navCategories', 'advertisements', 'galleryImages',
+            'vnnListArticles', 'documentaryArticles', 'techStartupsArticles', 'latestGadgetsArticles',
+            'socialTrendsArticles', 'latestReleaseArticles'
         ));
     }
 }

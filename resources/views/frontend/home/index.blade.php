@@ -4,7 +4,7 @@
 
 @section('content')
 {{-- Hero Section --}}
-<section class="max-w-7xl mx-auto px-4 py-4">
+<section class="max-w-7xl mx-auto px-4 py-3">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {{-- Breaking News --}}
         <div class="lg:col-span-5 lg:flex lg:flex-col">
@@ -277,10 +277,10 @@
 </section>
 
 {{-- Main Content + Sidebar --}}
-<section class="max-w-7xl mx-auto px-4 py-6">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<section class="max-w-7xl mx-auto px-4 py-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {{-- Main Column --}}
-        <div class="lg:col-span-7 space-y-10">
+        <div class="lg:col-span-7 space-y-6">
 
             @php
                 $sectionOrder = ['news', 'politics', 'business', 'technology', 'sports', 'entertainment', 'world'];
@@ -585,7 +585,7 @@
         </div>
 
         {{-- Sidebar --}}
-        <aside class="lg:col-span-5 space-y-8">
+        <aside class="lg:col-span-5 space-y-5">
             {{-- Latest News --}}
             <div>
                 <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
@@ -662,8 +662,16 @@
                 <div class="space-y-4">
                     @forelse($mostRead as $item)
                     <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-3 group">
-                        <span class="text-2xl font-extrabold text-vnn-red/60 leading-none shrink-0 w-8">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                        <div>
+                        <div class="w-24 h-18 bg-gray-100 dark:bg-vnn-dark-light rounded overflow-hidden shrink-0">
+                            @if($item->featured_image)
+                            <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            @else
+                            <div class="w-full h-full bg-gradient-to-br from-vnn-red/20 to-vnn-blue/20 flex items-center justify-center">
+                                <span class="text-vnn-red/40 font-bold text-xl font-heading">{{ strtoupper(substr($item->title, 0, 1)) }}</span>
+                            </div>
+                            @endif
+                        </div>
+                        <div class="flex-1 min-w-0">
                             <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ number_format($item->view_count ?? 0) }} views</span>
                         </div>
@@ -671,12 +679,295 @@
                     @empty
                     @for ($i = 0; $i < 5; $i++)
                     <a href="#" class="flex gap-3 group">
-                        <span class="text-2xl font-extrabold text-vnn-red/60 leading-none shrink-0 w-8">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
-                        <div>
+                        <div class="w-24 h-18 bg-gradient-to-br from-vnn-red/10 to-vnn-blue/10 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-vnn-red/30 font-bold text-xl font-heading">{{ $i + 1 }}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
                             <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">Most read story number {{ $i + 1 }} that everyone is talking about</h4>
                             <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ rand(1000, 50000) }} views</span>
                         </div>
                     </a>
+                    @endfor
+                    @endforelse
+                </div>
+            </div>
+
+            {{-- VNN List --}}
+            <div>
+                <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
+                    <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">VNN List</h3>
+                    <a href="{{ route('frontend.vnn-list') }}" class="text-vnn-red text-[10px] font-bold uppercase tracking-wide hover:underline ml-auto">See All</a>
+                </div>
+                <div class="space-y-3">
+                    @forelse($vnnListArticles as $item)
+                    <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-3 group {{ !$loop->last ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        @if($item->featured_image)
+                        <div class="w-20 h-16 rounded overflow-hidden shrink-0">
+                            <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        </div>
+                        @else
+                        <div class="w-20 h-16 bg-gradient-to-br from-vnn-red/20 to-vnn-blue/20 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-vnn-red/40 font-bold text-lg font-heading">V</span>
+                        </div>
+                        @endif
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ $item->publication_date?->diffForHumans() }}</span>
+                        </div>
+                    </a>
+                    @empty
+                    @for ($i = 0; $i < 4; $i++)
+                    <a href="#" class="flex gap-3 group {{ $i < 3 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-20 h-16 bg-gradient-to-br from-vnn-red/10 to-vnn-blue/10 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-vnn-red/30 font-bold text-lg font-heading">V</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">VNN List story headline {{ $i + 1 }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ now()->subHours(rand(1, 48))->diffForHumans() }}</span>
+                        </div>
+                    </a>
+                    @endfor
+                    @endforelse
+                </div>
+            </div>
+
+            {{-- Documentary --}}
+            <div>
+                <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
+                    <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Documentary</h3>
+                    <a href="{{ route('frontend.documentary') }}" class="text-vnn-red text-[10px] font-bold uppercase tracking-wide hover:underline ml-auto">See All</a>
+                </div>
+                <div class="space-y-4">
+                    @forelse($documentaryArticles as $item)
+                    <div x-data="{ playing: false, src: '{{ $item->youtube_url ? 'https://www.youtube.com/embed/' . $item->getYoutubeIdAttribute() : ($item->media_file ? asset('storage/' . $item->media_file) : '') }}', type: '{{ $item->media_type ?? 'youtube' }}' }" class="group {{ !$loop->last ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-full aspect-video bg-gradient-to-br from-vnn-blue/20 to-vnn-dark/20 rounded-lg overflow-hidden relative cursor-pointer" @click="if(src) { playing = !playing }">
+                            <template x-if="!playing">
+                                <div class="absolute inset-0">
+                                    @if($item->featured_image)
+                                    <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    @else
+                                    <div class="w-full h-full flex items-center justify-center bg-vnn-dark/10">
+                                        <span class="text-vnn-blue/30 font-bold text-3xl font-heading">&#9654;</span>
+                                    </div>
+                                    @endif
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <span class="w-10 h-10 bg-vnn-red/90 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg">&#9654;</span>
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="playing">
+                                <div class="w-full h-full">
+                                    <template x-if="type === 'youtube'">
+                                        <iframe :src="src + '?autoplay=1'" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                    </template>
+                                    <template x-if="type !== 'youtube'">
+                                        <video :src="src" controls autoplay class="w-full h-full object-cover"></video>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                        <a href="{{ route('frontend.article', $item->slug) }}" class="block mt-2">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ $item->publication_date?->diffForHumans() }}</span>
+                        </a>
+                    </div>
+                    @empty
+                    @for ($i = 0; $i < 2; $i++)
+                    <div class="{{ $i < 1 ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-full aspect-video bg-gradient-to-br from-vnn-blue/10 to-vnn-dark/10 rounded-lg overflow-hidden flex items-center justify-center relative">
+                            <span class="text-vnn-blue/20 font-bold text-3xl font-heading">&#9654;</span>
+                        </div>
+                        <div class="mt-2">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white line-clamp-2 font-heading">Documentary feature story {{ $i + 1 }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ now()->subHours(rand(1, 48))->diffForHumans() }}</span>
+                        </div>
+                    </div>
+                    @endfor
+                    @endforelse
+                </div>
+            </div>
+
+            {{-- Tech Start Ups --}}
+            <div>
+                <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
+                    <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Tech Start Ups</h3>
+                </div>
+                <div class="space-y-3">
+                    @forelse($techStartupsArticles as $item)
+                    <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-3 group {{ !$loop->last ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        @if($item->featured_image)
+                        <div class="w-20 h-16 rounded overflow-hidden shrink-0">
+                            <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        </div>
+                        @else
+                        <div class="w-20 h-16 bg-gradient-to-br from-vnn-blue/20 to-vnn-red/20 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-vnn-blue/40 font-bold text-lg font-heading">T</span>
+                        </div>
+                        @endif
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ $item->publication_date?->diffForHumans() }}</span>
+                        </div>
+                    </a>
+                    @empty
+                    @for ($i = 0; $i < 3; $i++)
+                    <a href="#" class="flex gap-3 group {{ $i < 2 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-20 h-16 bg-gradient-to-br from-vnn-blue/10 to-vnn-red/10 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-vnn-blue/30 font-bold text-lg font-heading">T</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">Tech startup story headline {{ $i + 1 }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ now()->subHours(rand(1, 48))->diffForHumans() }}</span>
+                        </div>
+                    </a>
+                    @endfor
+                    @endforelse
+                </div>
+            </div>
+
+            {{-- Latest Gadgets --}}
+            <div>
+                <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
+                    <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Latest Gadgets</h3>
+                </div>
+                <div class="space-y-3">
+                    @forelse($latestGadgetsArticles as $item)
+                    <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-3 group {{ !$loop->last ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        @if($item->featured_image)
+                        <div class="w-20 h-16 rounded overflow-hidden shrink-0">
+                            <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        </div>
+                        @else
+                        <div class="w-20 h-16 bg-gradient-to-br from-vnn-dark/20 to-vnn-blue/20 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-vnn-dark/40 font-bold text-lg font-heading">G</span>
+                        </div>
+                        @endif
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ $item->publication_date?->diffForHumans() }}</span>
+                        </div>
+                    </a>
+                    @empty
+                    @for ($i = 0; $i < 3; $i++)
+                    <a href="#" class="flex gap-3 group {{ $i < 2 ? 'pb-3 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-20 h-16 bg-gradient-to-br from-vnn-dark/10 to-vnn-blue/10 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-vnn-dark/30 font-bold text-lg font-heading">G</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">Latest gadget review headline {{ $i + 1 }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ now()->subHours(rand(1, 48))->diffForHumans() }}</span>
+                        </div>
+                    </a>
+                    @endfor
+                    @endforelse
+                </div>
+            </div>
+
+            {{-- Social Trends --}}
+            <div>
+                <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
+                    <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Social Trends</h3>
+                </div>
+                <div class="space-y-4">
+                    @forelse($socialTrendsArticles as $item)
+                    <div x-data="{ playing: false, src: '{{ $item->youtube_url ? 'https://www.youtube.com/embed/' . $item->getYoutubeIdAttribute() : ($item->media_file ? asset('storage/' . $item->media_file) : '') }}', type: '{{ $item->media_type ?? 'youtube' }}' }" class="group {{ !$loop->last ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-full aspect-video bg-gradient-to-br from-vnn-blue/20 to-vnn-dark/20 rounded-lg overflow-hidden relative cursor-pointer" @click="if(src) { playing = !playing }">
+                            <template x-if="!playing">
+                                <div class="absolute inset-0">
+                                    @if($item->featured_image)
+                                    <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    @else
+                                    <div class="w-full h-full flex items-center justify-center bg-vnn-dark/10">
+                                        <span class="text-vnn-blue/30 font-bold text-3xl font-heading">&#9654;</span>
+                                    </div>
+                                    @endif
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <span class="w-10 h-10 bg-vnn-red/90 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg">&#9654;</span>
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="playing">
+                                <div class="w-full h-full">
+                                    <template x-if="type === 'youtube'">
+                                        <iframe :src="src + '?autoplay=1'" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                    </template>
+                                    <template x-if="type !== 'youtube'">
+                                        <video :src="src" controls autoplay class="w-full h-full object-cover"></video>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                        <a href="{{ route('frontend.article', $item->slug) }}" class="block mt-2">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">▶ Video &middot; {{ $item->publication_date?->diffForHumans() }}</span>
+                        </a>
+                    </div>
+                    @empty
+                    @for ($i = 0; $i < 2; $i++)
+                    <div class="{{ $i < 1 ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-full aspect-video bg-gradient-to-br from-vnn-blue/10 to-vnn-dark/10 rounded-lg overflow-hidden flex items-center justify-center relative">
+                            <span class="text-vnn-blue/20 font-bold text-3xl font-heading">&#9654;</span>
+                        </div>
+                        <div class="mt-2">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white line-clamp-2 font-heading">Trending social video {{ $i + 1 }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">▶ Video &middot; {{ now()->subHours(rand(1, 48))->diffForHumans() }}</span>
+                        </div>
+                    </div>
+                    @endfor
+                    @endforelse
+                </div>
+            </div>
+
+            {{-- Latest Release --}}
+            <div>
+                <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
+                    <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Latest Release</h3>
+                </div>
+                <div class="space-y-4">
+                    @forelse($latestReleaseArticles as $item)
+                    <div x-data="{ playing: false, src: '{{ $item->youtube_url ? 'https://www.youtube.com/embed/' . $item->getYoutubeIdAttribute() : ($item->media_file ? asset('storage/' . $item->media_file) : '') }}', type: '{{ $item->media_type ?? 'youtube' }}' }" class="group {{ !$loop->last ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-full aspect-video bg-gradient-to-br from-vnn-red/20 to-vnn-blue/20 rounded-lg overflow-hidden relative cursor-pointer" @click="if(src) { playing = !playing }">
+                            <template x-if="!playing">
+                                <div class="absolute inset-0">
+                                    @if($item->featured_image)
+                                    <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    @else
+                                    <div class="w-full h-full flex items-center justify-center bg-vnn-dark/10">
+                                        <span class="text-vnn-red/30 font-bold text-3xl font-heading">&#9654;</span>
+                                    </div>
+                                    @endif
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <span class="w-10 h-10 bg-vnn-red/90 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg">&#9654;</span>
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="playing">
+                                <div class="w-full h-full">
+                                    <template x-if="type === 'youtube'">
+                                        <iframe :src="src + '?autoplay=1'" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                    </template>
+                                    <template x-if="type !== 'youtube'">
+                                        <video :src="src" controls autoplay class="w-full h-full object-cover"></video>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                        <a href="{{ route('frontend.article', $item->slug) }}" class="block mt-2">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ $item->publication_date?->diffForHumans() }}</span>
+                        </a>
+                    </div>
+                    @empty
+                    @for ($i = 0; $i < 2; $i++)
+                    <div class="{{ $i < 1 ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-full aspect-video bg-gradient-to-br from-vnn-red/10 to-vnn-blue/10 rounded-lg overflow-hidden flex items-center justify-center relative">
+                            <span class="text-vnn-red/20 font-bold text-3xl font-heading">&#9654;</span>
+                        </div>
+                        <div class="mt-2">
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white line-clamp-2 font-heading">Latest release headline {{ $i + 1 }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ now()->subHours(rand(1, 48))->diffForHumans() }}</span>
+                        </div>
+                    </div>
                     @endfor
                     @endforelse
                 </div>
@@ -696,6 +987,15 @@
                     <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Gallery</h3>
                     <div class="flex-1"></div>
                 </div>
+                @if($galleryImages->count())
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    @foreach($galleryImages->take(8) as $image)
+                    <a href="#" class="aspect-square bg-gray-100 dark:bg-vnn-dark-light rounded overflow-hidden group">
+                        <img src="{{ asset('storage/' . $image->image) }}" alt="{{ $image->title }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                    </a>
+                    @endforeach
+                </div>
+                @else
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     @for ($i = 0; $i < 4; $i++)
                     <a href="#" class="aspect-square bg-gradient-to-br {{ $i % 2 ? 'from-vnn-red to-vnn-red-dark' : 'from-vnn-dark to-slate-800' }} rounded overflow-hidden flex items-center justify-center group">
@@ -703,6 +1003,7 @@
                     </a>
                     @endfor
                 </div>
+                @endif
             </div>
 
             {{-- Tags --}}
@@ -722,7 +1023,7 @@
 </section>
 
 {{-- Bottom Ad --}}
-<section class="max-w-7xl mx-auto px-4 py-6">
+<section class="max-w-7xl mx-auto px-4 py-4">
     @if(isset($advertisements['banner']) && $advertisements['banner']->count() > 2)
         @php $ad = $advertisements['banner']->slice(2)->random(); @endphp
         @if($ad->script_code)

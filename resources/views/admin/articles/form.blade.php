@@ -169,6 +169,39 @@
                     </div>
                     @endif
 
+                    @if(property_exists($this, 'media_file'))
+                    {{-- Video Upload --}}
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-3">Video Upload</h3>
+
+                        @if($existing_media && !$remove_media)
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Current Video</label>
+                            <div class="relative rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800">
+                                <video src="{{ asset('storage/' . $existing_media) }}" controls class="w-full max-h-64 object-contain"></video>
+                                <button type="button" wire:click="removeExistingMedia" class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-lg hover:bg-red-600 transition shadow">Remove</button>
+                            </div>
+                        </div>
+                        @else
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Upload Video File</label>
+                            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-vnn-red transition cursor-pointer" wire:click="$refs.videoInput.click()">
+                                <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Click to upload or drag and drop</p>
+                                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">MP4, WebM, OGG (max 100MB)</p>
+                            </div>
+                            <input wire:model="media_file" x-ref="videoInput" type="file" accept="video/mp4,video/webm,video/ogg" class="hidden">
+                        </div>
+                        @if($media_file)
+                        <div class="mt-3 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+                            <video wire:model="media_file" controls class="w-full max-h-64 object-contain"></video>
+                        </div>
+                        @error('media_file') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        @endif
+                        @endif
+                    </div>
+                    @endif
+
                     {{-- Submit --}}
                     <button type="submit" class="w-full bg-vnn-red text-white font-bold py-3.5 rounded-xl hover:bg-vnn-red-dark transition shadow-lg shadow-vnn-red/20 flex items-center justify-center gap-2 text-sm">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>

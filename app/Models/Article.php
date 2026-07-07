@@ -40,6 +40,8 @@ class Article extends Model
         'fact_checker_id',
         'type',
         'youtube_url',
+        'media_file',
+        'media_type',
     ];
 
     protected function casts(): array

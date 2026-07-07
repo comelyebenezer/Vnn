@@ -8,6 +8,14 @@ use App\Http\Livewire\Admin\VnnList\VnnListList;
 use App\Http\Livewire\Admin\VnnList\VnnListManager;
 use App\Http\Livewire\Admin\Documentary\DocumentaryList;
 use App\Http\Livewire\Admin\Documentary\DocumentaryManager;
+use App\Http\Livewire\Admin\TechStartUps\TechStartUpsList;
+use App\Http\Livewire\Admin\TechStartUps\TechStartUpsManager;
+use App\Http\Livewire\Admin\LatestGadgets\LatestGadgetsList;
+use App\Http\Livewire\Admin\LatestGadgets\LatestGadgetsManager;
+use App\Http\Livewire\Admin\SocialTrends\SocialTrendsList;
+use App\Http\Livewire\Admin\SocialTrends\SocialTrendsManager;
+use App\Http\Livewire\Admin\LatestRelease\LatestReleaseList;
+use App\Http\Livewire\Admin\LatestRelease\LatestReleaseManager;
 use App\Http\Livewire\Admin\Authors\AuthorList;
 use App\Http\Livewire\Admin\Authors\AuthorManager;
 use App\Http\Livewire\Admin\BreakingNews\BreakingNewsList;
@@ -59,6 +67,30 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
         Route::get('/', DocumentaryList::class)->name('index');
         Route::get('/create', DocumentaryManager::class)->name('create');
         Route::get('/{article}/edit', DocumentaryManager::class)->name('edit');
+    });
+
+    Route::prefix('tech-start-ups')->name('tech-start-ups.')->group(function () {
+        Route::get('/', TechStartUpsList::class)->name('index');
+        Route::get('/create', TechStartUpsManager::class)->name('create');
+        Route::get('/{article}/edit', TechStartUpsManager::class)->name('edit');
+    });
+
+    Route::prefix('latest-gadgets')->name('latest-gadgets.')->group(function () {
+        Route::get('/', LatestGadgetsList::class)->name('index');
+        Route::get('/create', LatestGadgetsManager::class)->name('create');
+        Route::get('/{article}/edit', LatestGadgetsManager::class)->name('edit');
+    });
+
+    Route::prefix('social-trends')->name('social-trends.')->group(function () {
+        Route::get('/', SocialTrendsList::class)->name('index');
+        Route::get('/create', SocialTrendsManager::class)->name('create');
+        Route::get('/{article}/edit', SocialTrendsManager::class)->name('edit');
+    });
+
+    Route::prefix('latest-release')->name('latest-release.')->group(function () {
+        Route::get('/', LatestReleaseList::class)->name('index');
+        Route::get('/create', LatestReleaseManager::class)->name('create');
+        Route::get('/{article}/edit', LatestReleaseManager::class)->name('edit');
     });
 
     Route::prefix('categories')->name('categories.')->group(function () {
@@ -132,6 +164,12 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
         Route::get('/', PublisherList::class)->name('index');
         Route::get('/create', PublisherManager::class)->name('create');
         Route::get('/{publisher}/edit', PublisherManager::class)->name('edit');
+    });
+
+    Route::prefix('gallery')->name('gallery.')->group(function () {
+        Route::get('/', \App\Http\Livewire\Admin\Gallery\GalleryList::class)->name('index');
+        Route::get('/create', \App\Http\Livewire\Admin\Gallery\GalleryManager::class)->name('create');
+        Route::get('/{gallery}/edit', \App\Http\Livewire\Admin\Gallery\GalleryManager::class)->name('edit');
     });
 
     Route::prefix('fact-checkers')->name('fact-checkers.')->group(function () {
