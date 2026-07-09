@@ -106,6 +106,16 @@
                         </div>
                     </div>
 
+                    {{-- Content Type --}}
+                    <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
+                        <h3 class="font-semibold text-gray-900 dark:text-white mb-3">Content Type</h3>
+                        <select wire:model.live="type" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-vnn-red">
+                            <option value="article">Article</option>
+                            <option value="video">Video</option>
+                            <option value="podcast">Podcast</option>
+                        </select>
+                    </div>
+
                     {{-- Featured Image --}}
                     <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
                         <h3 class="font-semibold text-gray-900 dark:text-white mb-3">Featured Image</h3>
@@ -150,7 +160,7 @@
                         </div>
                     </div>
 
-                    @if(property_exists($this, 'youtube_url'))
+                    @if($type === 'video')
                     {{-- YouTube Video --}}
                     <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
                         <h3 class="font-semibold text-gray-900 dark:text-white mb-3">YouTube Video</h3>
@@ -167,9 +177,7 @@
                         </div>
                         @endif
                     </div>
-                    @endif
 
-                    @if(property_exists($this, 'media_file'))
                     {{-- Video Upload --}}
                     <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
                         <h3 class="font-semibold text-gray-900 dark:text-white mb-3">Video Upload</h3>

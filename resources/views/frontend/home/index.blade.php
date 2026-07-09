@@ -94,33 +94,58 @@
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     @foreach($trendingVideos->take(2) as $tv)
-                    <a href="{{ $tv->url ?: '#' }}" target="{{ $tv->url ? '_blank' : '_self' }}" class="group bg-vnn-dark rounded-lg overflow-hidden">
-                        @if($tv->thumbnail)
+                    <div x-data="{ playing: false }" class="group bg-vnn-dark rounded-lg overflow-hidden">
+                        {{-- Thumbnail / Player --}}
                         <div class="aspect-video bg-black overflow-hidden relative">
-                            <img src="{{ $tv->thumbnail }}" alt="{{ $tv->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="w-12 h-12 bg-vnn-red/90 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                            {{-- Player --}}
+                            <template x-if="playing">
+                                @if($tv->youtube_id)
+                                <iframe src="https://www.youtube.com/embed/{{ $tv->youtube_id }}?autoplay=1&rel=0" class="absolute inset-0 w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                @elseif($tv->video_file)
+                                <video src="{{ asset('storage/' . $tv->video_file) }}" controls autoplay class="absolute inset-0 w-full h-full object-cover bg-black"></video>
+                                @elseif($tv->embed_code)
+                                <div class="absolute inset-0 w-full h-full">{!! $tv->embed_code !!}</div>
+                                @endif
+                            </template>
+                            {{-- Thumbnail --}}
+                            <template x-if="!playing">
+                                <div class="absolute inset-0" @click="
+                                    @if($tv->youtube_id || $tv->video_file || $tv->embed_code)
+                                        playing = true
+                                    @endif
+                                ">
+                                    @if($tv->thumbnail)
+                                    <img src="{{ str_starts_with($tv->thumbnail, 'http') ? $tv->thumbnail : asset('storage/' . $tv->thumbnail) }}" alt="{{ $tv->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    @else
+                                    <div class="w-full h-full bg-gradient-to-br from-vnn-red to-vnn-red-dark flex items-center justify-center">
+                                        <span class="text-white/15 font-extrabold text-4xl">V</span>
+                                    </div>
+                                    @endif
+                                    @if($tv->youtube_id || $tv->video_file || $tv->embed_code)
+                                    <div class="absolute inset-0 flex items-center justify-center cursor-pointer">
+                                        <div class="w-12 h-12 bg-vnn-red/90 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                            <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
-                            </div>
+                            </template>
                         </div>
-                        @else
-                        <div class="aspect-video bg-gradient-to-br from-vnn-red to-vnn-red-dark flex items-center justify-center relative">
-                            <span class="text-white/15 font-extrabold text-4xl">V</span>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
-                                </div>
+                        <div class="p-2.5 flex items-start justify-between">
+                            <div class="min-w-0 flex-1">
+                                <h4 class="text-white text-[11px] font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2">{{ $tv->title }}</h4>
+                                @if($tv->duration)
+                                <span class="text-[10px] text-gray-400 mt-1 inline-block">{{ gmdate('i:s', $tv->duration) }}</span>
+                                @endif
                             </div>
-                        </div>
-                        @endif
-                        <div class="p-2.5">
-                            <h4 class="text-white text-[11px] font-bold leading-snug group-hover:text-vnn-red transition line-clamp-2">{{ $tv->title }}</h4>
-                            @if($tv->duration)
-                            <span class="text-[10px] text-gray-400 mt-1 inline-block">{{ gmdate('i:s', $tv->duration) }}</span>
+                            @if($tv->youtube_id || $tv->video_file || $tv->embed_code)
+                            <button @click="playing = !playing" class="shrink-0 ml-2 text-gray-400 hover:text-white transition" :title="playing ? 'Close' : 'Play'">
+                                <svg x-show="!playing" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <svg x-show="playing" x-cloak class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
                             @endif
                         </div>
-                    </a>
+                    </div>
                     @endforeach
                 </div>
             </div>
@@ -505,43 +530,67 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     @forelse($videos as $video)
-                    <a href="{{ route('frontend.article', $video->slug) }}" class="group block hover:-translate-y-1 transition-all duration-200">
-                        @if($video->featured_image)
-                        <div class="aspect-video rounded overflow-hidden relative mb-3">
-                            <img src="{{ asset('storage/' . $video->featured_image) }}" alt="{{ $video->title }}" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="w-12 h-12 bg-vnn-blue/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                                    <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+                    @php $hasVideo = $video->youtube_id || $video->video_file || $video->embed_code; @endphp
+                    <div x-data="{ playing: false }" class="group block hover:-translate-y-1 transition-all duration-200">
+                        {{-- Thumbnail / Player --}}
+                        <div class="aspect-video rounded overflow-hidden relative mb-3 bg-black">
+                            {{-- Player --}}
+                            <template x-if="playing">
+                                @if($video->youtube_id)
+                                <iframe src="https://www.youtube.com/embed/{{ $video->youtube_id }}?autoplay=1&rel=0" class="absolute inset-0 w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                @elseif($video->video_file)
+                                <video src="{{ asset('storage/' . $video->video_file) }}" controls autoplay class="absolute inset-0 w-full h-full object-cover"></video>
+                                @elseif($video->embed_code)
+                                <div class="absolute inset-0 w-full h-full">{!! $video->embed_code !!}</div>
+                                @endif
+                            </template>
+                            {{-- Thumbnail --}}
+                            <template x-if="!playing">
+                                <div class="absolute inset-0" @click="if({{ $hasVideo ? 'true' : 'false' }}) playing = true">
+                                    @if($video->thumbnail)
+                                    <img src="{{ str_starts_with($video->thumbnail, 'http') ? $video->thumbnail : asset('storage/' . $video->thumbnail) }}" alt="{{ $video->title }}" class="w-full h-full object-cover">
+                                    @else
+                                    <div class="w-full h-full bg-gradient-to-br from-vnn-blue to-vnn-blue-dark flex items-center justify-center">
+                                        <span class="text-white/15 font-extrabold text-3xl">V</span>
+                                    </div>
+                                    @endif
+                                    @if($hasVideo)
+                                    <div class="absolute inset-0 flex items-center justify-center cursor-pointer">
+                                        <div class="w-12 h-12 bg-vnn-blue/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                                            <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
-                            </div>
+                            </template>
                         </div>
-                        @else
-                        <div class="aspect-video bg-gradient-to-br from-vnn-blue to-vnn-blue-dark rounded overflow-hidden relative flex items-center justify-center mb-3">
-                            <span class="text-white/15 font-extrabold text-3xl">V</span>
-                            <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="w-12 h-12 bg-vnn-blue/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                                    <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
-                                </div>
+                        <div class="flex items-start justify-between">
+                            <div class="min-w-0 flex-1">
+                                <h3 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $video->title }}</h3>
+                                <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ $video->created_at->diffForHumans() }}</span>
                             </div>
+                            @if($hasVideo)
+                            <button @click="playing = !playing" class="shrink-0 ml-2 text-gray-400 hover:text-vnn-red transition" :title="playing ? 'Close' : 'Play'">
+                                <svg x-show="!playing" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <svg x-show="playing" x-cloak class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                            @endif
                         </div>
-                        @endif
-                        <h3 class="text-sm font-bold mt-2 leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $video->title }}</h3>
-                        <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ $video->publication_date?->diffForHumans() ?? $video->created_at->diffForHumans() }}</span>
-                    </a>
+                    </div>
                     @empty
                     @for ($i = 0; $i < 3; $i++)
-                    <a href="#" class="group block hover:-translate-y-1 transition-all duration-200">
-                        <div class="aspect-video bg-gradient-to-br {{ $i === 0 ? 'from-vnn-red to-vnn-red-dark' : ($i === 1 ? 'from-vnn-dark to-slate-800' : 'from-slate-800 to-slate-950') }} rounded overflow-hidden relative flex items-center justify-center">
+                    <div class="group block">
+                        <div class="aspect-video bg-gradient-to-br {{ $i === 0 ? 'from-vnn-red to-vnn-red-dark' : ($i === 1 ? 'from-vnn-dark to-slate-800' : 'from-slate-800 to-slate-950') }} rounded overflow-hidden relative flex items-center justify-center mb-3">
                             <span class="text-white/15 font-extrabold text-3xl">V</span>
                             <div class="absolute inset-0 flex items-center justify-center">
-                                <div class="w-12 h-12 bg-vnn-red/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                                <div class="w-12 h-12 bg-vnn-red/90 rounded-full flex items-center justify-center">
                                     <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
                                 </div>
                             </div>
                         </div>
-                        <h3 class="text-sm font-bold mt-2 leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">Video Title: Coverage of Major News Event and Expert Analysis</h3>
+                        <h3 class="text-sm font-bold mt-2 leading-snug text-gray-900 dark:text-white line-clamp-2 font-heading">Video Title: Coverage of Major News Event and Expert Analysis</h3>
                         <span class="text-xs text-gray-400 dark:text-gray-500 font-body">12:34 • 2 hours ago</span>
-                    </a>
+                    </div>
                     @endfor
                     @endforelse
                 </div>
@@ -556,28 +605,45 @@
                 </div>
                 <div class="space-y-3">
                     @forelse($podcasts as $podcast)
-                    <a href="{{ route('frontend.article', $podcast->slug) }}" class="flex items-center gap-3 md:gap-4 p-3 bg-white dark:bg-vnn-dark-light rounded shadow-sm hover:bg-vnn-gray dark:hover:bg-vnn-dark transition group hover:-translate-y-0.5 duration-200">
-                        <div class="w-10 h-10 md:w-14 md:h-14 bg-vnn-blue rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                            <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
+                    @php $hasAudio = $podcast->audio_file || $podcast->audio_url; @endphp
+                    <div x-data="{ playing: false }" class="bg-white dark:bg-vnn-dark-light rounded shadow-sm overflow-hidden hover:bg-vnn-gray dark:hover:bg-vnn-dark transition group hover:-translate-y-0.5 duration-200">
+                        <div class="flex items-center gap-3 md:gap-4 p-3">
+                            <div class="w-10 h-10 md:w-14 md:h-14 bg-vnn-blue rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform cursor-pointer" @click="if({{ $hasAudio ? 'true' : 'false' }}) playing = !playing">
+                                <svg x-show="!playing" class="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
+                                <svg x-show="playing" x-cloak class="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-vnn-red transition font-heading truncate">{{ $podcast->title }}</h3>
+                                @if($podcast->episode_number)
+                                <span class="text-xs text-gray-400 dark:text-gray-500 font-body">Ep {{ $podcast->episode_number }}@if($podcast->season_number) • Season {{ $podcast->season_number }}@endif</span>
+                                @else
+                                <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ $podcast->created_at->diffForHumans() }}</span>
+                                @endif
+                            </div>
+                            @if($hasAudio)
+                            <button @click="playing = !playing" class="shrink-0 text-gray-400 hover:text-vnn-blue transition" :title="playing ? 'Pause' : 'Play'">
+                                <svg x-show="!playing" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <svg x-show="playing" x-cloak class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6"/></svg>
+                            </button>
+                            @endif
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <h3 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-vnn-red transition font-heading truncate">{{ $podcast->title }}</h3>
-                            <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ $podcast->publication_date?->diffForHumans() ?? $podcast->created_at->diffForHumans() }}</span>
+                        @if($hasAudio)
+                        <div x-show="playing" x-cloak class="px-3 pb-3 -mt-1">
+                            <audio x-init="$watch('playing', v => { if(v) $el.play(); else { $el.pause(); $el.currentTime = 0; } })" src="{{ $podcast->audio_file ? asset('storage/' . $podcast->audio_file) : $podcast->audio_url }}" controls class="w-full h-8"></audio>
                         </div>
-                        <span class="hidden sm:inline text-xs text-vnn-blue font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
-                    </a>
+                        @endif
+                    </div>
                     @empty
                     @for ($i = 0; $i < 3; $i++)
-                    <a href="#" class="flex items-center gap-3 md:gap-4 p-3 bg-white dark:bg-vnn-dark-light rounded shadow-sm hover:bg-vnn-gray dark:hover:bg-vnn-dark transition group hover:-translate-y-0.5 duration-200">
-                        <div class="w-10 h-10 md:w-14 md:h-14 bg-vnn-blue rounded flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                    <div class="flex items-center gap-3 md:gap-4 p-3 bg-white dark:bg-vnn-dark-light rounded shadow-sm">
+                        <div class="w-10 h-10 md:w-14 md:h-14 bg-vnn-blue rounded flex items-center justify-center shrink-0">
                             <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>
                         </div>
                         <div class="flex-1 min-w-0">
-                            <h3 class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-vnn-red transition font-heading truncate">VNN Daily Podcast: Episode {{ $i + 100 }} — Today's Top Stories and Expert Interviews</h3>
-                            <span class="text-xs text-gray-400 dark:text-gray-500 font-body">45 min • Season {{ $i + 1 }}, Ep {{ $i + 100 }}</span>
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-white font-heading truncate">VNN Daily Podcast: Episode {{ $i + 100 }}</h3>
+                            <span class="text-xs text-gray-400 dark:text-gray-500 font-body">Season {{ $i + 1 }}, Ep {{ $i + 100 }}</span>
                         </div>
-                        <span class="hidden sm:inline text-xs text-vnn-blue font-semibold group-hover:translate-x-0.5 transition-transform">Play →</span>
-                    </a>
+                    </div>
                     @endfor
                     @endforelse
                 </div>

@@ -38,8 +38,8 @@
             </div>
 
             @if($topTen->count())
-            <div class="hidden lg:block">
-                <div id="vnn-hero-slider" class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-slate-800/50 border border-white/10">
+            <div class="block">
+                <div id="vnn-hero-slider" class="relative w-full aspect-[4/3] lg:aspect-[4/5] rounded-2xl overflow-hidden bg-slate-800/50 border border-white/10">
                     @foreach($topTen as $i => $item)
                     <div class="vnn-slide absolute inset-0 {{ $i === 0 ? 'active' : '' }}" data-index="{{ $i }}">
                         @if($item->featured_image)
@@ -50,14 +50,14 @@
                         </div>
                         @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
                             <div class="flex items-center gap-2 mb-2">
                                 <span class="bg-vnn-red text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">#{{ $i + 1 }}</span>
                                 <span class="text-white/60 text-[10px] font-semibold uppercase tracking-wider">VNN Listed</span>
                             </div>
-                            <h3 class="text-xl font-bold text-white font-heading leading-tight">{{ $item->title }}</h3>
+                            <h3 class="text-base sm:text-xl font-bold text-white font-heading leading-tight">{{ $item->title }}</h3>
                             @if($item->excerpt)
-                            <p class="text-white/70 text-sm mt-1.5 line-clamp-2 font-body">{{ $item->excerpt }}</p>
+                            <p class="text-white/70 text-xs sm:text-sm mt-1.5 line-clamp-2 font-body">{{ $item->excerpt }}</p>
                             @endif
                         </div>
                     </div>

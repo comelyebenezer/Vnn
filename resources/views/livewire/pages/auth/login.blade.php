@@ -9,15 +9,15 @@ new #[Layout('layouts.guest')] class extends Component
 {
     public LoginForm $form;
 
-    public function login(): void
+    public function login()
     {
-        $this->validate();
+        $this->form->validate();
 
         $this->form->authenticate();
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        return redirect()->intended(route('admin.dashboard', absolute: false));
     }
 }; ?>
 
@@ -63,10 +63,5 @@ new #[Layout('layouts.guest')] class extends Component
                 {{ __('Log in') }}
             </button>
         </div>
-
-        <p class="text-center text-sm text-gray-500 mt-6">
-            Don't have an account?
-            <a href="{{ route('register') }}" wire:navigate class="font-semibold text-vnn-blue hover:text-vnn-blue-dark underline">Register</a>
-        </p>
     </form>
 </div>

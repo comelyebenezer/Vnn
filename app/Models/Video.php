@@ -43,4 +43,21 @@ class Video extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getYoutubeIdAttribute(): ?string
+    {
+        if (!$this->url) return null;
+
+        $patterns = [
+            '/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/',
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $this->url, $matches)) {
+                return $matches[1];
+            }
+        }
+
+        return null;
+    }
 }

@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $superAdmin = User::firstOrCreate(
             ['email' => 'admin@vnn.ng'],
             [
-                'name' => 'Super Admin',
+                'name' => 'Comely Ebenezer',
                 'email' => 'admin@vnn.ng',
                 'password' => Hash::make('password'),
                 'designation' => 'Super Admin',

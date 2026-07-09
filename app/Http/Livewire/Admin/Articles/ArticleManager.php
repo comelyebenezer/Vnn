@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -34,6 +35,13 @@ class ArticleManager extends Component
     public $scheduled_date;
     public $reading_time;
 
+    public $type = 'article';
+    public $youtube_url;
+    public $media_file;
+    public $media_type;
+    public $existing_media;
+    public $remove_media = false;
+
     public $editMode = false;
 
     protected function rules()
@@ -54,6 +62,9 @@ class ArticleManager extends Component
             'is_editor_pick' => 'boolean',
             'allow_comments' => 'boolean',
             'scheduled_date' => 'nullable|date_format:Y-m-d\TH:i',
+            'type' => 'required|in:article,video,podcast',
+            'youtube_url' => 'nullable|url',
+            'media_file' => 'nullable|file|mimes:mp4,mpeg,ogg,webm,quicktime|max:102400',
         ];
 
         if ($this->status === 'scheduled') {
@@ -89,6 +100,10 @@ class ArticleManager extends Component
             $this->scheduled_date = $article->scheduled_date?->format('Y-m-d\TH:i');
             $this->reading_time = $article->reading_time;
             $this->tags = $article->tags->pluck('id')->toArray();
+            $this->type = $article->type ?? 'article';
+            $this->youtube_url = $article->youtube_url;
+            $this->existing_media = $article->media_file;
+            $this->media_type = $article->media_type;
         }
     }
 
@@ -106,6 +121,12 @@ class ArticleManager extends Component
         }
     }
 
+    public function removeExistingMedia()
+    {
+        $this->remove_media = true;
+        $this->existing_media = null;
+    }
+
     public function save()
     {
         $this->validate();
@@ -114,6 +135,18 @@ class ArticleManager extends Component
 
         if ($this->featured_image) {
             $imagePath = $this->featured_image->store('articles', 'public');
+        }
+
+        $mediaPath = $this->existing_media;
+        $mediaType = $this->media_type;
+
+        if ($this->remove_media && $this->existing_media) {
+            Storage::disk('public')->delete($this->existing_media);
+            $mediaPath = null;
+            $mediaType = null;
+        } elseif ($this->media_file && !$this->remove_media) {
+            $mediaPath = $this->media_file->store('articles/media', 'public');
+            $mediaType = str_starts_with($this->media_file->getMimeType(), 'video/') ? 'video' : 'video';
         }
 
         $data = [
@@ -134,6 +167,10 @@ class ArticleManager extends Component
             'reading_time' => $this->calculateReadingTime($this->body),
             'scheduled_date' => $this->scheduled_date,
             'publication_date' => $this->status === 'published' ? now() : null,
+            'type' => $this->type,
+            'youtube_url' => $this->type === 'video' ? $this->youtube_url : null,
+            'media_file' => $this->type === 'video' ? $mediaPath : null,
+            'media_type' => $this->type === 'video' ? $mediaType : null,
         ];
 
         if ($this->editMode) {

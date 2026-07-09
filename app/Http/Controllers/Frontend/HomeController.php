@@ -74,11 +74,11 @@ class HomeController extends Controller
             ->where('status', 'published')
             ->latest('publication_date')->take(3)->get();
 
-        $videos = Article::where('status', 'published')->where('type', 'video')
-            ->latest('publication_date')->take(3)->get();
+        $videos = Video::where('status', 'published')
+            ->latest()->take(3)->get();
 
-        $podcasts = Article::where('status', 'published')->where('type', 'podcast')
-            ->latest('publication_date')->take(3)->get();
+        $podcasts = \App\Models\Podcast::where('status', 'published')
+            ->latest()->take(3)->get();
 
         $latest = Article::where('status', 'published')
             ->with(['category'])

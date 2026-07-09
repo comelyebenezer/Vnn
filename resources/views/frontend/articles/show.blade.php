@@ -52,12 +52,6 @@
                 @endif
                 <span>|</span>
                 <span>{{ $article->publication_date ? $article->publication_date->format('F j, Y') : $article->created_at->format('F j, Y') }}</span>
-                @if($article->reading_time)
-                <span>|</span>
-                <span>{{ $article->reading_time }} min read</span>
-                @endif
-                <span>|</span>
-                <span>{{ number_format($article->view_count) }} views</span>
             </div>
 
             {{-- Editor/Publishe/Fact Checker info --}}
@@ -78,8 +72,22 @@
         </div>
     </div>
 
-    {{-- Featured Image Hero --}}
-    @if($article->featured_image)
+    {{-- Video Player --}}
+    @if($article->type === 'video')
+    <div class="w-full max-w-7xl mx-auto px-4 mt-6">
+        <div class="relative w-full overflow-hidden rounded-xl">
+            @if($article->youtube_id)
+            <div class="relative w-full" style="padding-top: 56.25%;">
+                <iframe src="https://www.youtube.com/embed/{{ $article->youtube_id }}" class="absolute inset-0 w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            @elseif($article->media_file && $article->media_type === 'video')
+            <video src="{{ asset('storage/' . $article->media_file) }}" controls class="w-full max-h-[500px] bg-black"></video>
+            @endif
+        </div>
+    </div>
+
+    {{-- Featured Image Hero (non-video) --}}
+    @elseif($article->featured_image)
     <div class="w-full max-w-7xl mx-auto px-4 mt-6">
         <div class="relative w-full overflow-hidden rounded-xl">
             <img src="{{ asset('storage/' . $article->featured_image) }}" alt="{{ $article->title }}" class="w-full h-auto max-h-[500px] object-cover">

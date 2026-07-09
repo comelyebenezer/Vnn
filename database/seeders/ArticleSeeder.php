@@ -11,7 +11,9 @@ class ArticleSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = \App\Models\User::first();
+        $user = \App\Models\User::where('email', 'comely@vnn.ng')->first()
+            ?? \App\Models\User::where('email', 'admin@vnn.ng')->first()
+            ?? \App\Models\User::first();
         if (!$user) return;
 
         $now = now();
