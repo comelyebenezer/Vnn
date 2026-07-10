@@ -37,37 +37,20 @@
 
             {{-- Meta --}}
             <div class="flex flex-wrap items-center gap-4 mt-4 text-sm text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 pb-4 font-body">
-                @if($article->author)
                 <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
-                        @if($article->author->avatar)
-                        <img src="{{ asset('storage/' . $article->author->avatar) }}" alt="{{ $article->author->name }}" class="w-full h-full object-cover">
-                        @endif
-                    </div>
-                    <div>
-                        <a href="{{ route('frontend.author', $article->author->id) }}" class="font-semibold text-gray-700 dark:text-gray-200 hover:text-vnn-red">{{ $article->author->name }}</a>
-                        <span class="text-xs text-gray-400 dark:text-gray-500 block">{{ $article->author->designation ?? 'Journalist' }}</span>
-                    </div>
+                    <span class="text-gray-400">Published by</span>
+                    <span class="font-bold text-vnn-red">VNN</span>
+                </div>
+                <span>|</span>
+                @if($article->editor)
+                <div class="flex items-center gap-2">
+                    <span class="text-gray-400">Edited by:</span>
+                    <a href="{{ route('frontend.author', $article->editor->id) }}" class="font-semibold text-gray-700 dark:text-gray-200 hover:text-vnn-red">{{ $article->editor->name }}</a>
                 </div>
                 @endif
                 <span>|</span>
                 <span>{{ $article->publication_date ? $article->publication_date->format('F j, Y') : $article->created_at->format('F j, Y') }}</span>
             </div>
-
-            {{-- Editor/Publishe/Fact Checker info --}}
-            @if($article->editor || $article->publisher || $article->factChecker)
-            <div class="flex flex-wrap gap-4 mt-3 text-xs text-gray-400 dark:text-gray-500 font-body">
-                @if($article->editor)
-                <span>Edited by: <strong class="text-gray-600 dark:text-gray-300">{{ $article->editor->name }}</strong></span>
-                @endif
-                @if($article->publisher)
-                <span>Published by: <strong class="text-gray-600 dark:text-gray-300">{{ $article->publisher->name }}</strong></span>
-                @endif
-                @if($article->factChecker)
-                <span>Fact-checked by: <strong class="text-gray-600 dark:text-gray-300">{{ $article->factChecker->name }}</strong></span>
-                @endif
-            </div>
-            @endif
 
         </div>
     </div>
@@ -190,7 +173,6 @@
                         @endif
                         <div class="min-w-0">
                             <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $trend->title }}</h4>
-                            <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ number_format($trend->view_count) }} views</span>
                         </div>
                     </a>
                     @endforeach

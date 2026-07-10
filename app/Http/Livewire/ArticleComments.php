@@ -16,12 +16,15 @@ class ArticleComments extends Component
 
     public string $guestEmail = '';
 
+    public string $guestWebsite = '';
+
     public bool $success = false;
 
     protected array $rules = [
         'body' => 'required|string|min:2|max:2000',
-        'guestName' => 'nullable|string|max:255',
-        'guestEmail' => 'nullable|email|max:255',
+        'guestName' => 'required|string|max:255',
+        'guestEmail' => 'required|email|max:255',
+        'guestWebsite' => 'nullable|url|max:255',
     ];
 
     public function mount(Article $article)
@@ -37,15 +40,15 @@ class ArticleComments extends Component
             'article_id' => $this->article->id,
             'user_id' => auth()->id(),
             'body' => $this->body,
-            'guest_name' => auth()->check() ? null : ($this->guestName ?: null),
-            'guest_email' => auth()->check() ? null : ($this->guestEmail ?: null),
+            'guest_name' => $this->guestName,
+            'guest_email' => $this->guestEmail,
+            'guest_website' => $this->guestWebsite ?: null,
             'ip_address' => request()->ip(),
             'status' => 'pending',
         ]);
 
         $this->body = '';
-        $this->guestName = '';
-        $this->guestEmail = '';
+        $this->guestWebsite = '';
         $this->success = true;
 
         $this->dispatch('comment-submitted');

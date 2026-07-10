@@ -22,6 +22,8 @@ use App\Http\Livewire\Admin\BreakingNews\BreakingNewsList;
 use App\Http\Livewire\Admin\BreakingNews\BreakingNewsManager;
 use App\Http\Livewire\Admin\Categories\CategoryList;
 use App\Http\Livewire\Admin\Categories\CategoryManager;
+use App\Http\Livewire\Admin\Subcategories\SubcategoryList;
+use App\Http\Livewire\Admin\Subcategories\SubcategoryManager;
 use App\Http\Livewire\Admin\Comments\CommentList;
 use App\Http\Livewire\Admin\FactCheckers\FactCheckerList;
 use App\Http\Livewire\Admin\FactCheckers\FactCheckerManager;
@@ -97,6 +99,12 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
         Route::get('/', CategoryList::class)->name('index');
         Route::get('/create', CategoryManager::class)->name('create');
         Route::get('/{category}/edit', CategoryManager::class)->name('edit');
+    });
+
+    Route::prefix('subcategories')->name('subcategories.')->group(function () {
+        Route::get('/', SubcategoryList::class)->name('index');
+        Route::get('/create', SubcategoryManager::class)->name('create');
+        Route::get('/{subcategory}/edit', SubcategoryManager::class)->name('edit');
     });
 
     Route::prefix('media')->name('media.')->group(function () {

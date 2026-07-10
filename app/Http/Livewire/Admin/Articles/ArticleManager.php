@@ -34,6 +34,7 @@ class ArticleManager extends Component
     public $tags = [];
     public $scheduled_date;
     public $reading_time;
+    public $editor_id;
 
     public $type = 'article';
     public $youtube_url;
@@ -65,6 +66,7 @@ class ArticleManager extends Component
             'type' => 'required|in:article,video,podcast',
             'youtube_url' => 'nullable|url',
             'media_file' => 'nullable|file|mimes:mp4,mpeg,ogg,webm,quicktime|max:102400',
+            'editor_id' => 'nullable|exists:users,id',
         ];
 
         if ($this->status === 'scheduled') {
@@ -104,6 +106,7 @@ class ArticleManager extends Component
             $this->youtube_url = $article->youtube_url;
             $this->existing_media = $article->media_file;
             $this->media_type = $article->media_type;
+            $this->editor_id = $article->editor_id;
         }
     }
 
@@ -111,6 +114,18 @@ class ArticleManager extends Component
     {
         if (!$this->editMode) {
             $this->slug = Str::slug($value);
+        }
+    }
+
+    public function updatedCategoryId($value)
+    {
+        $this->subcategory_id = null;
+    }
+
+    public function updatedBody($value)
+    {
+        if (!$this->editMode && empty($this->excerpt)) {
+            $this->excerpt = Str::limit(strip_tags($value), 150);
         }
     }
 
@@ -130,6 +145,14 @@ class ArticleManager extends Component
     public function save()
     {
         $this->validate();
+
+        if (empty($this->slug)) {
+            $this->slug = Str::slug($this->title);
+        }
+
+        if (empty($this->excerpt)) {
+            $this->excerpt = Str::limit(strip_tags($this->body), 150);
+        }
 
         $imagePath = $this->existing_image;
 
@@ -171,6 +194,7 @@ class ArticleManager extends Component
             'youtube_url' => $this->type === 'video' ? $this->youtube_url : null,
             'media_file' => $this->type === 'video' ? $mediaPath : null,
             'media_type' => $this->type === 'video' ? $mediaType : null,
+            'editor_id' => $this->editor_id,
         ];
 
         if ($this->editMode) {
@@ -209,6 +233,7 @@ class ArticleManager extends Component
         return view('admin.articles.form', [
             'categories' => Category::where('status', 'active')->orderBy('name')->get(),
             'allTags' => Tag::orderBy('name')->get(),
+            'editors' => \App\Models\User::orderBy('name')->get(),
             'subcategories' => $this->category_id
                 ? \App\Models\Subcategory::where('category_id', $this->category_id)->where('status', 'active')->get()
                 : collect(),

@@ -39,8 +39,7 @@ class DocumentaryManager extends ArticleManager
     protected function rules(): array
     {
         $rules = parent::rules();
-        $rules['youtube_url'] = 'nullable|url';
-        $rules['media_file'] = 'nullable|file|mimes:mp4,mpeg,ogg,webm,quicktime|max:102400';
+        $rules['youtube_url'] = 'required|string';
         return $rules;
     }
 
@@ -114,6 +113,13 @@ class DocumentaryManager extends ArticleManager
 
     public function render()
     {
-        return parent::render()->layout('layouts.app');
+        return view('admin.documentary.form', [
+            'categories' => Category::where('status', 'active')->orderBy('name')->get(),
+            'allTags' => \App\Models\Tag::orderBy('name')->get(),
+            'editors' => \App\Models\User::orderBy('name')->get(),
+            'subcategories' => $this->category_id
+                ? \App\Models\Subcategory::where('category_id', $this->category_id)->where('status', 'active')->get()
+                : collect(),
+        ])->layout('layouts.app');
     }
 }

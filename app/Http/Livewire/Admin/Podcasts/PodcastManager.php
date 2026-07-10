@@ -22,6 +22,9 @@ class PodcastManager extends Component
     public $audio_file;
     public $audio_type;
     public $cover_image;
+    public $cover_image_file;
+    public $existing_cover_image;
+    public $remove_cover_image = false;
     public $duration;
     public $episode_number;
     public $season_number;
@@ -40,7 +43,6 @@ class PodcastManager extends Component
             'description' => 'nullable|max:2000',
             'audio_url' => 'nullable|string|max:500',
             'audio_type' => 'nullable|string|in:upload,url',
-            'cover_image' => 'nullable|max:500',
             'duration' => 'nullable|integer|min:0',
             'episode_number' => 'nullable|integer|min:1',
             'season_number' => 'nullable|integer|min:1',
@@ -50,6 +52,10 @@ class PodcastManager extends Component
 
         if (!$this->removeAudioFile && $this->audio_file && !$this->existingAudioFile) {
             $rules['audio_file'] = 'required|file|mimes:mp3,mpeg,ogg,wav,webm,aac|max:102400';
+        }
+
+        if (!$this->remove_cover_image && $this->cover_image_file && !$this->existing_cover_image) {
+            $rules['cover_image_file'] = 'nullable|image|max:2048';
         }
 
         return $rules;
@@ -69,7 +75,7 @@ class PodcastManager extends Component
             $this->description = $podcast->description;
             $this->audio_url = $podcast->audio_url;
             $this->audio_type = $podcast->audio_type;
-            $this->cover_image = $podcast->cover_image;
+            $this->existing_cover_image = $podcast->cover_image;
             $this->duration = $podcast->duration;
             $this->episode_number = $podcast->episode_number;
             $this->season_number = $podcast->season_number;
@@ -94,6 +100,12 @@ class PodcastManager extends Component
         $this->audio_type = null;
     }
 
+    public function removeExistingCoverImage()
+    {
+        $this->remove_cover_image = true;
+        $this->existing_cover_image = null;
+    }
+
     public function save()
     {
         $this->validate();
@@ -103,7 +115,6 @@ class PodcastManager extends Component
             'slug' => $this->slug,
             'description' => $this->description,
             'audio_url' => $this->audio_url,
-            'cover_image' => $this->cover_image,
             'duration' => $this->duration,
             'episode_number' => $this->episode_number,
             'season_number' => $this->season_number,
@@ -111,6 +122,19 @@ class PodcastManager extends Component
             'status' => $this->status,
         ];
 
+        // Handle cover image
+        $coverPath = $this->existing_cover_image;
+        if ($this->remove_cover_image && $this->existing_cover_image) {
+            Storage::disk('public')->delete($this->existing_cover_image);
+            $coverPath = null;
+        } elseif ($this->cover_image_file && !$this->remove_cover_image) {
+            $coverPath = $this->cover_image_file->store('podcasts/covers', 'public');
+        } elseif ($this->cover_image && !$this->remove_cover_image) {
+            $coverPath = $this->cover_image;
+        }
+        $data['cover_image'] = $coverPath;
+
+        // Handle audio file
         if ($this->removeAudioFile && $this->existingAudioFile) {
             Storage::disk('public')->delete($this->existingAudioFile);
             $data['audio_file'] = null;

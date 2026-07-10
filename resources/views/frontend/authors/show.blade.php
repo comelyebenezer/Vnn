@@ -19,8 +19,13 @@
                 @if($author->designation)
                 <p class="text-vnn-red font-semibold text-sm">{{ $author->designation }}</p>
                 @endif
-                @if($author->bio)
+                @if($author->author && $author->author->bio)
+                <p class="text-gray-600 dark:text-gray-300 text-sm mt-2 max-w-2xl font-body">{{ $author->author->bio }}</p>
+                @elseif($author->bio)
                 <p class="text-gray-600 dark:text-gray-300 text-sm mt-2 max-w-2xl font-body">{{ $author->bio }}</p>
+                @endif
+                @if($author->author && $author->author->expertise)
+                <p class="text-gray-500 dark:text-gray-400 text-xs mt-1 font-body"><strong>Expertise:</strong> {{ $author->author->expertise }}</p>
                 @endif
             </div>
         </div>

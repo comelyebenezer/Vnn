@@ -48,10 +48,8 @@
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 font-body">{{ $article->excerpt }}</p>
                 @endif
                 <div class="flex items-center gap-2 mt-2 text-xs text-gray-400 dark:text-gray-500 font-body">
-                    @if($article->author)
-                    <span>By {{ $article->author->name }}</span>
+                    <span>Published by <span class="font-bold text-vnn-red">VNN</span></span>
                     <span>•</span>
-                    @endif
                     <span>{{ $article->publication_date?->diffForHumans() ?? $article->created_at->diffForHumans() }}</span>
                 </div>
             </div>

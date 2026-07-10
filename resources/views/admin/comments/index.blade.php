@@ -66,6 +66,9 @@
                                 @if($comment->user?->email || $comment->guest_email)
                                 <br><span class="text-xs text-gray-400">{{ $comment->user?->email ?? $comment->guest_email }}</span>
                                 @endif
+                                @if($comment->guest_website)
+                                <br><a href="{{ $comment->guest_website }}" target="_blank" rel="noopener noreferrer" class="text-xs text-vnn-blue hover:text-vnn-red">{{ $comment->guest_website }}</a>
+                                @endif
                             </td>
                             <td class="px-5 py-3.5">
                                 <span class="px-2 py-0.5 rounded text-xs font-semibold

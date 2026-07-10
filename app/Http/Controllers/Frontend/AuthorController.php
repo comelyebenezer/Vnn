@@ -10,7 +10,7 @@ class AuthorController extends Controller
 {
     public function __invoke($id)
     {
-        $author = User::with('roles')->findOrFail($id);
+        $author = User::with(['roles', 'author'])->findOrFail($id);
 
         $articles = Article::where('user_id', $author->id)
             ->where('status', 'published')

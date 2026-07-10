@@ -17,6 +17,7 @@ class Comment extends Model
         'ip_address',
         'guest_name',
         'guest_email',
+        'guest_website',
     ];
 
     public function article(): BelongsTo

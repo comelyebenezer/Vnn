@@ -31,10 +31,8 @@
                         <h2 class="text-white text-sm font-extrabold mt-1.5 leading-snug group-hover:underline transition-all duration-200 font-heading">{{ $story->title }}</h2>
                         <p class="text-gray-300 text-[11px] mt-1 line-clamp-1 font-body">{{ $story->excerpt }}</p>
                         <div class="flex items-center gap-2 mt-1.5 text-[10px] text-gray-400">
-                            @if($story->author)
-                            <span>By {{ $story->author->user->name ?? $story->author->name }}</span>
+                            <span>Published by <span class="font-bold text-vnn-red">VNN</span></span>
                             <span>•</span>
-                            @endif
                             <span>{{ $story->publication_date?->diffForHumans() ?? $story->created_at->diffForHumans() }}</span>
                             @if($story->category)
                             <span>•</span>
@@ -440,10 +438,8 @@
                         <div class="bg-white dark:bg-vnn-dark-light p-4 rounded shadow-sm border-l-4 border-vnn-blue">
                             <h3 class="text-sm font-bold leading-snug font-heading"><a href="{{ route('frontend.article', $opinion->slug) }}" class="text-gray-900 dark:text-white hover:text-vnn-red transition">{{ $opinion->title }}</a></h3>
                             <div class="flex items-center gap-2 mt-2 text-xs text-gray-400 dark:text-gray-500">
-                                @if($opinion->author)
-                                <span>By {{ $opinion->author->user->name ?? $opinion->author->name }}</span>
+                            <span>Published by <span class="font-bold text-vnn-red">VNN</span></span>
                                 <span>•</span>
-                                @endif
                                 <span>{{ $opinion->publication_date?->format('F j, Y') ?? $opinion->created_at->format('F j, Y') }}</span>
                             </div>
                         </div>
@@ -512,9 +508,7 @@
                         <span class="text-vnn-blue text-xs font-bold uppercase tracking-wide">{{ $pick->category->name }}</span>
                         @endif
                         <h3 class="text-sm font-bold leading-snug mt-1 text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $pick->title }}</h3>
-                        @if($pick->author)
-                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 font-body">By {{ $pick->author->user->name ?? $pick->author->name }}</p>
-                        @endif
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 font-body">Published by <span class="font-bold text-vnn-red">VNN</span></p>
                     </a>
                     @endforeach
                 </div>
@@ -725,32 +719,32 @@
                     <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Most Read</h3>
                     <div class="flex-1"></div>
                 </div>
-                <div class="space-y-4">
+                <div class="space-y-3">
                     @forelse($mostRead as $item)
-                    <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-3 group">
-                        <div class="w-24 h-18 bg-gray-100 dark:bg-vnn-dark-light rounded overflow-hidden shrink-0">
-                            @if($item->featured_image)
+                    <a href="{{ route('frontend.article', $item->slug) }}" class="flex gap-4 group {{ !$loop->last ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        @if($item->featured_image)
+                        <div class="w-20 sm:w-32 h-16 sm:h-24 rounded overflow-hidden shrink-0">
                             <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                            @else
-                            <div class="w-full h-full bg-gradient-to-br from-vnn-red/20 to-vnn-blue/20 flex items-center justify-center">
-                                <span class="text-vnn-red/40 font-bold text-xl font-heading">{{ strtoupper(substr($item->title, 0, 1)) }}</span>
-                            </div>
-                            @endif
                         </div>
+                        @else
+                        <div class="w-20 sm:w-32 h-16 sm:h-24 bg-gradient-to-br from-vnn-red/20 to-vnn-blue/20 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-vnn-red/40 font-bold text-2xl font-heading">{{ strtoupper(substr($item->title, 0, 1)) }}</span>
+                        </div>
+                        @endif
                         <div class="flex-1 min-w-0">
                             <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
-                            <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ number_format($item->view_count ?? 0) }} views</span>
+                            <span class="text-xs text-gray-400 dark:text-gray-500 font-body mt-1 inline-block">{{ $item->publication_date?->diffForHumans() }}</span>
                         </div>
                     </a>
                     @empty
                     @for ($i = 0; $i < 5; $i++)
-                    <a href="#" class="flex gap-3 group">
-                        <div class="w-24 h-18 bg-gradient-to-br from-vnn-red/10 to-vnn-blue/10 rounded overflow-hidden shrink-0 flex items-center justify-center">
-                            <span class="text-vnn-red/30 font-bold text-xl font-heading">{{ $i + 1 }}</span>
+                    <a href="#" class="flex gap-4 group {{ $i < 4 ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-20 sm:w-32 h-16 sm:h-24 bg-gradient-to-br from-vnn-red/10 to-vnn-blue/10 rounded overflow-hidden shrink-0 flex items-center justify-center">
+                            <span class="text-vnn-red/30 font-bold text-2xl font-heading">{{ $i + 1 }}</span>
                         </div>
                         <div class="flex-1 min-w-0">
                             <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">Most read story number {{ $i + 1 }} that everyone is talking about</h4>
-                            <span class="text-xs text-gray-400 dark:text-gray-500 font-body">{{ rand(1000, 50000) }} views</span>
+                            <span class="text-xs text-gray-400 dark:text-gray-500 font-body mt-1 inline-block">{{ rand(1000, 50000) }} views</span>
                         </div>
                     </a>
                     @endfor
@@ -857,6 +851,7 @@
             <div>
                 <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
                     <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Tech Start Ups</h3>
+                    <a href="{{ route('frontend.tech-start-ups') }}" class="text-vnn-red text-[10px] font-bold uppercase tracking-wide hover:underline ml-auto">See All</a>
                 </div>
                 <div class="space-y-3">
                     @forelse($techStartupsArticles as $item)
@@ -895,6 +890,7 @@
             <div>
                 <div class="flex items-center gap-3 mb-4 border-b-2 border-vnn-red pb-2">
                     <h3 class="text-base font-extrabold text-vnn-dark dark:text-white uppercase tracking-tight font-heading">Latest Gadgets</h3>
+                    <a href="{{ route('frontend.latest-gadgets') }}" class="text-vnn-red text-[10px] font-bold uppercase tracking-wide hover:underline ml-auto">See All</a>
                 </div>
                 <div class="space-y-3">
                     @forelse($latestGadgetsArticles as $item)

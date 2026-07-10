@@ -18,6 +18,8 @@ Route::prefix('')->name('frontend.')->group(function () {
     Route::get('/podcast', \App\Http\Controllers\Frontend\PodcastController::class)->name('podcast');
     Route::get('/vnn-list', \App\Http\Controllers\Frontend\VnnListController::class)->name('vnn-list');
     Route::get('/documentary', \App\Http\Controllers\Frontend\DocumentaryController::class)->name('documentary');
+    Route::get('/tech-start-ups', \App\Http\Controllers\Frontend\TechStartUpsController::class)->name('tech-start-ups');
+    Route::get('/latest-gadgets', \App\Http\Controllers\Frontend\LatestGadgetsController::class)->name('latest-gadgets');
 });
 
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
