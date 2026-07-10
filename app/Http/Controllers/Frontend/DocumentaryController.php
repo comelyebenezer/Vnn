@@ -17,7 +17,7 @@ class DocumentaryController extends Controller
             ? Article::where('category_id', $category->id)
                 ->where('status', 'published')
                 ->orderBy('publication_date', 'desc')
-                ->get()
+                ->paginate(12)
             : collect([]);
 
         $featured = $category
@@ -32,7 +32,9 @@ class DocumentaryController extends Controller
             $q->where('category_id', $category?->id)->where('status', 'published');
         })->orderBy('name')->get();
 
-        $count = $documentaries->count();
+        $count = $category
+            ? Article::where('category_id', $category->id)->where('status', 'published')->count()
+            : 0;
 
         return view('frontend.documentary.index', compact('documentaries', 'featured', 'tags', 'count'));
     }

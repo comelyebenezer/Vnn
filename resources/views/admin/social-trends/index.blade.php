@@ -3,11 +3,11 @@
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-xl font-extrabold text-gray-900 dark:text-white">Social Trends</h1>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Manage trending social videos and viral content</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Manage trending social content</p>
             </div>
             <a href="{{ route('admin.social-trends.create') }}" class="flex items-center gap-2 bg-vnn-red text-white text-sm font-bold px-4 py-2.5 rounded-lg hover:bg-vnn-red-dark transition shadow-lg shadow-vnn-red/20">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                New Video
+                New Social Trend
             </a>
         </div>
     </x-slot>
@@ -70,7 +70,10 @@
                                         <a href="{{ route('admin.social-trends.edit', $article) }}" wire:navigate class="font-medium text-gray-900 dark:text-gray-100 hover:text-vnn-red transition line-clamp-2">{{ $article->title }}</a>
                                         <div class="flex items-center gap-2 mt-0.5">
                                             @if($article->is_featured)<span class="text-yellow-600 text-xs">★ Featured</span>@endif
-                                            <span class="text-vnn-blue text-xs">▶ Video</span>
+                                            @if($article->social_platform)
+                                            <span class="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 rounded">{{ ucfirst($article->social_platform) }}</span>
+                                            @endif
+                                            <span class="text-xs {{ $article->media_content_type === 'image' ? 'text-green-600' : 'text-vnn-blue' }}">{{ $article->media_content_type === 'image' ? '🖼 Image' : '▶ Video' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -100,12 +103,12 @@
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                         Edit
                                     </a>
-                                    <button wire:click="deleteArticle({{ $article->id }})" onclick="return confirm('Delete this video?')" class="inline-flex items-center gap-1 text-red-500 hover:text-red-700 text-xs font-semibold bg-red-50 dark:bg-red-900/20 px-2.5 py-1.5 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition">
+                                    <button wire:click="deleteArticle({{ $article->id }})" onclick="return confirm('Delete this social trend?')" class="inline-flex items-center gap-1 text-red-500 hover:text-red-700 text-xs font-semibold bg-red-50 dark:bg-red-900/20 px-2.5 py-1.5 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                         Delete
                                     </button>
                                     @if($article->status === 'published')
-                                    <a href="{{ route('frontend.article', $article->slug) }}" target="_blank" class="inline-flex items-center gap-1 text-gray-400 hover:text-vnn-blue text-xs px-2.5 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                                    <a href="{{ route('frontend.social-trend', $article->slug) }}" target="_blank" class="inline-flex items-center gap-1 text-gray-400 hover:text-vnn-blue text-xs px-2.5 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                                     </a>
                                     @endif
@@ -118,8 +121,8 @@
                                 <div class="w-16 h-16 mx-auto bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-3">
                                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 </div>
-                                <p class="text-gray-500 dark:text-gray-400 font-medium">No videos found</p>
-                                <p class="text-sm text-gray-400 mt-1">Add your first trending video to get started.</p>
+                                <p class="text-gray-500 dark:text-gray-400 font-medium">No social trends found</p>
+                                <p class="text-sm text-gray-400 mt-1">Add your first social trend to get started.</p>
                             </td>
                         </tr>
                         @endforelse

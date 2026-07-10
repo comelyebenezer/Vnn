@@ -36,7 +36,7 @@ class LiveList extends Component
     public function deleteLive($id)
     {
         LiveUpdate::findOrFail($id)->delete();
-        session()->flash('message', 'Live video deleted.');
+        session()->flash('message', 'Live update deleted.');
     }
 
     public function render()

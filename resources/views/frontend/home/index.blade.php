@@ -189,15 +189,28 @@
             @if($liveUpdates->count())
             <div class="space-y-2">
                 @foreach($liveUpdates as $live)
-                <div class="bg-vnn-dark rounded overflow-hidden border-l-4 border-vnn-blue">
-                    @if($live->video_url)
+                <a href="{{ route('frontend.live', $live->id) }}" class="block bg-vnn-dark rounded overflow-hidden border-l-4 border-vnn-blue hover:border-vnn-red transition">
+                    @if($live->media_type === 'image' && $live->image_file)
+                    <div class="aspect-video bg-black relative">
+                        <img src="{{ asset('storage/' . $live->image_file) }}" alt="{{ $live->title }}" class="w-full h-full object-cover">
+                        @if($live->is_live)
+                        <span class="absolute top-1 left-1 flex items-center gap-1 bg-vnn-red text-white text-[8px] font-bold px-1 py-0.5 rounded uppercase tracking-wide">
+                            <span class="w-1 h-1 bg-white rounded-full animate-pulse"></span>
+                            Live
+                        </span>
+                        @endif
+                    </div>
+                    @elseif($live->video_url || $live->video_file)
                     <div class="aspect-video bg-black relative">
                         @if($live->video_type === 'youtube')
                         <iframe src="{{ $live->embed_url }}" class="w-full h-full" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                         @elseif($live->video_type === 'facebook')
                         <iframe src="{{ $live->embed_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
-                        @else
-                        <video src="{{ asset('storage/' . $live->video_file) }}" class="w-full h-full" controls></video>
+                        @elseif($live->video_file)
+                        <video class="w-full h-full" controls preload="metadata" playsinline>
+                            <source src="{{ asset('storage/' . $live->video_file) }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                         @endif
                         @if($live->is_live)
                         <span class="absolute top-1 left-1 flex items-center gap-1 bg-vnn-red text-white text-[8px] font-bold px-1 py-0.5 rounded uppercase tracking-wide">
@@ -213,7 +226,7 @@
                         <p class="text-gray-400 dark:text-gray-500 text-[11px] mt-1 line-clamp-2 font-body">{{ $live->description }}</p>
                         @endif
                     </div>
-                </div>
+                </a>
                 @endforeach
             </div>
             @else
@@ -932,38 +945,31 @@
                 </div>
                 <div class="space-y-4">
                     @forelse($socialTrendsArticles as $item)
-                    <div x-data="{ playing: false, src: '{{ $item->youtube_url ? 'https://www.youtube.com/embed/' . $item->getYoutubeIdAttribute() : ($item->media_file ? asset('storage/' . $item->media_file) : '') }}', type: '{{ $item->media_type ?? 'youtube' }}' }" class="group {{ !$loop->last ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
-                        <div class="w-full aspect-video bg-gradient-to-br from-vnn-blue/20 to-vnn-dark/20 rounded-lg overflow-hidden relative cursor-pointer" @click="if(src) { playing = !playing }">
-                            <template x-if="!playing">
-                                <div class="absolute inset-0">
-                                    @if($item->featured_image)
-                                    <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                                    @else
-                                    <div class="w-full h-full flex items-center justify-center bg-vnn-dark/10">
-                                        <span class="text-vnn-blue/30 font-bold text-3xl font-heading">&#9654;</span>
-                                    </div>
-                                    @endif
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <span class="w-10 h-10 bg-vnn-red/90 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg">&#9654;</span>
-                                    </div>
+                    <a href="{{ route('frontend.social-trend', $item->slug) }}" class="block group {{ !$loop->last ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
+                        <div class="w-full aspect-video bg-gradient-to-br from-vnn-blue/20 to-vnn-dark/20 rounded-lg overflow-hidden relative">
+                            @if($item->media_content_type === 'image' && $item->image_file)
+                                <img src="{{ asset('storage/' . $item->image_file) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            @elseif($item->media_content_type === 'video' && $item->featured_image)
+                                <img src="{{ asset('storage/' . $item->featured_image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span class="w-10 h-10 bg-vnn-red/90 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg">&#9654;</span>
                                 </div>
-                            </template>
-                            <template x-if="playing">
-                                <div class="w-full h-full">
-                                    <template x-if="type === 'youtube'">
-                                        <iframe :src="src + '?autoplay=1'" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                                    </template>
-                                    <template x-if="type !== 'youtube'">
-                                        <video :src="src" controls autoplay class="w-full h-full object-cover"></video>
-                                    </template>
+                            @else
+                                <div class="w-full h-full flex items-center justify-center bg-vnn-dark/10">
+                                    <span class="text-vnn-blue/30 font-bold text-3xl font-heading">&#9654;</span>
                                 </div>
-                            </template>
+                            @endif
                         </div>
-                        <a href="{{ route('frontend.article', $item->slug) }}" class="block mt-2">
+                        <div class="mt-2">
                             <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white group-hover:text-vnn-red transition line-clamp-2 font-heading">{{ $item->title }}</h4>
-                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">▶ Video &middot; {{ $item->publication_date?->diffForHumans() }}</span>
-                        </a>
-                    </div>
+                            <div class="flex items-center gap-2 mt-0.5">
+                                @if($item->social_platform)
+                                <span class="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-[9px] font-bold uppercase rounded">{{ $item->social_platform }}</span>
+                                @endif
+                                <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body">{{ $item->publication_date?->diffForHumans() }}</span>
+                            </div>
+                        </div>
+                    </a>
                     @empty
                     @for ($i = 0; $i < 2; $i++)
                     <div class="{{ $i < 1 ? 'pb-4 border-b border-gray-100 dark:border-gray-800' : '' }}">
@@ -971,8 +977,8 @@
                             <span class="text-vnn-blue/20 font-bold text-3xl font-heading">&#9654;</span>
                         </div>
                         <div class="mt-2">
-                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white line-clamp-2 font-heading">Trending social video {{ $i + 1 }}</h4>
-                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">▶ Video &middot; {{ now()->subHours(rand(1, 48))->diffForHumans() }}</span>
+                            <h4 class="text-sm font-bold leading-snug text-gray-900 dark:text-white line-clamp-2 font-heading">Trending social post {{ $i + 1 }}</h4>
+                            <span class="text-[10px] text-gray-400 dark:text-gray-500 font-body mt-0.5 inline-block">{{ now()->subHours(rand(1, 48))->diffForHumans() }}</span>
                         </div>
                     </div>
                     @endfor

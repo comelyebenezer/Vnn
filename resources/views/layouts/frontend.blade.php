@@ -43,8 +43,8 @@
     @stack('meta')
 
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=poppins:300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.bunny.net/css?family=merriweather:300,400,700,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700,800,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=source-sans-3:300,400,500,600,700,900&display=swap" rel="stylesheet" />
     <link rel="alternate" type="application/rss+xml" title="{{ config('app.name') }}" href="{{ route('rss') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

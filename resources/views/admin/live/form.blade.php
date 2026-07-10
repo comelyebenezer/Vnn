@@ -2,12 +2,12 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-xl font-extrabold text-gray-900 dark:text-white">{{ $editMode ? 'Edit Live Video' : 'Create Live Video' }}</h1>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ $editMode ? 'Update the live video details below' : 'Add a new live video stream' }}</p>
+                <h1 class="text-xl font-extrabold text-gray-900 dark:text-white">{{ $editMode ? 'Edit Live Update' : 'Create Live Update' }}</h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ $editMode ? 'Update the live update details below' : 'Add a new live update' }}</p>
             </div>
             <a href="{{ route('admin.live.index') }}" class="flex items-center gap-2 text-sm text-gray-500 hover:text-vnn-red transition px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                Back to Live Videos
+                Back to Live Updates
             </a>
         </div>
     </x-slot>
@@ -18,36 +18,49 @@
                 <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
                     <div class="mb-5">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Title</label>
-                        <input wire:model="title" type="text" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-4 py-3 text-lg font-bold text-gray-900 dark:text-white focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red" placeholder="Live stream title...">
+                        <input wire:model="title" type="text" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-4 py-3 text-lg font-bold text-gray-900 dark:text-white focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red" placeholder="Live update title...">
                         @error('title') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="mb-5">
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Description</label>
-                        <textarea wire:model="description" rows="4" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red" placeholder="Brief description of the live stream..."></textarea>
+                        <textarea wire:model="description" rows="4" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red" placeholder="Brief description of the live update..."></textarea>
                         @error('description') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <div class="mb-5">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Video Source</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Media Type</label>
                         <div class="flex gap-2">
-                            <button type="button" wire:click="$set('video_source', 'url')" class="flex-1 px-3 py-2.5 text-sm font-medium rounded-lg border transition {{ $video_source === 'url' ? 'bg-vnn-red text-white border-vnn-red' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-vnn-red' }}">
-                                URL / Embed
+                            <button type="button" wire:click="$set('media_type', 'video')" class="flex-1 px-3 py-2.5 text-sm font-medium rounded-lg border transition {{ $media_type === 'video' ? 'bg-vnn-red text-white border-vnn-red' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-vnn-red' }}">
+                                Video
                             </button>
-                            <button type="button" wire:click="$set('video_source', 'upload')" class="flex-1 px-3 py-2.5 text-sm font-medium rounded-lg border transition {{ $video_source === 'upload' ? 'bg-vnn-red text-white border-vnn-red' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-vnn-red' }}">
-                                Upload File
+                            <button type="button" wire:click="$set('media_type', 'image')" class="flex-1 px-3 py-2.5 text-sm font-medium rounded-lg border transition {{ $media_type === 'image' ? 'bg-vnn-red text-white border-vnn-red' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-vnn-red' }}">
+                                Image
                             </button>
                         </div>
+                        @error('media_type') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
 
-                    @if($video_source === 'url')
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-                            <div>
+                    @if($media_type === 'video')
+                        <div class="mb-5">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Video Source</label>
+                            <div class="flex gap-2">
+                                <button type="button" wire:click="$set('video_source', 'url')" class="flex-1 px-3 py-2.5 text-sm font-medium rounded-lg border transition {{ $video_source === 'url' ? 'bg-vnn-red text-white border-vnn-red' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-vnn-red' }}">
+                                    URL / Embed
+                                </button>
+                                <button type="button" wire:click="$set('video_source', 'upload')" class="flex-1 px-3 py-2.5 text-sm font-medium rounded-lg border transition {{ $video_source === 'upload' ? 'bg-vnn-red text-white border-vnn-red' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-vnn-red' }}">
+                                    Upload File
+                                </button>
+                            </div>
+                        </div>
+
+                        @if($video_source === 'url')
+                            <div class="mb-5">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Video URL</label>
                                 <input wire:model="video_url" type="url" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red" placeholder="https://youtube.com/watch?v=...">
                                 @error('video_url') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                             </div>
-                            <div>
+                            <div class="mb-5">
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Video Type</label>
                                 <select wire:model="video_type" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-vnn-red">
                                     <option value="youtube">YouTube</option>
@@ -57,28 +70,61 @@
                                 </select>
                                 @error('video_type') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                             </div>
-                        </div>
+                        @else
+                            <div class="mb-5">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Upload Video File</label>
+                                <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-vnn-red transition">
+                                    <input type="file" wire:model="video_file_upload" accept="video/*" class="hidden" id="live-video-upload">
+                                    <label for="live-video-upload" class="cursor-pointer">
+                                        <svg class="w-10 h-10 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Click to browse or drag & drop</p>
+                                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">MP4, AVI, MOV, WMV, FLV, MKV, WebM (max 500MB)</p>
+                                    </label>
+                                </div>
+                                @if($video_file_upload)
+                                    <div class="mt-3 flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        <span class="text-sm text-green-700 dark:text-green-300">{{ $video_file_upload->getClientOriginalName() }}</span>
+                                        <button type="button" wire:click="$set('video_file_upload', null)" class="ml-auto text-green-500 hover:text-green-700">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        </button>
+                                    </div>
+                                @endif
+                                @error('video_file_upload') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            </div>
+                        @endif
                     @else
                         <div class="mb-5">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Upload Video File</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Upload Image</label>
+                            @if($editMode && !$image_file_upload)
+                                @php $liveModel = \App\Models\LiveUpdate::find($liveId); @endphp
+                                @if($liveModel && $liveModel->image_file)
+                                    <div class="mb-3">
+                                        <img src="{{ asset('storage/' . $liveModel->image_file) }}" class="w-full h-48 object-cover rounded-lg border border-gray-200 dark:border-gray-700">
+                                    </div>
+                                @endif
+                            @endif
                             <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-vnn-red transition">
-                                <input type="file" wire:model="video_file_upload" accept="video/*" class="hidden" id="live-video-upload">
-                                <label for="live-video-upload" class="cursor-pointer">
-                                    <svg class="w-10 h-10 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                <input type="file" wire:model="image_file_upload" accept="image/*" class="hidden" id="live-image-upload">
+                                <label for="live-image-upload" class="cursor-pointer">
+                                    <svg class="w-10 h-10 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                     <p class="text-sm text-gray-500 dark:text-gray-400">Click to browse or drag & drop</p>
-                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">MP4, AVI, MOV, WMV, FLV, MKV, WebM (max 500MB)</p>
+                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">JPG, PNG, WebP, GIF (max 10MB)</p>
                                 </label>
                             </div>
-                            @if($video_file_upload)
-                                <div class="mt-3 flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                                    <span class="text-sm text-green-700 dark:text-green-300">{{ $video_file_upload->getClientOriginalName() }}</span>
-                                    <button type="button" wire:click="$set('video_file_upload', null)" class="ml-auto text-green-500 hover:text-green-700">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                                    </button>
+                            @if($image_file_upload)
+                                <div class="mt-3">
+                                    <img src="{{ $image_file_upload->temporaryUrl() }}" class="w-full h-48 object-cover rounded-lg border border-gray-200 dark:border-gray-700">
+                                    <div class="mt-2 flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        <span class="text-sm text-green-700 dark:text-green-300">{{ $image_file_upload->getClientOriginalName() }}</span>
+                                        <button type="button" wire:click="$set('image_file_upload', null)" class="ml-auto text-green-500 hover:text-green-700">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        </button>
+                                    </div>
                                 </div>
                             @endif
-                            @error('video_file_upload') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            @error('image_file_upload') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
                     @endif
 
@@ -100,7 +146,7 @@
 
                 <div class="flex justify-end">
                     <button type="submit" class="bg-vnn-red text-white font-bold px-6 py-2.5 rounded-lg text-sm hover:bg-vnn-red-dark transition shadow-lg shadow-vnn-red/20">
-                        {{ $editMode ? 'Update Live Video' : 'Create Live Video' }}
+                        {{ $editMode ? 'Update Live Update' : 'Create Live Update' }}
                     </button>
                 </div>
             </form>

@@ -42,6 +42,9 @@ class Article extends Model
         'youtube_url',
         'media_file',
         'media_type',
+        'social_platform',
+        'media_content_type',
+        'image_file',
     ];
 
     protected function casts(): array

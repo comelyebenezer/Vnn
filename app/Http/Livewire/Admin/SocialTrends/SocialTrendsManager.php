@@ -10,10 +10,13 @@ class SocialTrendsManager extends ArticleManager
 {
     use WithFileUploads;
 
-    public $youtube_url;
+    public $social_platform = 'youtube';
+    public $media_content_type = 'video';
+    public $video_url;
     public $media_file;
-    public $media_type;
+    public $image_file;
     public $existing_media;
+    public $existing_image_file;
     public $remove_media = false;
 
     public function mount($article = null)
@@ -29,24 +32,54 @@ class SocialTrendsManager extends ArticleManager
             $article = is_string($article) || is_int($article)
                 ? \App\Models\Article::findOrFail($article)
                 : $article;
-            $this->youtube_url = $article->youtube_url;
+            $this->social_platform = $article->social_platform ?? 'youtube';
+            $this->media_content_type = $article->media_content_type ?? 'video';
+            $this->video_url = $article->youtube_url;
             $this->existing_media = $article->media_file;
-            $this->media_type = $article->media_type;
+            $this->existing_image_file = $article->image_file ?? null;
         }
     }
 
     protected function rules(): array
     {
         $rules = parent::rules();
-        $rules['youtube_url'] = 'nullable|url';
-        $rules['media_file'] = 'nullable|file|mimes:mp4,mpeg,ogg,webm,quicktime|max:102400';
+        $rules['social_platform'] = 'required|in:youtube,tiktok,instagram,facebook,twitter,other';
+        $rules['media_content_type'] = 'required|in:video,image';
+
+        if ($this->media_content_type === 'video') {
+            if (empty($this->existing_media)) {
+                $rules['video_url'] = 'required_without:media_file|nullable|url';
+            } else {
+                $rules['video_url'] = 'nullable|url';
+            }
+            $rules['media_file'] = 'nullable|file|mimes:mp4,mpeg,ogg,webm,quicktime|max:102400';
+        } else {
+            if (empty($this->existing_image_file)) {
+                $rules['image_file'] = 'required|image|max:10240';
+            } else {
+                $rules['image_file'] = 'nullable|image|max:10240';
+            }
+        }
+
         return $rules;
+    }
+
+    public function updatedMediaContentType($value)
+    {
+        $this->video_url = null;
+        $this->media_file = null;
+        $this->image_file = null;
     }
 
     public function removeExistingMedia()
     {
         $this->remove_media = true;
         $this->existing_media = null;
+    }
+
+    public function removeExistingImageFile()
+    {
+        $this->existing_image_file = null;
     }
 
     public function save()
@@ -59,15 +92,34 @@ class SocialTrendsManager extends ArticleManager
         }
 
         $mediaPath = $this->existing_media;
-        $mediaType = $this->media_type;
+        $mediaType = null;
 
-        if ($this->remove_media && $this->existing_media) {
-            Storage::disk('public')->delete($this->existing_media);
-            $mediaPath = null;
-            $mediaType = null;
-        } elseif ($this->media_file && !$this->remove_media) {
-            $mediaPath = $this->media_file->store('articles/media', 'public');
-            $mediaType = 'video';
+        if ($this->media_content_type === 'video') {
+            if ($this->remove_media && $this->existing_media) {
+                Storage::disk('public')->delete($this->existing_media);
+                $mediaPath = null;
+            } elseif ($this->media_file && !$this->remove_media) {
+                $mediaPath = $this->media_file->store('articles/media', 'public');
+                $mediaType = 'video';
+            }
+        } else {
+            if ($this->remove_media && $this->existing_media) {
+                Storage::disk('public')->delete($this->existing_media);
+                $mediaPath = null;
+            }
+        }
+
+        $imageFilePath = $this->existing_image_file;
+        if ($this->media_content_type === 'image' && $this->image_file) {
+            if ($this->existing_image_file) {
+                Storage::disk('public')->delete($this->existing_image_file);
+            }
+            $imageFilePath = $this->image_file->store('social-trends/images', 'public');
+        } elseif ($this->media_content_type === 'video') {
+            if ($this->existing_image_file) {
+                Storage::disk('public')->delete($this->existing_image_file);
+            }
+            $imageFilePath = null;
         }
 
         $data = [
@@ -88,9 +140,12 @@ class SocialTrendsManager extends ArticleManager
             'reading_time' => $this->calculateReadingTime($this->body),
             'scheduled_date' => $this->scheduled_date,
             'publication_date' => $this->status === 'published' ? now() : null,
-            'youtube_url' => $this->youtube_url,
+            'youtube_url' => $this->media_content_type === 'video' ? $this->video_url : null,
             'media_file' => $mediaPath,
             'media_type' => $mediaType,
+            'social_platform' => $this->social_platform,
+            'media_content_type' => $this->media_content_type,
+            'image_file' => $imageFilePath,
             'type' => 'video',
         ];
 
@@ -98,7 +153,7 @@ class SocialTrendsManager extends ArticleManager
             $article = \App\Models\Article::findOrFail($this->articleId);
             $article->update($data);
             $article->tags()->sync($this->tags);
-            session()->flash('message', 'Social Trends video updated successfully.');
+            session()->flash('message', 'Social trend updated successfully.');
         } else {
             $data['user_id'] = \Illuminate\Support\Facades\Auth::id();
             $article = \App\Models\Article::create($data);
@@ -106,7 +161,7 @@ class SocialTrendsManager extends ArticleManager
                 $article->tags()->attach($this->tags);
             }
             $this->reset();
-            session()->flash('message', 'Social Trends video created successfully.');
+            session()->flash('message', 'Social trend created successfully.');
         }
 
         return redirect()->route('admin.social-trends.index');
@@ -114,6 +169,13 @@ class SocialTrendsManager extends ArticleManager
 
     public function render()
     {
-        return parent::render()->layout('layouts.app');
+        return view('admin.social-trends.form', [
+            'categories' => \App\Models\Category::where('status', 'active')->orderBy('name')->get(),
+            'allTags' => \App\Models\Tag::orderBy('name')->get(),
+            'editors' => \App\Models\User::orderBy('name')->get(),
+            'subcategories' => $this->category_id
+                ? \App\Models\Subcategory::where('category_id', $this->category_id)->where('status', 'active')->get()
+                : collect(),
+        ])->layout('layouts.app');
     }
 }

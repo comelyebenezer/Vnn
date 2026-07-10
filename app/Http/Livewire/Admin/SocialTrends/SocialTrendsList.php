@@ -31,7 +31,7 @@ class SocialTrendsList extends Component
     public function deleteArticle($id)
     {
         Article::findOrFail($id)->delete();
-        session()->flash('message', 'Article moved to trash.');
+        session()->flash('message', 'Social trend deleted.');
     }
 
     public function render()

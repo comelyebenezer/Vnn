@@ -14,6 +14,8 @@ Route::prefix('')->name('frontend.')->group(function () {
     Route::get('/category/{slug}', [\App\Http\Controllers\Frontend\ArticleController::class, 'category'])->name('category');
     Route::get('/tag/{slug}', [\App\Http\Controllers\Frontend\ArticleController::class, 'tag'])->name('tag');
     Route::get('/author/{id}', \App\Http\Controllers\Frontend\AuthorController::class)->name('author');
+    Route::get('/live/{id}', [\App\Http\Controllers\Frontend\LiveUpdateController::class, 'show'])->name('live');
+    Route::get('/social-trend/{slug}', [\App\Http\Controllers\Frontend\SocialTrendController::class, 'show'])->name('social-trend');
     Route::get('/video', \App\Http\Controllers\Frontend\VideoController::class)->name('video');
     Route::get('/podcast', \App\Http\Controllers\Frontend\PodcastController::class)->name('podcast');
     Route::get('/vnn-list', \App\Http\Controllers\Frontend\VnnListController::class)->name('vnn-list');

@@ -233,8 +233,9 @@
 
     @push('styles')
     <style>
-        .ck-editor__editable { min-height: 600px; }
-        .ck-editor { width: 100%; }
+        #ckeditor-container { min-height: 600px; }
+        .ck-editor__editable { min-height: 500px !important; height: 500px !important; }
+        .ck-editor { width: 100% !important; }
         .ck.ck-editor__main > .ck-editor__editable { background-color: var(--ck-color-base-background); }
         .dark .ck.ck-editor__main > .ck-editor__editable { background-color: #1a1a1a; color: #e2e8f0; }
         .dark .ck.ck-toolbar { background-color: #2d2d2d; border-color: #4a5568; }
@@ -247,9 +248,9 @@
     @push('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
-        document.addEventListener('livewire:init', function () {
+        function initCKEditor() {
             const el = document.querySelector('#ckeditor');
-            if (!el) return;
+            if (!el || window.LivewireCkEditor) return;
 
             ClassicEditor.create(el, {
                 toolbar: [
@@ -288,6 +289,12 @@
             }).catch(err => {
                 console.error('CKEditor error:', err);
             });
+        }
+
+        document.addEventListener('livewire:init', initCKEditor);
+        document.addEventListener('livewire:load', function() {
+            window.LivewireCkEditor = null;
+            setTimeout(initCKEditor, 100);
         });
     </script>
     @endpush

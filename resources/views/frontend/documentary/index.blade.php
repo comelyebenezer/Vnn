@@ -42,8 +42,12 @@
                     <div class="absolute inset-0 bg-gradient-to-br from-vnn-red/20 to-vnn-blue/20 rounded-full animate-pulse"></div>
                     <div class="absolute inset-4 bg-gradient-to-br from-slate-800 to-slate-900 rounded-full flex items-center justify-center border border-white/10">
                         <div class="text-center">
-                            <div class="w-20 h-20 bg-vnn-red rounded-full flex items-center justify-center mx-auto mb-4 shadow-2xl shadow-vnn-red/30">
-                                <svg class="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            <div class="relative w-20 h-20 mx-auto mb-4">
+                                <div class="absolute inset-0 border-2 border-dashed border-vnn-red/40 rounded-full animate-spin" style="animation-duration: 8s;"></div>
+                                <div class="absolute inset-0 border-2 border-vnn-red/20 rounded-full"></div>
+                                <div class="w-20 h-20 bg-vnn-red rounded-full flex items-center justify-center shadow-2xl shadow-vnn-red/30 relative z-10">
+                                    <svg class="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
                             </div>
                             <span class="text-white/60 text-xs uppercase tracking-widest">Watch Documentaries</span>
                         </div>
@@ -201,6 +205,10 @@
                 </div>
             </div>
             @endforeach
+        </div>
+
+        <div class="mt-8">
+            {{ $documentaries->links() }}
         </div>
 
         @else

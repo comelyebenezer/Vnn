@@ -8,10 +8,12 @@ class LiveUpdate extends Model
 {
     protected $fillable = [
         'title',
+        'media_type',
         'description',
         'video_url',
         'video_type',
         'video_file',
+        'image_file',
         'is_live',
         'status',
     ];

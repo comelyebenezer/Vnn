@@ -13,10 +13,10 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Poppins', 'Figtree', ...defaultTheme.fontFamily.sans],
-                serif: ['Merriweather', 'Georgia', ...defaultTheme.fontFamily.serif],
-                heading: ['Poppins', 'Figtree', ...defaultTheme.fontFamily.sans],
-                body: ['Merriweather', 'Georgia', ...defaultTheme.fontFamily.serif],
+                sans: ['Inter', 'system-ui', 'sans-serif'],
+                serif: ['Source Sans 3', 'Georgia', 'serif'],
+                heading: ['Inter', 'system-ui', 'sans-serif'],
+                body: ['Source Sans 3', 'Georgia', 'serif'],
             },
             colors: {
                 vnn: {
