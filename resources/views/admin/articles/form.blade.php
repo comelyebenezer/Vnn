@@ -161,6 +161,8 @@
                                 ['model' => 'is_breaking', 'label' => 'Breaking News'],
                                 ['model' => 'is_trending', 'label' => 'Trending'],
                                 ['model' => 'is_editor_pick', 'label' => "Editor's Pick"],
+                                ['model' => 'is_tech_startup', 'label' => 'Tech Start-up'],
+                                ['model' => 'is_latest_gadget', 'label' => 'Latest Gadget'],
                                 ['model' => 'allow_comments', 'label' => 'Allow Comments'],
                             ] as $opt)
                             <label class="flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition">

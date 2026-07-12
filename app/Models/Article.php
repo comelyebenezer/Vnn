@@ -32,6 +32,8 @@ class Article extends Model
         'is_breaking',
         'is_trending',
         'is_editor_pick',
+        'is_tech_startup',
+        'is_latest_gadget',
         'allow_comments',
         'view_count',
         'reading_time',
@@ -56,6 +58,8 @@ class Article extends Model
             'is_breaking' => 'boolean',
             'is_trending' => 'boolean',
             'is_editor_pick' => 'boolean',
+            'is_tech_startup' => 'boolean',
+            'is_latest_gadget' => 'boolean',
             'allow_comments' => 'boolean',
             'view_count' => 'integer',
             'reading_time' => 'integer',
@@ -140,6 +144,16 @@ class Article extends Model
     public function scopeEditorPick($query)
     {
         return $query->where('is_editor_pick', true);
+    }
+
+    public function scopeTechStartup($query)
+    {
+        return $query->where('is_tech_startup', true);
+    }
+
+    public function scopeLatestGadget($query)
+    {
+        return $query->where('is_latest_gadget', true);
     }
 
     public function getYoutubeIdAttribute(): ?string

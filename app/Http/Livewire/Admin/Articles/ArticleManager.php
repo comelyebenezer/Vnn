@@ -30,6 +30,8 @@ class ArticleManager extends Component
     public $is_breaking = false;
     public $is_trending = false;
     public $is_editor_pick = false;
+    public $is_tech_startup = false;
+    public $is_latest_gadget = false;
     public $allow_comments = true;
     public $tags = [];
     public $scheduled_date;
@@ -61,6 +63,8 @@ class ArticleManager extends Component
             'is_breaking' => 'boolean',
             'is_trending' => 'boolean',
             'is_editor_pick' => 'boolean',
+            'is_tech_startup' => 'boolean',
+            'is_latest_gadget' => 'boolean',
             'allow_comments' => 'boolean',
             'scheduled_date' => 'nullable|date_format:Y-m-d\TH:i',
             'type' => 'required|in:article,video,podcast',
@@ -98,6 +102,8 @@ class ArticleManager extends Component
             $this->is_breaking = $article->is_breaking;
             $this->is_trending = $article->is_trending;
             $this->is_editor_pick = $article->is_editor_pick;
+            $this->is_tech_startup = $article->is_tech_startup;
+            $this->is_latest_gadget = $article->is_latest_gadget;
             $this->allow_comments = $article->allow_comments;
             $this->scheduled_date = $article->scheduled_date?->format('Y-m-d\TH:i');
             $this->reading_time = $article->reading_time;
@@ -186,6 +192,8 @@ class ArticleManager extends Component
             'is_breaking' => $this->is_breaking,
             'is_trending' => $this->is_trending,
             'is_editor_pick' => $this->is_editor_pick,
+            'is_tech_startup' => $this->is_tech_startup,
+            'is_latest_gadget' => $this->is_latest_gadget,
             'allow_comments' => $this->allow_comments,
             'reading_time' => $this->calculateReadingTime($this->body),
             'scheduled_date' => $this->scheduled_date,
