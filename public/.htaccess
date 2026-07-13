@@ -23,3 +23,44 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# === Security Headers ===
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    Header always set Content-Security-Policy "upgrade-insecure-requests"
+</IfModule>
+
+# === Block sensitive files ===
+<Files ".env">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "composer.json">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files "composer.lock">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files ".git">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Block access to hidden files (.git, .env, etc)
+<IfModule mod_rewrite.c>
+    RewriteRule (^\.|/\.) - [F]
+</IfModule>
+
+# Block access to storage directory from web
+<IfModule mod_rewrite.c>
+    RewriteRule ^storage/ - [F,L]
+</IfModule>

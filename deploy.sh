@@ -55,15 +55,8 @@ echo "--- Permissions ---"
 chmod -R 775 storage bootstrap/cache
 chown -R www-data:www-data storage bootstrap/cache
 
-# 9. Reload PHP-FPM
-echo "--- Reloading PHP-FPM ---"
-if [ -S /var/run/php/php8.3-fpm.sock ]; then
-    php artisan optimize:clear
-fi
-
-# 10. Cleanup
+# 9. Cleanup
 echo "--- Cleanup ---"
 rm -rf node_modules
-php artisan config:clear
 
 echo "=== Deploy complete: $(date) ==="

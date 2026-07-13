@@ -73,24 +73,41 @@
                     {{-- Categories --}}
                     <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6">
                         <h3 class="font-semibold text-gray-900 dark:text-white mb-3">Categories</h3>
-                        <div class="mb-3">
-                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Primary Category</label>
-                            <select wire:model.live="category_id" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-vnn-red">
-                                <option value="">Select category</option>
-                                @foreach($categories as $cat)
-                                <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                                @endforeach
-                            </select>
+                        <p class="text-xs text-gray-400 mb-3">Select one or more categories</p>
+                        <div class="space-y-2 mb-4">
+                            @foreach($categories as $cat)
+                            <label class="flex items-center gap-2.5 p-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition">
+                                <input wire:model="selected_categories" type="checkbox" value="{{ $cat->id }}" class="rounded text-vnn-red focus:ring-vnn-red dark:bg-gray-700 dark:border-gray-600">
+                                <span class="text-sm text-gray-700 dark:text-gray-300">{{ $cat->name }}</span>
+                            </label>
+                            @endforeach
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Subcategory</label>
-                            <select wire:model.live="subcategory_id" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:border-vnn-red">
-                                <option value="">Select subcategory</option>
+                        @error('selected_categories') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+
+                        @if(!empty($selected_categories))
+                        <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-2">
+                            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Subcategories</h4>
+                            <p class="text-xs text-gray-400 mb-3">Select relevant subcategories</p>
+                            @if($subcategories->count())
+                            <div class="space-y-2">
                                 @foreach($subcategories as $sub)
-                                <option value="{{ $sub->id }}">{{ $sub->name }}</option>
+                                <label class="flex items-center gap-2.5 p-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition">
+                                    <input wire:model="selected_subcategories" type="checkbox" value="{{ $sub->id }}" class="rounded text-vnn-red focus:ring-vnn-red dark:bg-gray-700 dark:border-gray-600">
+                                    <span class="text-sm text-gray-700 dark:text-gray-300">{{ $sub->name }}</span>
+                                    <span class="text-xs text-gray-400 ml-auto">
+                                        @foreach($sub->categories as $cat)
+                                        <span class="inline-block bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-xs mr-1">{{ $cat->name }}</span>
+                                        @endforeach
+                                    </span>
+                                </label>
                                 @endforeach
-                            </select>
+                            </div>
+                            @else
+                            <p class="text-xs text-gray-400 italic">No subcategories available for selected categories</p>
+                            @endif
                         </div>
+                        @error('selected_subcategories') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        @endif
                     </div>
 
                     {{-- Editor --}}

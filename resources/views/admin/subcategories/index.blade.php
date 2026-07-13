@@ -52,7 +52,7 @@
                     <thead class="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
                         <tr>
                             <th wire:click="sortBy('name')" class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-vnn-red">Name</th>
-                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden md:table-cell">Category</th>
+                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden md:table-cell">Categories</th>
                             <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden md:table-cell">Slug</th>
                             <th class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 hidden md:table-cell">News</th>
                             <th wire:click="sortBy('status')" class="text-left px-5 py-3.5 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-vnn-red">Status</th>
@@ -66,8 +66,12 @@
                                 <a href="{{ route('admin.subcategories.edit', $sub) }}" class="font-medium text-vnn-blue hover:text-vnn-red transition">{{ $sub->name }}</a>
                             </td>
                             <td class="px-5 py-3.5 hidden md:table-cell">
-                                @if($sub->category)
-                                <span class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-1 rounded">{{ $sub->category->name }}</span>
+                                @if($sub->categories->count())
+                                <div class="flex flex-wrap gap-1">
+                                    @foreach($sub->categories as $cat)
+                                    <span class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2 py-1 rounded">{{ $cat->name }}</span>
+                                    @endforeach
+                                </div>
                                 @else
                                 <span class="text-gray-400 text-xs">N/A</span>
                                 @endif

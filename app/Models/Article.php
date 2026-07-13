@@ -86,6 +86,11 @@ class Article extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function subcategories(): BelongsToMany
+    {
+        return $this->belongsToMany(Subcategory::class)->withTimestamps();
+    }
+
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);

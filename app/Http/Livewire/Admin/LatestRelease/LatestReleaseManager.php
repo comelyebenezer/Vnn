@@ -22,6 +22,9 @@ class LatestReleaseManager extends ArticleManager
 
         $categoryId = \App\Models\Category::where('slug', 'latest-release')->value('id');
         if ($categoryId) {
+            if (!$this->editMode || empty($this->selected_categories)) {
+                $this->selected_categories = [$categoryId];
+            }
             $this->category_id = $categoryId;
         }
 

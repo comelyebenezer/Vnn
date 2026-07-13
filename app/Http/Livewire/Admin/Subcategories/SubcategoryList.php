@@ -37,7 +37,7 @@ class SubcategoryList extends Component
     public function render()
     {
         $query = Subcategory::query()
-            ->with('category')
+            ->with('categories')
             ->withCount('articles')
             ->when($this->search, function ($q) {
                 $q->where(function ($q) {
@@ -46,7 +46,7 @@ class SubcategoryList extends Component
                 });
             })
             ->when($this->status, fn($q) => $q->where('status', $this->status))
-            ->when($this->category_id, fn($q) => $q->where('category_id', $this->category_id))
+            ->when($this->category_id, fn($q) => $q->whereHas('categories', fn($cq) => $cq->where('categories.id', $this->category_id)))
             ->orderBy($this->sortField, $this->sortDirection);
 
         return view('admin.subcategories.index', [

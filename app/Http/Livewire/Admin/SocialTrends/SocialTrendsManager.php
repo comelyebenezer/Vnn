@@ -25,6 +25,9 @@ class SocialTrendsManager extends ArticleManager
 
         $categoryId = \App\Models\Category::where('slug', 'social-trends')->value('id');
         if ($categoryId) {
+            if (!$this->editMode || empty($this->selected_categories)) {
+                $this->selected_categories = [$categoryId];
+            }
             $this->category_id = $categoryId;
         }
 
@@ -169,13 +172,17 @@ class SocialTrendsManager extends ArticleManager
 
     public function render()
     {
+        $allCategories = \App\Models\Category::where('status', 'active')->orderBy('name')->get();
+
+        $availableSubcategories = \App\Models\Subcategory::whereHas('categories', function ($q) {
+            $q->whereIn('categories.id', $this->selected_categories);
+        })->where('status', 'active')->orderBy('name')->get();
+
         return view('admin.social-trends.form', [
-            'categories' => \App\Models\Category::where('status', 'active')->orderBy('name')->get(),
+            'categories' => $allCategories,
             'allTags' => \App\Models\Tag::orderBy('name')->get(),
             'editors' => \App\Models\User::orderBy('name')->get(),
-            'subcategories' => $this->category_id
-                ? \App\Models\Subcategory::where('category_id', $this->category_id)->where('status', 'active')->get()
-                : collect(),
+            'subcategories' => $availableSubcategories,
         ])->layout('layouts.app');
     }
 }

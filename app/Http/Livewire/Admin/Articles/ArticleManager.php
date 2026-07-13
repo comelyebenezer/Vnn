@@ -20,6 +20,8 @@ class ArticleManager extends Component
     public $slug;
     public $category_id;
     public $subcategory_id;
+    public $selected_categories = [];
+    public $selected_subcategories = [];
     public $excerpt;
     public $body;
     public $featured_image;
@@ -54,6 +56,10 @@ class ArticleManager extends Component
             'slug' => 'required|unique:articles,slug,' . $this->articleId,
             'category_id' => 'nullable|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
+            'selected_categories' => 'required|array|min:1',
+            'selected_categories.*' => 'exists:categories,id',
+            'selected_subcategories' => 'nullable|array',
+            'selected_subcategories.*' => 'exists:subcategories,id',
             'excerpt' => 'nullable|max:500',
             'body' => 'required',
             'featured_image' => 'nullable|image|max:2048',
@@ -84,7 +90,7 @@ class ArticleManager extends Component
     {
         if ($article) {
             if (is_string($article) || is_int($article)) {
-                $article = Article::findOrFail($article);
+                $article = Article::with(['categories', 'subcategories'])->findOrFail($article);
             }
 
             $this->editMode = true;
@@ -93,6 +99,8 @@ class ArticleManager extends Component
             $this->slug = $article->slug;
             $this->category_id = $article->category_id;
             $this->subcategory_id = $article->subcategory_id;
+            $this->selected_categories = $article->categories->pluck('id')->toArray();
+            $this->selected_subcategories = $article->subcategories->pluck('id')->toArray();
             $this->excerpt = $article->excerpt;
             $this->body = $article->body;
             $this->existing_image = $article->featured_image;
@@ -121,6 +129,17 @@ class ArticleManager extends Component
         if (!$this->editMode) {
             $this->slug = Str::slug($value);
         }
+    }
+
+    public function updatedSelectedCategories()
+    {
+        $this->selected_subcategories = array_filter(
+            $this->selected_subcategories,
+            fn($id) => \App\Models\Subcategory::where('id', $id)
+                ->whereHas('categories', fn($q) => $q->whereIn('categories.id', $this->selected_categories))
+                ->exists()
+        );
+        $this->selected_subcategories = array_values($this->selected_subcategories);
     }
 
     public function updatedCategoryId($value)
@@ -178,6 +197,9 @@ class ArticleManager extends Component
             $mediaType = str_starts_with($this->media_file->getMimeType(), 'video/') ? 'video' : 'video';
         }
 
+        $this->category_id = !empty($this->selected_categories) ? $this->selected_categories[0] : null;
+        $this->subcategory_id = !empty($this->selected_subcategories) ? $this->selected_subcategories[0] : null;
+
         $data = [
             'title' => $this->title,
             'slug' => $this->slug,
@@ -208,11 +230,17 @@ class ArticleManager extends Component
         if ($this->editMode) {
             $article = Article::findOrFail($this->articleId);
             $article->update($data);
+            $article->categories()->sync($this->selected_categories);
+            $article->subcategories()->sync($this->selected_subcategories);
             $article->tags()->sync($this->tags);
             session()->flash('message', 'Article updated successfully.');
         } else {
             $data['user_id'] = Auth::id();
             $article = Article::create($data);
+            $article->categories()->sync($this->selected_categories);
+            if (!empty($this->selected_subcategories)) {
+                $article->subcategories()->sync($this->selected_subcategories);
+            }
             if (!empty($this->tags)) {
                 $article->tags()->attach($this->tags);
             }
@@ -238,13 +266,17 @@ class ArticleManager extends Component
 
     public function render()
     {
+        $allCategories = Category::where('status', 'active')->orderBy('name')->get();
+
+        $availableSubcategories = \App\Models\Subcategory::whereHas('categories', function ($q) {
+            $q->whereIn('categories.id', $this->selected_categories);
+        })->where('status', 'active')->orderBy('name')->get();
+
         return view('admin.articles.form', [
-            'categories' => Category::where('status', 'active')->orderBy('name')->get(),
+            'categories' => $allCategories,
             'allTags' => Tag::orderBy('name')->get(),
             'editors' => \App\Models\User::orderBy('name')->get(),
-            'subcategories' => $this->category_id
-                ? \App\Models\Subcategory::where('category_id', $this->category_id)->where('status', 'active')->get()
-                : collect(),
+            'subcategories' => $availableSubcategories,
         ])->layout('layouts.app');
     }
 }

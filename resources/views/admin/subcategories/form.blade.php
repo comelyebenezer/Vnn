@@ -17,14 +17,18 @@
             <form wire:submit="save" class="space-y-6">
                 <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-6 space-y-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Parent Category *</label>
-                        <select wire:model="category_id" class="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-vnn-red focus:ring-1 focus:ring-vnn-red">
-                            <option value="">Select category</option>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Categories *</label>
+                        <p class="text-xs text-gray-400 mb-2">Select one or more categories this subcategory belongs to</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
                             @foreach($categories as $cat)
-                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                            <label class="flex items-center gap-2 p-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer transition">
+                                <input type="checkbox" wire:model="selectedCategories" value="{{ $cat->id }}" class="rounded border-gray-300 text-vnn-red focus:ring-vnn-red">
+                                <span class="text-sm text-gray-700 dark:text-gray-300">{{ $cat->name }}</span>
+                            </label>
                             @endforeach
-                        </select>
-                        @error('category_id') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        </div>
+                        @error('selectedCategories') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                        @error('selectedCategories.*') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
 
                     <div>

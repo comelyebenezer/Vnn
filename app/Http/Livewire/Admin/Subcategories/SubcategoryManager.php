@@ -10,7 +10,7 @@ use Livewire\Component;
 class SubcategoryManager extends Component
 {
     public $subcategoryId;
-    public $category_id;
+    public $selectedCategories = [];
     public $name;
     public $slug;
     public $description;
@@ -21,7 +21,8 @@ class SubcategoryManager extends Component
     protected function rules()
     {
         return [
-            'category_id' => 'required|exists:categories,id',
+            'selectedCategories' => 'required|array|min:1',
+            'selectedCategories.*' => 'exists:categories,id',
             'name' => 'required|min:2|max:255',
             'slug' => 'required|unique:subcategories,slug,' . $this->subcategoryId,
             'description' => 'nullable|max:500',
@@ -33,12 +34,12 @@ class SubcategoryManager extends Component
     {
         if ($subcategory) {
             if (is_string($subcategory) || is_int($subcategory)) {
-                $subcategory = Subcategory::findOrFail($subcategory);
+                $subcategory = Subcategory::with('categories')->findOrFail($subcategory);
             }
 
             $this->editMode = true;
             $this->subcategoryId = $subcategory->id;
-            $this->category_id = $subcategory->category_id;
+            $this->selectedCategories = $subcategory->categories->pluck('id')->toArray();
             $this->name = $subcategory->name;
             $this->slug = $subcategory->slug;
             $this->description = $subcategory->description;
@@ -58,7 +59,6 @@ class SubcategoryManager extends Component
         $this->validate();
 
         $data = [
-            'category_id' => $this->category_id,
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
@@ -66,10 +66,13 @@ class SubcategoryManager extends Component
         ];
 
         if ($this->editMode) {
-            Subcategory::findOrFail($this->subcategoryId)->update($data);
+            $subcategory = Subcategory::findOrFail($this->subcategoryId);
+            $subcategory->update($data);
+            $subcategory->categories()->sync($this->selectedCategories);
             session()->flash('message', 'Subcategory updated successfully.');
         } else {
-            Subcategory::create($data);
+            $subcategory = Subcategory::create($data);
+            $subcategory->categories()->sync($this->selectedCategories);
             $this->reset();
             session()->flash('message', 'Subcategory created successfully.');
         }

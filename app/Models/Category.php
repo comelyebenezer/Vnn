@@ -39,9 +39,9 @@ class Category extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
-    public function subcategories(): HasMany
+    public function subcategories(): BelongsToMany
     {
-        return $this->hasMany(Subcategory::class);
+        return $this->belongsToMany(Subcategory::class)->withTimestamps();
     }
 
     public function articles(): BelongsToMany
