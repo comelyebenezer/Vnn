@@ -6,6 +6,8 @@ use App\Http\Livewire\Admin\Articles\ArticleList;
 use App\Http\Livewire\Admin\Articles\ArticleManager;
 use App\Http\Livewire\Admin\VnnList\VnnListList;
 use App\Http\Livewire\Admin\VnnList\VnnListManager;
+use App\Http\Livewire\Admin\VnnList\VnnListSubcategoryList;
+use App\Http\Livewire\Admin\VnnList\VnnListSubcategoryManager;
 use App\Http\Livewire\Admin\Documentary\DocumentaryList;
 use App\Http\Livewire\Admin\Documentary\DocumentaryManager;
 use App\Http\Livewire\Admin\TechStartUps\TechStartUpsList;
@@ -63,6 +65,12 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
         Route::get('/', VnnListList::class)->name('index');
         Route::get('/create', VnnListManager::class)->name('create');
         Route::get('/{article}/edit', VnnListManager::class)->name('edit');
+
+        Route::prefix('categories')->name('subcategories.')->group(function () {
+            Route::get('/', VnnListSubcategoryList::class)->name('index');
+            Route::get('/create', VnnListSubcategoryManager::class)->name('create');
+            Route::get('/{subcategory}/edit', VnnListSubcategoryManager::class)->name('edit');
+        });
     });
 
     Route::prefix('documentary')->name('documentary.')->group(function () {

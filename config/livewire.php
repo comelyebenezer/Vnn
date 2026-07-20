@@ -72,6 +72,7 @@ return [
             'png', 'gif', 'bmp', 'svg', 'wav', 'mp4',
             'mov', 'avi', 'wmv', 'mp3', 'm4a',
             'jpg', 'jpeg', 'mpga', 'webp', 'wma',
+            'webm', 'ogg', 'ogv',
         ],
         'max_upload_time' => 5,
         'cleanup' => true,

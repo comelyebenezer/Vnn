@@ -34,7 +34,7 @@ class AdvertisementManager extends Component
             'type' => 'required|in:banner,sidebar,inline,popup',
             'placement' => 'nullable|max:255',
             'image_url' => 'nullable|url|max:500',
-            'media_file' => 'nullable|file|max:10240|mimes:jpg,jpeg,png,gif,webp,mp4,webm,ogg',
+            'media_file' => 'nullable|file|max:51200|mimes:jpg,jpeg,png,gif,webp,mp4,webm,ogg',
             'script_code' => 'nullable',
             'link' => 'nullable|url|max:500',
             'start_date' => 'nullable|date',
@@ -74,12 +74,21 @@ class AdvertisementManager extends Component
         $this->validate();
 
         $mediaPath = $this->existing_media;
-        $mediaType = null;
+        $mediaType = $this->editMode
+            ? (Advertisement::find($this->advertisementId)?->media_type)
+            : null;
 
         if ($this->media_file) {
             $mediaPath = $this->media_file->store('advertisements', 'public');
+
             $mime = $this->media_file->getMimeType();
-            $mediaType = str_starts_with($mime, 'video/') ? 'video' : 'image';
+            if ($mime && str_starts_with($mime, 'video/')) {
+                $mediaType = 'video';
+            } else {
+                $videoExtensions = ['mp4', 'webm', 'ogg', 'ogv', 'mov', 'avi'];
+                $extension = strtolower($this->media_file->getClientOriginalExtension());
+                $mediaType = in_array($extension, $videoExtensions) ? 'video' : 'image';
+            }
         }
 
         $data = [
